@@ -1,14 +1,10 @@
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
 import { Heading } from "@/components/Heading";
 import { Paragraph } from "@/components/Paragraph";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import { tv } from "tailwind-variants";
 
 const homePageStyles = tv({
   slots: {
-    main: 'flex justify-evenly items-center w-full h-16 p-4  text-white ',
     sectionRecifisProject: "flex flex-col justify-center items-center w-full p-4 bg-recifis-orange tabl:h-96 tabl:flex-row",
     imgRecifis: "h-52 w-64 tabl:w-64 tabl:h-52 desk:w-96 desk:h-80",
     imgHug: "w-60 p-4 tabl:w-64 desk:w-80 desk:h-80 desk:ml-8",
@@ -23,7 +19,7 @@ const homePageStyles = tv({
 })
 
 const {
-  main, sectionRecifisProject, imgRecifis, imgHug, imgTreeWords, h1KnowMoreAboutOurProject, h1, divRecifisProject, sectionKnowMoreAboutOurProject,
+  sectionRecifisProject, imgRecifis, imgHug, imgTreeWords, h1KnowMoreAboutOurProject, h1, divRecifisProject, sectionKnowMoreAboutOurProject,
   h1Recifis, divKnowMoreAboutOurProject
 } = homePageStyles()
 

@@ -8,13 +8,11 @@ const footerStyles = tv({
     container: 'flex justify-center items-center w-full h-16 p-4 gap-16 bg-recifis-blue text-white',
     h1: "font-bold",
     imgRecifis: "w-12 h-12",
-    span: "uppercase",
     firstDiv: "flex items-center gap-4",  
-    ul: "flex justify-between gap-16",
   },
 })
 
-const { container, h1, imgRecifis, span, firstDiv, ul } = footerStyles()
+const { container, h1, imgRecifis, firstDiv } = footerStyles()
 
 export function Footer() {
   return (
