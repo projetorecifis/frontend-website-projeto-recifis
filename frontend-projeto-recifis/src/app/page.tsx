@@ -2,24 +2,27 @@ import { Heading } from "@/components/ui/Heading";
 import { Paragraph } from "@/components/ui/Paragraph";
 import { Button } from "@/components/ui/button";
 import { tv } from "tailwind-variants";
+import Image from "next/image";
 
 const homePageStyles = tv({
   slots: {
     sectionRecifisProject: "flex flex-col justify-center items-center w-full p-4 bg-recifis-orange tabl:h-96 tabl:flex-row",
-    imgRecifis: "h-52 w-64 tabl:w-64 tabl:h-52 desk:w-96 desk:h-80",
-    imgHug: "w-60 p-4 ml-0 tabl:w-64 desk:w-80 desk:h-80 desk:ml-8",
-    imgTreeWords: "h-64 text-center m-auto desk:h-80",
+    imgRecifis: " duration-300 hover:scale-110",
+    imgHug: "duration-300 hover:scale-110 p-4 desk:ml-4 ",
+    imgTreeWords: "h-text-center duration-300 hover:scale-110",
+    imgPeopleSmiling: "w-full opacity-55 h-auto",
     h1KnowMoreAboutOurProject: "text-recifis-blue text-4xl",
     divRecifisProject: "flex flex-col items-center gap-4 p-4",
-    h1: "uppercase text-white text-center text-2xl tabl:text-3xl",
+    h1: "uppercase text-white font-bold text-center text-2xl drop-shadow-lg shadow-black tabl:text-3xl desk:text-4xl",
     sectionKnowMoreAboutOurProject: "flex flex-col justify-center items-center w-full pt-10 tabl:flex-row",
     h1Recifis: "uppercase text-slate-950",
     divKnowMoreAboutOurProject: " flex flex-col items-start gap-6 p-6 desk:p-0 desk:w-1/3",
+
   },
 })
 
 const {
-  sectionRecifisProject, imgRecifis, imgHug, imgTreeWords, h1KnowMoreAboutOurProject, h1, divRecifisProject, sectionKnowMoreAboutOurProject,
+  sectionRecifisProject, imgRecifis, imgHug, imgTreeWords, imgPeopleSmiling, h1KnowMoreAboutOurProject, h1, divRecifisProject, sectionKnowMoreAboutOurProject,
   h1Recifis, divKnowMoreAboutOurProject
 } = homePageStyles()
 
@@ -31,20 +34,38 @@ export default function Home() {
 
         <section className={sectionRecifisProject()}>
           <div>
-            <img className={imgRecifis()} src="/img/logoRecifis.png" />
+            <Image
+              className={imgRecifis()} 
+              width={300}
+              height={300}
+              alt={"Imagem do logo do projeto Recifis"}
+              src="/img/logoRecifis.png"
+            />
           </div>
           <div className={divRecifisProject()}>
             <Heading className={h1()} variant="h1">Projeto Recifis</Heading>
             <Heading className={h1()} variant="h2">Reprodutores de Cidadania Fiscal</Heading>
           </div>
           <div>
-            <img className={imgHug()} src="/img/imgHug.png" />
+            <Image
+              className={imgHug()}
+              width={280}
+              height={280}
+              alt={"Imagem de desenho de amigos fazendo um círculo se abraçando"}
+              src="/img/imgHug.png"
+            />
           </div>
         </section>
 
         <section className={sectionKnowMoreAboutOurProject()}>
           <div className={divKnowMoreAboutOurProject()}>
-            <img className={imgTreeWords()} src="/img/arvorePalavras.png" />
+            <Image
+            className={imgTreeWords()}
+              width={460}
+              height={460}
+              alt={""}
+              src="/img/arvorePalavras.png"
+            />
           </div>
           <div className={divKnowMoreAboutOurProject()}>
             <Heading variant="h1" className={h1KnowMoreAboutOurProject()}>Saiba mais sobre nosso projeto</Heading>
@@ -63,7 +84,13 @@ export default function Home() {
         </section>
 
         <section>
-          <img className="w-full opacity-55" src="/img/peopleSmiling0.png" />
+          <Image
+            className={imgPeopleSmiling()}
+            sizes="100vw"
+            height={0}
+            width={0}
+            src="/img/peopleSmiling0.png"
+          />
         </section>
       </main>
 
