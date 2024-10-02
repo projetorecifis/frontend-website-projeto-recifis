@@ -74,7 +74,8 @@ const config: Config = {
 			  },
 			  screens: {
 				'phon': '380px',
-				'tabl': '744px',
+				'phonlg': '744px',
+				'tabl': '900px',
 				'desk': '1280px',
 				'max': '1536px'
 			  },
