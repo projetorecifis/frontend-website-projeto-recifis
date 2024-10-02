@@ -89,6 +89,7 @@ export default function Home() {
             sizes="100vw"
             height={0}
             width={0}
+            alt="Imagem de pessoas sorrindo"
             src="/img/peopleSmiling0.png"
           />
         </section>
