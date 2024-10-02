@@ -26,7 +26,10 @@ const config: Config = {
 				DEFAULT: '#ffffff',
 				recifis: {
 					blue: '#2E3092',
-					orange: '#F3B832'
+					orange: '#F3B832',
+					light:{
+						blue: "rgb(176 217 235)"
+					}
 				},
 				surface: {
 					DEFAULT: '#F3F4F6',

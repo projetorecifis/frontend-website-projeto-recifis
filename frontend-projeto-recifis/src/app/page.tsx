@@ -1,5 +1,5 @@
-import { Heading } from "@/components/Heading";
-import { Paragraph } from "@/components/Paragraph";
+import { Heading } from "@/components/ui/Heading";
+import { Paragraph } from "@/components/ui/Paragraph";
 import { Button } from "@/components/ui/button";
 import { tv } from "tailwind-variants";
 
@@ -7,7 +7,7 @@ const homePageStyles = tv({
   slots: {
     sectionRecifisProject: "flex flex-col justify-center items-center w-full p-4 bg-recifis-orange tabl:h-96 tabl:flex-row",
     imgRecifis: "h-52 w-64 tabl:w-64 tabl:h-52 desk:w-96 desk:h-80",
-    imgHug: "w-60 p-4 tabl:w-64 desk:w-80 desk:h-80 desk:ml-8",
+    imgHug: "w-60 p-4 ml-0 tabl:w-64 desk:w-80 desk:h-80 desk:ml-8",
     imgTreeWords: "h-64 text-center m-auto desk:h-80",
     h1KnowMoreAboutOurProject: "text-recifis-blue text-4xl",
     divRecifisProject: "flex flex-col items-center gap-4 p-4",
@@ -56,7 +56,9 @@ export default function Home() {
               Conheça o projeto que abrange os três pilares
               da Universidade, contemplando, portanto, ensino, pesquisa e extensão.
             </Paragraph>
-            <Button className="bg-recifis-blue hover:bg-recifis-orange font-bold uppercase">Saiba mais</Button>
+            <Button className="bg-recifis-blue hover:bg-recifis-orange font-bold uppercase">
+              <a href="/quem-somos">Saiba mais</a>
+            </Button>
           </div>
         </section>
 
