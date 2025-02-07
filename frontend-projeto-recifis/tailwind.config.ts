@@ -14,8 +14,14 @@ const config: Config = {
 				foreground: 'var(--foreground)',
 				recifis: {
 					blue: '#2E3092',
-					orange: '#F3B832'
+					orange: '#F3B832',
+					greenLight: '#B1D6C4',
+					orangeLight: '#F6CBB6',
+					salmonLight: '#f9f0df'
 				},
+			},
+			top:{
+				200: '40rem'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
