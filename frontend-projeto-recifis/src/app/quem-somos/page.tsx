@@ -5,11 +5,10 @@ import { tv } from "tailwind-variants";
 const homePageStyles = tv({
     slots: {
         mainSection: "bg-recifis-light-blue w-full flex flex-col desk:flex-row",
-        img: " w-full desk:py-8 desk:px-80 "
     },
 })
 
-const { mainSection, img } = homePageStyles()
+const { mainSection } = homePageStyles()
 
 export default function KnowMore() {
     return (
