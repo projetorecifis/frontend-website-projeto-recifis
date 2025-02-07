@@ -10,7 +10,7 @@ const headerStyles = tv({
     span: "uppercase",
     firstDiv: "flex items-center gap-4 font-bold",
     secondDiv: "flex justify-between gap-16 font-bold",
-    link: "duration-150 hover:scale-110 hover:text-recifis-orange",
+    link: "duration-150 hover:scale-110 hover:text-recifis-orange text-center",
   },
 })
 
