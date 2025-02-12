@@ -66,14 +66,19 @@ const config: Config = {
     		spacing: {
     			'112': '26rem',
     			'128': '28rem',
-    			'144': '30rem'
+    			'144': '30rem',
+				'160': '32rem',
+				'176': '34rem',
+				'192': '36rem',
+				'200': '40rem'
     		},
     		screens: {
     			phon: '380px',
     			phonlg: '744px',
     			tabl: '900px',
     			desk: '1280px',
-    			max: '1536px'
+    			max: '1536px',
+				maxl: '1770px'
     		},
     		keyframes: {
     			'accordion-down': {

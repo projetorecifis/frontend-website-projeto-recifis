@@ -4,7 +4,7 @@ import { tv } from "tailwind-variants";
 
 const homePageStyles = tv({
     slots: {
-        mainSection: "bg-recifis-light-blue w-full flex flex-col desk:flex-row max:h-full",
+        mainSection: "bg-recifis-light-blue w-full flex flex-col desk:flex-row desk:h-full",
     },
 })
 
@@ -12,10 +12,10 @@ const { mainSection } = homePageStyles()
 
 export default function KnowMore() {
     return (
-        <main className="max:h-full">
+        <main className="desk:h-full">
             <section className={mainSection()}>
-                <section className="bg-recifis-light-blue flex flex-col items-center justify-between desk:w-1/3 max:justify-evenly">
-                    <div className="bg-recifis-greenLight border-2 border-black rounded-b-full pb-10 text-center flex flex-col items-center justify-center">
+                <section className="bg-recifis-light-blue flex flex-col items-center justify-between desk:w-1/3 maxl:justify-center">
+                    <div className="bg-recifis-greenLight px-16 border-2 border-black rounded-b-full pb-10 text-center flex flex-col items-center justify-center">
                         <Image
                             src="/img/quem-somos/recifis.png"
                             width={350}
@@ -50,9 +50,9 @@ export default function KnowMore() {
                         className="pt-2"
                     />
                 </section>
-                <section className="bg-recifis-salmonLight flex flex-col items-center desk:relative desk:w-1/3">
-                    <div className="bg-recifis-orangeLight pb-20 flex flex-col items-center justify-center border-2 border-black rounded-b-full">
-                        <p className="text-justify px-12 pt-8 leading-5 phonlg:w-1/2 desk:w-full">
+                <section className="bg-recifis-salmonLight flex flex-col items-center desk:relative desk:w-1/3 maxl:justify-evenly">
+                    <div className="bg-recifis-orangeLight  pb-20 flex flex-col items-center justify-center border-2 border-black rounded-b-full maxl:w-11/12 maxl:rounded-full">
+                        <p className="text-justify px-12 pt-8 leading-5 phonlg:w-1/2 desk:w-full max:w-3/5">
                             Nos interessamos tanto pela formação dos reprodutores desta cidadania fiscal, ou seja, 
                             estudantes que terão acesso a ensino direcionado e desenvolverão pesquisas sobre o assunto,
                             quanto pela reprodução externa destes saberes.
@@ -73,13 +73,13 @@ export default function KnowMore() {
                             <li>Jogos e plataformas digitais.</li>
                         </ul>
                     </div>
-                    <div className="left-8 top-144 self-start px-4 tabl:ml-32 desk:absolute desk:px-0">
+                    <div className="left-8 top-144 self-start px-4 tabl:ml-32 desk:absolute desk:ml-0 desk:px-0 maxl:top-200">
                         <Image
                             src="/img/quem-somos/computador.png"
                             width={150}
                             height={150}
                             alt=""
-                            className={"pb-8 tabl:pb-0"} 
+                            className={"pb-8 tabl:pb-0 "} 
                         />
                     </div>
                     <Image
@@ -87,11 +87,11 @@ export default function KnowMore() {
                         width={250}
                         height={250}
                         alt=""
-                        className={"pb-8 right-0 top-144 self-end px-2 tabl:mr-32 desk:px-0 desk:absolute"} 
+                        className={"pb-8 right-0 top-144 self-end px-2 tabl:mr-32 desk:mr-0 desk:px-0 desk:absolute maxl:p-2 maxl:top-200"} 
                     />
                 </section >
-                <section className="bg-recifis-light-blue flex flex-col items-center justify-between desk:w-1/3">
-                    <div className="px-8 pb-16 bg-recifis-greenLight border-2 border-black rounded-b-full text-center flex flex-col items-center justify-center">
+                <section className="bg-recifis-light-blue flex flex-col items-center justify-between desk:w-1/3 maxl:justify-evenly ">
+                    <div className="px-8 pb-16 bg-recifis-greenLight border-2 border-black rounded-b-full text-center flex flex-col items-center justify-center maxl:rounded-full">
                         <Image
                             src="/img/quem-somos/nosso-intuito.png"
                             width={250}
@@ -99,15 +99,15 @@ export default function KnowMore() {
                             alt=""
                             className="py-4"
                         />
-                        <p className="indent-8 leading-5 text-justify px-10 tabl:px-16 phonlg:w-1/2 desk:w-full"> 
+                        <p className="text-justify w-4/5 indent-8 leading-5 px-10 phonlg:w-1/2 tabl:text-center tabl:px-16 desk:text-justify desk:w-4/5"> 
                             Contribuir para a produção e reprodução de educação fiscal de qualidade, 
                             promovendo a compreensão da lógica fiscal estabelecida e a formação de uma 
                             perspectiva crítica sobre a pauta, podendo assim, abrir caminhos para a formação 
                             de uma geração de novos reprodutores de cidadania fiscal.
                         </p>
                     </div>
-                    <div className="mt-2 pt-16 bg-recifis-orangeLight self-end flex flex-col items-center justify-center border-2 border-black rounded-t-full ">
-                        <p className="text-justify px-16 leading-5 phonlg:w-1/2 tabl:px-24 desk:w-10/12">
+                    <div className="mt-2 pt-16 bg-recifis-orangeLight self-end flex flex-col items-center justify-center border-2 border-black rounded-t-full maxl:pt-8 maxl:rounded-full ">
+                        <p className="text-justify w-3/5 px-16 leading-5 phonlg:w-1/2 tabl:px-24 desk:w-10/12">
                             Proporcionando através da promoção de cidadania fiscal, a formação de uma sociedade 
                             mais consciente das possibilidades de melhoria social, que pode ocorrer através de um
                             uso sensível a demandas de minorias no sistema tributário nacional.
