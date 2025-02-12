@@ -4,7 +4,7 @@ import { tv } from "tailwind-variants";
 
 const homePageStyles = tv({
     slots: {
-        mainSection: "bg-recifis-light-blue w-full flex flex-col desk:flex-row desk:h-full",
+        mainSection: "bg-recifis-light-blue w-full flex flex-col desk:flex-row maxl:h-full",
     },
 })
 
@@ -12,7 +12,7 @@ const { mainSection } = homePageStyles()
 
 export default function KnowMore() {
     return (
-        <main className="desk:h-full">
+        <main className="maxl:h-full">
             <section className={mainSection()}>
                 <section className="bg-recifis-light-blue flex flex-col items-center justify-between desk:w-1/3 maxl:justify-center">
                     <div className="bg-recifis-greenLight px-16 border-2 border-black rounded-b-full pb-10 text-center flex flex-col items-center justify-center">
