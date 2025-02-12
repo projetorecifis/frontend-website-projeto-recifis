@@ -4,6 +4,23 @@ import { cva } from "class-variance-authority"
 import { ChevronDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { tv } from "tailwind-variants"
+
+const navigationMenuStyle = tv({
+    slots: {
+        trigger: "group inline-flex h-10 w-max items-center justify-center duration-150 hover:scale-110 rounded-md px-4 py-2 text-md transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:text-recifis-orange/50 data-[state=open]:text-recifis-orange/50",
+    },
+     variants: {
+            variant: {
+              default: "",
+            },
+          },
+          defaultVariants: {
+            variant: "default",
+          },
+})
+
+const { trigger } = navigationMenuStyle()
 
 const NavigationMenu = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Root>,
@@ -40,17 +57,13 @@ NavigationMenuList.displayName = NavigationMenuPrimitive.List.displayName
 
 const NavigationMenuItem = NavigationMenuPrimitive.Item
 
-const navigationMenuTriggerStyle = cva(
-  "group inline-flex h-10 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-zinc-100 hover:text-zinc-900 focus:bg-zinc-100 focus:text-zinc-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-zinc-100/50 data-[state=open]:bg-zinc-100/50 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:hover:text-zinc-50 dark:focus:bg-zinc-800 dark:focus:text-zinc-50 dark:data-[active]:bg-zinc-800/50 dark:data-[state=open]:bg-zinc-800/50"
-)
-
 const NavigationMenuTrigger = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Trigger>
 >(({ className, children, ...props }, ref) => (
   <NavigationMenuPrimitive.Trigger
     ref={ref}
-    className={cn(navigationMenuTriggerStyle(), "group", className)}
+    className={cn(trigger(), "group", className)}
     {...props}
   >
     {children}{""}
@@ -116,7 +129,7 @@ NavigationMenuIndicator.displayName =
   NavigationMenuPrimitive.Indicator.displayName
 
 export {
-  navigationMenuTriggerStyle,
+  trigger,
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuItem,
