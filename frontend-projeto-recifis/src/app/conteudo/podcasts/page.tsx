@@ -1,29 +1,29 @@
 "use client"
 
-import Image from "next/image";
-import { tv } from "tailwind-variants";
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-  } from "@/components/ui/accordion"
-import { Button } from "@/components/ui/button";
+// import Image from "next/image";
+// import { tv } from "tailwind-variants";
+// import {
+//     Accordion,
+//     AccordionContent,
+//     AccordionItem,
+//     AccordionTrigger,
+//   } from "@/components/ui/accordion"
+// import { Button } from "@/components/ui/button";
   
 
-const homePageStyles = tv({
-    slots: {
-        mainSection: "bg-recifis-light-blue w-full flex flex-col desk:flex-row max:h-full",
-    },
+// const homePageStyles = tv({
+//     slots: {
+//         mainSection: "bg-recifis-light-blue w-full flex flex-col desk:flex-row max:h-full",
+//     },
    
-})
+// })
 
-const { mainSection } = homePageStyles()
+// const { mainSection } = homePageStyles()
 
 
 
  
-import * as React from "react"
+// import * as React from "react"
 
 export default function Content() {
     return (

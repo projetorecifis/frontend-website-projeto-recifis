@@ -13,7 +13,6 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  trigger,
 } from "@/components/ui/navigation-menu"
  
 const components: { title: string; href: string; description?: string, image: string }[] = [
@@ -69,7 +68,6 @@ export function Header() {
                 <ul className="grid gap-3 p-4 tabl:grid-cols-2 tabl:w-112 align-center justify-items-center ">
                   {components.map((component, index) => (
                     <ListItem
-                      index={index}
                       key={index}
                       title={component.title}
                       image={component.image}
@@ -91,14 +89,13 @@ export function Header() {
 }
 
 interface ListItemProps extends React.ComponentPropsWithoutRef<"a">{
-  index: number,
   image: string
 }
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
   ListItemProps
->(({ className, title, children, index, image,  ...props }, ref) => {
+>(({ className, title, children, image,  ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
