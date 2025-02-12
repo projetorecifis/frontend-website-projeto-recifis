@@ -15,20 +15,16 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
  
-const components: { title: string; href: string; description?: string, image: string }[] = [
+const components: { title: string; href: string; description?: string }[] = [
   {
     title: "Podcasts",
     href: "/conteudos/podcasts",
-    // description:
-    //   "A modal dialog that interrupts the user with important content and expects a response.",
-    image: "/img/conteudo/icon-podcast.png"
+    description: "A modal dialog that interrupts the user with important content and expects a response.",
   },
   {
     title: "Palestras",
     href: "/conteudos/palestras",
-    // description:
-    //   "For sighted users to preview content available behind a link.",
-    image: "/img/conteudo/icon-palestrante.png"
+    description: "For sighted users to preview content available behind a link.",
   },
 ]
  
@@ -38,7 +34,7 @@ const headerStyles = tv({
     container: 'flex flex-col gap-4 justify-evenly items-center w-full p-4 bg-recifis-blue text-white tabl:flex-row tabl:h-16',
     span: "uppercase",
     firstDiv: "flex items-center gap-4 font-bold",
-    secondDiv: "flex justify-between gap-4 font-bold uppercase items-center desk:gap-16",
+    secondDiv: "flex justify-between gap-4 font-bold items-center desk:gap-16",
     link: "duration-150 hover:scale-110 hover:text-recifis-orange text-center uppercase",
   },
 })
@@ -70,7 +66,6 @@ export function Header() {
                     <ListItem
                       key={index}
                       title={component.title}
-                      image={component.image}
                       href={component.href}
                     >
                       {component.description}
@@ -88,32 +83,23 @@ export function Header() {
   )
 }
 
-interface ListItemProps extends React.ComponentPropsWithoutRef<"a">{
-  image: string
-}
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
-  ListItemProps
->(({ className, title, children, image,  ...props }, ref) => {
+  React.ComponentPropsWithoutRef<"a">
+>(({ className, title, children,  ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
         <a
           ref={ref}
           className={cn(
-            "flex flex-col justify-center items-center select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-slate-100 hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "flex flex-col select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-slate-100 hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
             className
           )}
           {...props}
         >
-          <h1 className={`text-md leading-none font-bold text-recifis-blue`}>{title}</h1>
-          <Image
-            src={image}
-            width={90}
-            height={90}
-            alt=""
-          />
+          <h1 className={`text-lg leading-none font-bold text-recifis-blue uppercase`}>{title}</h1>
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
