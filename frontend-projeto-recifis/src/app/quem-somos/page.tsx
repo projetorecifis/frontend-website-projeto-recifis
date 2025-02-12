@@ -4,7 +4,7 @@ import { tv } from "tailwind-variants";
 
 const homePageStyles = tv({
     slots: {
-        mainSection: "bg-recifis-light-blue w-full flex flex-col desk:flex-row",
+        mainSection: "bg-recifis-light-blue w-full flex flex-col desk:flex-row max:h-full",
     },
 })
 
@@ -12,9 +12,9 @@ const { mainSection } = homePageStyles()
 
 export default function KnowMore() {
     return (
-        <main>
+        <main className="max:h-full">
             <section className={mainSection()}>
-                <section className="bg-recifis-light-blue flex flex-col items-center justify-between desk:w-1/3">
+                <section className="bg-recifis-light-blue flex flex-col items-center justify-between desk:w-1/3 max:justify-evenly">
                     <div className="bg-recifis-greenLight border-2 border-black rounded-b-full pb-10 text-center flex flex-col items-center justify-center">
                         <Image
                             src="/img/quem-somos/recifis.png"
@@ -106,8 +106,8 @@ export default function KnowMore() {
                             de uma geração de novos reprodutores de cidadania fiscal.
                         </p>
                     </div>
-                    <div className="mt-2 pt-16 bg-recifis-orangeLight self-end flex flex-col items-center justify-center border-2 border-black rounded-t-full">
-                        <p className="text-justify px-16 leading-5 phonlg:w-1/2 tabl:px-24 desk:w-full">
+                    <div className="mt-2 pt-16 bg-recifis-orangeLight self-end flex flex-col items-center justify-center border-2 border-black rounded-t-full ">
+                        <p className="text-justify px-16 leading-5 phonlg:w-1/2 tabl:px-24 desk:w-10/12">
                             Proporcionando através da promoção de cidadania fiscal, a formação de uma sociedade 
                             mais consciente das possibilidades de melhoria social, que pode ocorrer através de um
                             uso sensível a demandas de minorias no sistema tributário nacional.
