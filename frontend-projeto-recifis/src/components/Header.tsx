@@ -19,12 +19,12 @@ const components: { title: string; href: string; description?: string }[] = [
   {
     title: "Podcasts",
     href: "/conteudos/podcasts",
-    description: "A modal dialog that interrupts the user with important content and expects a response.",
+    description: "Escute os nossos podcasts",
   },
   {
     title: "Palestras",
     href: "/conteudos/palestras",
-    description: "For sighted users to preview content available behind a link.",
+    description: "Conheça nossas palestras",
   },
 ]
  
@@ -55,13 +55,13 @@ export function Header() {
       </div>
       <div className={secondDiv()}>
         <Link className={link()} href="/quem-somos">Quem somos</Link>
-        <p className=" h-8 w-1 border-2 border-white opacity-10"></p>
+        <p className=" h-8 w-1 "></p>
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger className={link()}>Conteúdos</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid gap-3 p-4 tabl:grid-cols-2 tabl:w-112 align-center justify-items-center ">
+                <ul className="grid gap-3 tabl:grid-cols-2 tabl:w-112 bg-recifis-blue p-4 align-center justify-items-center ">
                   {components.map((component, index) => (
                     <ListItem
                       key={index}
@@ -76,7 +76,7 @@ export function Header() {
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
-        <p className=" h-8 w-1 border-2 border-white opacity-10"></p>
+        <p className=" h-8 w-1 "></p>
         <Link className={link()} href="/noticias">Notícias</Link>
       </div>
     </section>
@@ -94,13 +94,13 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "flex flex-col select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-slate-100 hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "flex flex-col select-none space-y-4 p-3 leading-none no-underline outline-none transition-colors focus:text-accent-foreground rounded-md hover:text-recifis-orange hover:bg-blue-800 ",
             className
           )}
           {...props}
         >
-          <h1 className={`text-lg leading-none font-bold text-recifis-blue uppercase`}>{title}</h1>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+          <h1 className={`text-lg leading-none font-bold text-white uppercase hover:text-recifis-orange`}>{title}</h1>
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground text-slate-300">
             {children}
           </p>
         </a>

@@ -73,7 +73,7 @@ const config: Config = {
 				'200': '40rem'
     		},
     		screens: {
-    			phon: '380px',
+    			phon: '375px',
     			phonlg: '744px',
     			tabl: '900px',
     			desk: '1280px',

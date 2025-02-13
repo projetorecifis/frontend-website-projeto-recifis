@@ -99,7 +99,7 @@ export default function KnowMore() {
                             alt=""
                             className="py-4"
                         />
-                        <p className="text-justify w-4/5 indent-8 leading-5 px-10 phonlg:w-1/2 tabl:text-center tabl:px-16 desk:text-justify desk:w-4/5"> 
+                        <p className="text-justify w-11/12 indent-8 leading-5 px-10 phonlg:w-1/2 tabl:text-center tabl:px-16 desk:text-justify desk:w-4/5"> 
                             Contribuir para a produção e reprodução de educação fiscal de qualidade, 
                             promovendo a compreensão da lógica fiscal estabelecida e a formação de uma 
                             perspectiva crítica sobre a pauta, podendo assim, abrir caminhos para a formação 
@@ -107,7 +107,7 @@ export default function KnowMore() {
                         </p>
                     </div>
                     <div className="mt-2 pt-16 bg-recifis-orangeLight self-end flex flex-col items-center justify-center border-2 border-black rounded-t-full maxl:pt-8 maxl:rounded-full ">
-                        <p className="text-justify w-3/5 px-16 leading-5 phonlg:w-1/2 tabl:px-24 desk:w-10/12">
+                        <p className="text-justify w-11/12 px-16 leading-5 phonlg:w-1/2 tabl:px-24 desk:w-10/12">
                             Proporcionando através da promoção de cidadania fiscal, a formação de uma sociedade 
                             mais consciente das possibilidades de melhoria social, que pode ocorrer através de um
                             uso sensível a demandas de minorias no sistema tributário nacional.
