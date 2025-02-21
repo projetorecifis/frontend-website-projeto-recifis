@@ -1,18 +1,19 @@
-import { run } from './models/connection';
+import Connection from './models/connection';
 import ExpressConfig from './config/express';
 import userRouter from './routes/user.routes';
-
+import contentRouter from './routes/content.routes';
+import dotenv from 'dotenv';
 class App{
     private app = ExpressConfig.getExpress();
     private port = process.env.PORT;
 
     public getListen():void{
         this.listen();
-        this.routes()
+        this.routes();
     }
 
     private async listen(): Promise<void>{
-        await this.app.listen(this.port, () => {
+        this.app.listen(this.port, () => {
             console.log('Server was started at port:', this.port);
         })
 
@@ -20,11 +21,12 @@ class App{
     }
 
     private async connection(): Promise<void>{
-        await run().catch(console.dir);
+        const connection = new Connection();
+        await connection.run().catch(console.dir);
     }
     private routes(): void{
         this.app.use('/user', userRouter)
-        // this.app.use('/games', gamesRouter)
+        this.app.use('/content', contentRouter)
     }
 }
 

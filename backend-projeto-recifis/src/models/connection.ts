@@ -1,28 +1,33 @@
+import mongoose, { Document, Schema } from "mongoose";
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://projetorecifis:jWdbvoQNWbPmUQ4s@cluster-recifis.asjmm.mongodb.net/?retryWrites=true&w=majority&appName=cluster-recifis";
+class Connection{
+    private db: any;
+    private url?: string = process.env.BASE_URL_MONGODB;
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
+    constructor(){
+        this.url = process.env.BASE_URL_MONGODB;
+    }
 
-export async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("projetorecifis").command({ ping: 1 });
+    public async run() {
+      try {
+        // Connect the client to the server	(optional starting in v4.7)
+        if(this.url){
+          this.db = await mongoose.connect(this.url, {
+            dbName: process.env.DB_NAME,
+          });
+          console.log("Connected to MongoDB!");
+          return "Pinged your deployment. You successfully connected to MongoDB!"
+        }
+        throw Error("Url not found - MongoDB");
+      } catch (e) {
+          console.error(e);
+          throw Error("Error to connect to MongoDB");
+      }
+    }
 
-    // console.log(await client.db("projetorecifis").stats())
-    
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
+    public getDB(){
+      return this.db;
+    }
 }
+
+export default Connection;
