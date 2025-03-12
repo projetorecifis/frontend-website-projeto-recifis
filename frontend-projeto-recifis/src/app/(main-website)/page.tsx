@@ -3,8 +3,6 @@ import { Paragraph } from "@/components/created/Paragraph";
 import { Button } from "@/components/ui/button";
 import { tv } from "tailwind-variants";
 import Image from "next/image";
-import { Header } from "@/components/created/Header";
-import { Footer } from "@/components/created/Footer";
 
 const homePageStyles = tv({
   slots: {
@@ -19,7 +17,6 @@ const homePageStyles = tv({
     sectionKnowMoreAboutOurProject: "flex flex-col justify-center items-center w-full pt-10 tabl:flex-row",
     h1Recifis: "uppercase text-slate-950",
     divKnowMoreAboutOurProject: " flex flex-col items-start gap-6 p-6 desk:p-0 desk:w-1/3",
-
   },
 })
 
@@ -31,7 +28,7 @@ const {
 export default function Home() {
   return (
     <div>
-    <Header />
+
       <main>
 
         <section className={sectionRecifisProject()}>
@@ -96,7 +93,7 @@ export default function Home() {
           />
         </section>
       </main>
-    <Footer />
+
     </div>
   );
 }

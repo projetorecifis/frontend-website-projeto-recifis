@@ -10,7 +10,7 @@ const homePageStyles = tv({
 
 const { mainSection } = homePageStyles()
 
-export default function KnowMore() {
+export default function KnowMorePage() {
     return (
         <main className="maxl:h-full">
             <section className={mainSection()}>
