@@ -18,6 +18,16 @@ const config: Config = {
     				greenLight: '#B1D6C4',
     				orangeLight: '#F6CBB6',
     				salmonLight: '#f9f0df'
+    			},
+    			sidebar: {
+    				DEFAULT: 'hsl(var(--sidebar-background))',
+    				foreground: 'hsl(var(--sidebar-foreground))',
+    				primary: 'hsl(var(--sidebar-primary))',
+    				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+    				accent: 'hsl(var(--sidebar-accent))',
+    				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+    				border: 'hsl(var(--sidebar-border))',
+    				ring: 'hsl(var(--sidebar-ring))'
     			}
     		},
     		top: {
@@ -67,10 +77,10 @@ const config: Config = {
     			'112': '26rem',
     			'128': '28rem',
     			'144': '30rem',
-				'160': '32rem',
-				'176': '34rem',
-				'192': '36rem',
-				'200': '40rem'
+    			'160': '32rem',
+    			'176': '34rem',
+    			'192': '36rem',
+    			'200': '40rem'
     		},
     		screens: {
     			phon: '375px',
@@ -78,7 +88,7 @@ const config: Config = {
     			tabl: '900px',
     			desk: '1280px',
     			max: '1536px',
-				maxl: '1770px'
+    			maxl: '1770px'
     		},
     		keyframes: {
     			'accordion-down': {

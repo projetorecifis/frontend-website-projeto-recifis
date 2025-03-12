@@ -33,7 +33,6 @@ export default function Home() {
     <div>
     <Header />
       <main>
-
         <section className={sectionRecifisProject()}>
           <div>
             <Image
@@ -84,7 +83,7 @@ export default function Home() {
             </Button>
           </div>
         </section>
-
+        
         <section>
           <Image
             className={imgPeopleSmiling()}
