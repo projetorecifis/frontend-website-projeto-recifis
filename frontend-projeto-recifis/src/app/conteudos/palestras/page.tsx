@@ -1,5 +1,5 @@
-import { Heading } from "@/components/ui/Heading";
-import { Paragraph } from "@/components/ui/Paragraph";
+import { Heading } from "@/components/created/Heading";
+import { Paragraph } from "@/components/created/Paragraph";
 import { Button } from "@/components/ui/button";
 import { tv } from "tailwind-variants";
 import Image from "next/image";
