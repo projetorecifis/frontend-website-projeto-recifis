@@ -2,7 +2,8 @@
 
 import * as React from "react"
 import { ChevronsUpDown, Plus } from "lucide-react"
-
+import logoRecifis from "../../public/img/logoRecifis.png"
+import Image from "next/image"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -44,14 +45,17 @@ export function TeamSwitcher({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                <activeTeam.logo className="size-4" />
-              </div>
+                <Image 
+                  src={logoRecifis}
+                  alt="Logo Recifis"
+                  width={52}
+                  height={52}
+                />
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">
-                  {activeTeam.name}
+                  {"Projeto RECIFIS"}
                 </span>
-                <span className="truncate text-xs">{activeTeam.plan}</span>
+                
               </div>
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
@@ -63,8 +67,12 @@ export function TeamSwitcher({
             sideOffset={4}
           >
             <DropdownMenuLabel className="text-xs text-zinc-500 dark:text-zinc-400">
-              Teams
+              Time
             </DropdownMenuLabel>
+            <DropdownMenuItem className="gap-2 p-2"> 
+
+
+            </DropdownMenuItem>
             {teams.map((team, index) => (
               <DropdownMenuItem
                 key={team.name}

@@ -6,7 +6,13 @@ class ContentController{
         const response = await ContentServices.getAllNews();
         return res.json(response);
     }
-
+    public async postNew(req:Request, res:Response) :Promise<any>{
+        console.log(req.body);
+        console.log(req.file);
+  
+        const response = await ContentServices.postNew(req);
+        return res.json(response);
+    }
 
 }
 
