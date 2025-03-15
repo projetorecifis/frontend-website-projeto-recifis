@@ -18,11 +18,11 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Icon, Plus, Trash } from "lucide-react";
 import NewsServices from "@/services/news.services";
-import { useFormField } from "@/components/ui/form";
-import axios from "axios";
+import { useRouter } from 'next/router'
+import { useSearchParams } from "next/navigation";
 
 const MAX_SIZE = 1000000 //1mb
 
@@ -59,31 +59,32 @@ const formSchema = z.object({
       { message: "Tipo de imagem inváligo, tente png, jpeg ou jpg." }),
 })
 
-export default function AddNewsPage() {
+function CloudUploadIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
+      <path d="M12 12v9" />
+      <path d="m16 16-4-4-4 4" />
+    </svg>
+  )
+}
 
-  function CloudUploadIcon(props: any) {
-    return (
-      <svg
-        {...props}
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
-        <path d="M12 12v9" />
-        <path d="m16 16-4-4-4 4" />
-      </svg>
-    )
-  }
-
-  const [speakers, setSpeakers] = useState<number>(1)
-
+export default function EditNewsPage() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { id } = router.query;
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -95,7 +96,14 @@ export default function AddNewsPage() {
     },
   })
 
-  const createNews = async (values: z.infer<typeof formSchema>) => {
+  const getNewById = async () => {
+    if(id !== undefined){
+      const response = await NewsServices.getNewsById(id as string);
+      console.log(response)
+    } 
+  }
+
+  const updateNews = async (values: z.infer<typeof formSchema>) => {
     const response = await NewsServices.createNews({
       title: values.title,
       description: values.description,
@@ -111,28 +119,26 @@ export default function AddNewsPage() {
     // ✅ This will be type-safe and validated.
     console.log("values =>", values);
     
-    createNews(values);
-  
+    updateNews(values);
   }
-  const speakersWatch = form.watch("listSpeakers") || undefined;
+
+  const titleWatch = form.watch("title") || undefined;
+  const descriptionWatch = form.watch("description") || undefined;
   const imageWatch = form.watch("image") || undefined;
+  const speakersWatch = form.watch("listSpeakers") || undefined;
   const { fields, append, remove } = useFieldArray({ name: "listSpeakers" as never, control: form.control });
   const { errors } = form.formState;
 
   useEffect(() => {
-    console.log(fields)
-    console.log(fields.map((field) => field))
-  },[fields])
+    
+  }, [])
 
-  useEffect(() => {
-    console.log(speakersWatch)
-  },[speakersWatch])
 
   return (
     <SidebarInset>
-      <DashboardHeader breadcrumbPage="Adicionar Notícia" breadcrumbNameLink="Notícias" breadcrumbLink="/dashboard/noticias/adicionar" />
+      <DashboardHeader breadcrumbPage="Editar Notícia" breadcrumbNameLink="Notícias" breadcrumbLink="/dashboard/noticias/editar" />
       <div className="px-8">
-        <h1 className="text-2xl font-bold">Adicionar notícia</h1>
+        <h1 className="text-2xl font-bold">Editar notícia</h1>
         <p className="text-gray-400">Nessa página você pode adicionar uma nova notícia</p>
       </div>
       <div className="p-8">
@@ -208,7 +214,7 @@ export default function AddNewsPage() {
         <div className="flex gap-2">
           <Button variant={"primary"} onClick={() => append(undefined)} type="button" className="my-2 flex text-center justify-center items-center space-x-2">
             <Plus className="size-4" />
-            <p>Adicionar palestrante</p>
+            <p>Editar palestrante</p>
           </Button>
           <Button variant={"destructive"} onClick={() => {
             if(speakersWatch !== undefined) {
@@ -219,12 +225,11 @@ export default function AddNewsPage() {
             <p>Remover palestrante</p>
           </Button>
         </div>
-          <div className="flex w-full gap-2">
-          <FormField
+        <FormField
           control={form.control}
           name="image"
           render={({ field: { value, onChange, ...fieldProps } }) => (
-            <FormItem className="space-y-4 w-full">
+            <FormItem className="space-y-4">
               <div>
                 <FormLabel></FormLabel>
                 <FormControl>
@@ -233,7 +238,7 @@ export default function AddNewsPage() {
                     <CardTitle>Fazer o upload da imagem da notícia</CardTitle>
                     <CardDescription>Arraste e solte a imagem ou clique no botão para adicioná-la</CardDescription>
                   </CardHeader>
-                  <CardContent className={`${!!errors?.image ? " border-red-600 focus-visible:ring-red-600" : "border-zinc-200"} p-10 flex flex-col items-center justify-center border-2 border-dashed dark:border-zinc-800 rounded-lg space-y-6`}>
+                  <CardContent className={`${!!errors?.image ? " border-red-600 focus-visible:ring-red-600" : "border-zinc-200"} flex flex-col items-center justify-center border-2 border-dashed dark:border-zinc-800 rounded-lg p-10 space-y-6`}>
                     <CloudUploadIcon className="w-16 h-16 text-zinc-500 dark:text-zinc-400" />
                     <Input 
                       {...fieldProps}
@@ -260,23 +265,6 @@ export default function AddNewsPage() {
             </FormItem> 
           )}
         />
-          <div className="w-full">
-              <Card className="w-full p-0">
-                <CardHeader>
-                  <CardTitle>Visualizar Imagem</CardTitle>
-                  <CardDescription>Veja como a imagem irá ficar na página de notícias. 500px de largura e 250px de altura</CardDescription>
-                </CardHeader>
-                <CardContent className={`${!!errors?.image ? " border-red-600 focus-visible:ring-red-600" : "border-zinc-200"} h-60 flex flex-col items-center justify-center border-2 border-dashed dark:border-zinc-800 rounded-lg space-y-6 p-0`}>
-                  {imageWatch === undefined && (
-                    <CloudUploadIcon className="w-16 h-16 text-zinc-500 dark:text-zinc-400" />
-                  )}
-                  {imageWatch !== undefined && (
-                      <img className="w-160 h-full" src={URL.createObjectURL(imageWatch)}/>
-                  )}
-                </CardContent>
-              </Card>
-          </div>
-          </div>
         <Button className="" size={"lg"} variant="primary" type="submit">Enviar</Button>
       </form>
     </Form>
