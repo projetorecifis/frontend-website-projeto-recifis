@@ -37,8 +37,12 @@ class NewsServices{
             formData.append("speakers", JSON.stringify(speakers));
             formData.append("image", request.image);   
             const response = await httpMultFormData.post('http://localhost:3003/content/news/create', formData);
-
-            return response;
+            console.log(response)
+            return {
+                data: response,
+                status: 200,
+                message: "Notícia criada com sucesso",
+            }
         }catch(error: any){  
             console.log(error);
             return{

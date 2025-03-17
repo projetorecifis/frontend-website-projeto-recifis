@@ -31,6 +31,12 @@ class ContentServices{
            return{
                 status: 400,
                 message: "No news were found",
+                metaData: {
+                    currentPage: 1,
+                    itemsPerPage: 1,
+                    lastPage: 1,
+                    totalItems: 0
+                }
             }
            
         }catch(error){
@@ -87,6 +93,7 @@ class ContentServices{
             return{
                 status: 400,
                 message: "File not found"
+
             }
         }catch(error){
             console.log(error);

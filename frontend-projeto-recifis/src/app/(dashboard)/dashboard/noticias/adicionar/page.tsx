@@ -19,10 +19,10 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Icon, Plus, Trash } from "lucide-react";
+import { Plus, Trash } from "lucide-react";
 import NewsServices from "@/services/news.services";
-import { useFormField } from "@/components/ui/form";
-import axios from "axios";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { toast } from "sonner";
 
 const MAX_SIZE = 1000000 //1mb
 
@@ -103,6 +103,11 @@ export default function AddNewsPage() {
       listSpeakers: values?.listSpeakers,
       image: values.image
     });
+
+    if(response?.status === 200){
+      toast.success('Notícia criada com sucesso');
+      form.reset();
+    }
     console.log(response)
   };
 
@@ -125,11 +130,12 @@ export default function AddNewsPage() {
   },[fields])
 
   useEffect(() => {
-    console.log(speakersWatch)
-  },[speakersWatch])
+    console.log(imageWatch)
+  },[imageWatch])
 
   return (
     <SidebarInset>
+
       <DashboardHeader breadcrumbPage="Adicionar Notícia" breadcrumbNameLink="Notícias" breadcrumbLink="/dashboard/noticias/adicionar" />
       <div className="px-8">
         <h1 className="text-2xl font-bold">Adicionar notícia</h1>

@@ -1,18 +1,8 @@
 import { AppSidebar } from "@/components/app-sidebar"
 import { cookies } from "next/headers"
+import { Toaster } from "@/components/ui/sonner"
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
-import {
-  SidebarInset,
   SidebarProvider,
-  SidebarTrigger,
 } from "@/components/ui/sidebar"
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
@@ -24,6 +14,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
             <AppSidebar />
             <main className="w-full">
                 {children}
+                <Toaster />
             </main>
         </SidebarProvider>
     )

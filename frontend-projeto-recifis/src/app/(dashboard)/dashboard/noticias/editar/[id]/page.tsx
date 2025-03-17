@@ -21,8 +21,7 @@ import { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Icon, Plus, Trash } from "lucide-react";
 import NewsServices from "@/services/news.services";
-import { useRouter } from 'next/router'
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 const MAX_SIZE = 1000000 //1mb
 
@@ -83,12 +82,12 @@ function CloudUploadIcon(props: any) {
 export default function EditNewsPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { id } = router.query;
-  
+  const path = usePathname();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
+      title: searchParams.get("title") || "",
       description: "",
       mainSpeaker: "",
       listSpeakers: undefined,
@@ -97,21 +96,21 @@ export default function EditNewsPage() {
   })
 
   const getNewById = async () => {
-    if(id !== undefined){
-      const response = await NewsServices.getNewsById(id as string);
-      console.log(response)
-    } 
+    // if(id !== undefined){
+    //   const response = await NewsServices.getNewsById(id as string);
+    //   console.log(response)
+    // } 
   }
 
   const updateNews = async (values: z.infer<typeof formSchema>) => {
-    const response = await NewsServices.createNews({
-      title: values.title,
-      description: values.description,
-      mainSpeaker: values.mainSpeaker,
-      listSpeakers: values?.listSpeakers,
-      image: values.image
-    });
-    console.log(response)
+    // const response = await NewsServices.createNews({
+    //   title: values.title,
+    //   description: values.description,
+    //   mainSpeaker: values.mainSpeaker,
+    //   listSpeakers: values?.listSpeakers,
+    //   image: values.image
+    // });
+    // console.log(response)
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -130,8 +129,8 @@ export default function EditNewsPage() {
   const { errors } = form.formState;
 
   useEffect(() => {
-    
-  }, [])
+    console.log("router", router);
+  }, [router])
 
 
   return (
@@ -251,14 +250,7 @@ export default function EditNewsPage() {
                     /> 
                   </CardContent>
                 </Card>
-                  {/* <Input 
-                    {...fieldProps}
-                    type="file"
-                    accept="image/*"
-                    onChange={(event) => {
-                      onChange(event.target.files && event.target.files[0])
-                    }}
-                  /> */}
+        
                 </FormControl>
                 <FormMessage />
               </div>
