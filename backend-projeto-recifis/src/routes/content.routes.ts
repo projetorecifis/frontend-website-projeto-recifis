@@ -9,6 +9,7 @@ const contentRouter = Router();
 contentRouter.get('/news/getAll', contentController.getAllNews);
 contentRouter.post('/news/create', multer(uploadAvatar.getConfig).single("image"), contentController.postNew);
 contentRouter.put('/news/update/:id', multer(uploadAvatar.getConfig).single("image"), contentController.updateNew);
+contentRouter.delete('/news/delete/:id', contentController.deleteNew);
 // countentRouter.delete('/news/delete/:id', contentController.deleteNew);
 // contentRouter.delete('/news/delete/:id', contentController.deleteNew);
 // contentRouter.get('/news/getById/:id', contentController.getNewsById)

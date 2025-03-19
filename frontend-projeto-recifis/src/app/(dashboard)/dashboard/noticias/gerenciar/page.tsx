@@ -44,9 +44,10 @@ export default function ManagerNewsPage() {
   const [allNewsResponse, setAllNewsResponse] = useState<INewsDataResponse[] | undefined>(undefined);
   const [metadata, setMetadata] = useState<INewsMetaDataResponse | undefined>(undefined);
   const [open, setOpen] = useState<boolean>(false);
+  const [newsToBeDeleted, setNewsToBeDeleted] = useState<{ id: string, image: string } | undefined>(undefined);
 
-    
   const getAllNews = async() => {
+
     const response = await NewsServices.getAllNews(page, limit);
     const news = response?.data?.news;
     const metaData = response?.data?.metaData;
@@ -67,11 +68,16 @@ export default function ManagerNewsPage() {
     // Store.setItemToLocalStorage("image");
   }
 
-  const deleteNew = (id: string) => {
+  const triggerAlertDialog = (id: string, image: string) => {
     // router.push("/dashboard/")
     setOpen(true);
+    setNewsToBeDeleted({ id, image });
     console.log(id)
     // Store.setItemToLocalStorage("image");
+  }
+
+  const deleteNew = () => {
+    
   }
 
   useEffect(() => {
@@ -126,7 +132,7 @@ export default function ManagerNewsPage() {
                     className="text-blue-500">
                       Editar
                   </a>
-                  <Button variant={"link"} onClick={() => deleteNew(news._id)} className="text-red-500">Deletar</Button>
+                  <Button variant={"link"} onClick={() => triggerAlertDialog(news._id, news.image.path)} className="text-red-500">Deletar</Button>
                 </div>
               </TableCell>
             </TableRow>
@@ -153,8 +159,8 @@ export default function ManagerNewsPage() {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Voltar</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-500">Excluir</AlertDialogAction>
+          <AlertDialogCancel onClick={() => {setNewsToBeDeleted(undefined)}}>Voltar</AlertDialogCancel>
+          <AlertDialogAction onClick={deleteNew} className="bg-red-500">Excluir</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

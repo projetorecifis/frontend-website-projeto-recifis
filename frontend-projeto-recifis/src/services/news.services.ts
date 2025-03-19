@@ -79,6 +79,21 @@ class NewsServices{
         }
     }
 
+    async deleteNew(id: string, image: string){
+        try{
+            await http.delete(`${"http://localhost:3003"}/content/news/delete/${id}?image=${image}`);
+            return {
+                status: 200,
+                message: "Notícia deletada com sucesso",
+            }
+        }catch(error){
+            if(error instanceof AxiosError){
+                return htppErrorReturn((await error).status, (await error).statusText, undefined);
+            }
+            return htppErrorReturn(500, 'Não foi possível deletar a notícia', undefined);
+        }
+    }
+
 
 }
 
