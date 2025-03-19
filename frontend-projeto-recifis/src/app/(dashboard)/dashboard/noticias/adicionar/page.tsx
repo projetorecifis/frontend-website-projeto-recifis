@@ -112,26 +112,13 @@ export default function AddNewsPage() {
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log("values =>", values);
-    
     createNews(values);
-  
   }
   const speakersWatch = form.watch("listSpeakers") || undefined;
   const imageWatch = form.watch("image") || undefined;
   const { fields, append, remove } = useFieldArray({ name: "listSpeakers" as never, control: form.control });
   const { errors } = form.formState;
-
-  useEffect(() => {
-    console.log(fields)
-    console.log(fields.map((field) => field))
-  },[fields])
-
-  useEffect(() => {
-    console.log(imageWatch)
-  },[imageWatch])
 
   return (
     <SidebarInset>
@@ -250,6 +237,7 @@ export default function AddNewsPage() {
                         onChange(event.target.files && event.target.files[0])
                       }}
                     /> 
+                    {imageWatch && <img src={URL.createObjectURL(imageWatch)} alt="Imagem da notícia" className="w-200 h-80 object-cover rounded-lg" />}
                   </CardContent>
                 </Card>
                   {/* <Input 
@@ -266,7 +254,7 @@ export default function AddNewsPage() {
             </FormItem> 
           )}
         />
-          <div className="w-full">
+          {/* <div className="w-full">
               <Card className="w-full p-0">
                 <CardHeader>
                   <CardTitle>Visualizar Imagem</CardTitle>
@@ -281,7 +269,7 @@ export default function AddNewsPage() {
                   )}
                 </CardContent>
               </Card>
-          </div>
+          </div> */}
           </div>
         <Button className="" size={"lg"} variant="primary" type="submit">Enviar</Button>
       </form>

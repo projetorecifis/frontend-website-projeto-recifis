@@ -19,7 +19,7 @@ class ExpressConfig{
     
     private middlewares():void{
         this.express.use(morgan('dev'))
-        this.express.use(bodyParser.urlencoded({ extended: false }))
+        this.express.use(bodyParser.urlencoded({ extended: true }))
         this.express.use(bodyParser.json())
         this.express.use(cors())
         

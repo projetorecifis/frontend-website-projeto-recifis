@@ -48,10 +48,12 @@ export default function ManagerNewsPage() {
     
   const getAllNews = async() => {
     const response = await NewsServices.getAllNews(page, limit);
+    const news = response?.data?.news;
+    const metaData = response?.data?.metaData;
 
-    if(response?.data !== undefined && response?.metaData !== undefined){
-      setAllNewsResponse(response?.data);
-      setMetadata(response?.metaData[0]);
+    if(news !== undefined && metaData !== undefined){
+      setAllNewsResponse(news);
+      setMetadata(metaData[0]);
       // setStatus(response?.status);
     }
     console.log(response);
@@ -120,7 +122,7 @@ export default function ManagerNewsPage() {
               <TableCell >
                 <div className="flex flex-row items-center">
                   <a 
-                    href={"/dashboard/noticias/editar/" + news._id + "?title=" + news.title + "&description=" + news.description + "&speakers=" + news.speakers} 
+                    href={"/dashboard/noticias/editar"+ "?id=" + news._id + "&title=" + news.title + "&description=" + news.description + "&speakers=" + news.speakers + "&image=" + news.image.path} 
                     className="text-blue-500">
                       Editar
                   </a>

@@ -1,8 +1,22 @@
+import { UploadApiResponse } from "cloudinary";
+import { IGenericResponse } from "./general.interface";
+
+export interface IImage{
+    originalName: string;
+    path: string;
+    size: number;
+    publicId: string;
+    assetId: string;
+    versionId: string;
+    signature: string;
+    createdAt: string;
+}
 export interface IPostNewBodyRequest{
     title: string;
     description: string;
     speakers: string;
-    image: File;
+    image: IImage;
+    oldImage?: string;
 }
 
 export interface IGetAllNewsDataResponse{
@@ -11,21 +25,29 @@ export interface IGetAllNewsDataResponse{
     description: string;
     createdAt: string;
     speakers: string;
-    image: {
-        originalName: string;
-        fileName: string;
-        size: number;
-    }
+    image: IImage;
 };
 
 export interface IGetAllNewsResponse{
     status: number;
     message: string;
-    data?: IGetAllNewsDataResponse[];
-    metaData?: {
-        currentPage: number;
-        lastPage: number;
-        totalItems: number;
-        itemsPerPage: number;
+    data?: {
+        news?: IGetAllNewsDataResponse[];
+        metaData?: {
+            currentPage: number;
+            lastPage: number;
+            totalItems: number;
+            itemsPerPage: number;
+        }
     }
 };
+
+export interface IUploadImageCloudinaryResponse{
+    status: number;
+    message: string;
+    data?: UploadApiResponse;
+}
+
+export interface IPostNewResponse extends IGenericResponse{
+    data?: any;
+}

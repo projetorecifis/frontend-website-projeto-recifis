@@ -1,6 +1,8 @@
+import { UploadApiResponse } from "cloudinary";
 import NewsModel from "../models/content.model";
 import ImageModel from "../models/image.moodel";
 import { IPostNewBodyRequest } from "../services/interfaces/content.interface";
+import { GenericError } from "../helpers/api-errors";
 class ContentRepositories{    
     async getAllNews(skip: number, limit: number, page: number): Promise<any>{
         try{
@@ -43,27 +45,27 @@ class ContentRepositories{
         }
     }
 
-    async postNew(file: Express.Multer.File, body: IPostNewBodyRequest){
-        try{
-            const report = new NewsModel({
-                title: body.title,
-                description: body.description,
-                createdAt: new Date().toISOString(),
-                speakers: body.speakers,
-                image: {
-                    originalName: file?.originalname,
-                    path: file?.path,
-                    fileName: file?.filename,
-                    size: file?.size
-                }
-            });
-            const response = await report.save();
+    async postNew(fileFromCloudinary: UploadApiResponse, body: IPostNewBodyRequest){
+        const report = new NewsModel({
+            title: body.title,
+            description: body.description,
+            createdAt: new Date().toISOString(),
+            speakers: body.speakers,
+            image: {
+                originalName: fileFromCloudinary?.original_filename,
+                path: fileFromCloudinary?.secure_url,
+                size: fileFromCloudinary?.bytes,
+                publicId: fileFromCloudinary?.public_id,
+                assetId: fileFromCloudinary?.asset_id,
+                versionId: fileFromCloudinary?.version,
+                signature: fileFromCloudinary?.signature,
+                createdAt: fileFromCloudinary?.created_at
+            }
+        });
+       
+        const response = await report.save();
 
-            return response;   
-        }catch(error){
-            console.log(error);
-            return error;
-        }
+        return response;
     }
  
 
@@ -91,20 +93,34 @@ class ContentRepositories{
     //     }
     // }
 
-    async updateNew(file: Express.Multer.File, body: IPostNewBodyRequest, id: string){
+    async updateNew(body: IPostNewBodyRequest, id: string, fileFromCloudinary?: UploadApiResponse){
         try{
+            if(fileFromCloudinary){
+                const response = await NewsModel.findOneAndUpdate({_id: id}, {
+                    title: body?.title,
+                    description: body?.description,
+                    speakers: body?.speakers,
+                    image: {
+                        originalName: fileFromCloudinary?.original_filename,
+                        path: fileFromCloudinary?.secure_url,
+                        size: fileFromCloudinary?.bytes,
+                        publicId: fileFromCloudinary?.public_id,
+                        assetId: fileFromCloudinary?.asset_id,
+                        versionId: fileFromCloudinary?.version,
+                        signature: fileFromCloudinary?.signature,
+                        createdAt: fileFromCloudinary?.created_at
+                    }
+                });
+                return response;
+            }
             const response = await NewsModel.findOneAndUpdate({_id: id}, {
                 title: body?.title,
                 description: body?.description,
                 speakers: body?.speakers,
-                image: {
-                    originalName: file?.originalname,
-                    path: file?.path,
-                    fileName: file?.filename,
-                    size: file?.size
-                }
             });
-            return response;
+
+            return response
+            
         }catch(error){
             console.log(error);
             return error;

@@ -1,14 +1,17 @@
 import ContentRepositories from "../repositories/content.repositories";
 import { Request, Response } from 'express';
-import { IGetAllNewsResponse, IPostNewBodyRequest } from "./interfaces/content.interface";
+import { IGetAllNewsResponse, IPostNewBodyRequest, IPostNewResponse } from "./interfaces/content.interface";
 import QueryString from "qs";
 import NewsModel from "../models/content.model";
-
+import cloudinary from "../utils/cloudinary";
+import { FileNotFoundError, GenericError } from "../helpers/api-errors";
+import { error } from "console";
+import { IErrorType } from "./interfaces/general.interface";
 class ContentServices{    
     async getAllNews(
         page: string | QueryString.ParsedQs | 1 | (string | QueryString.ParsedQs)[], 
         limit: string | QueryString.ParsedQs | (string | QueryString.ParsedQs)[] | 15) 
-        :Promise<IGetAllNewsResponse>
+        :Promise<IGetAllNewsResponse | IErrorType >
     {
         try{
            const countNews = await NewsModel.countDocuments();
@@ -24,54 +27,56 @@ class ContentServices{
             return {
                 status: 200,
                 message: "News were found",
-                data: data,
-                metaData: metaData
+                data: {
+                    news: data,
+                    metaData: metaData
+                },
             }
            }
            return{
                 status: 400,
                 message: "No news were found",
-                metaData: {
-                    currentPage: 1,
-                    itemsPerPage: 1,
-                    lastPage: 1,
-                    totalItems: 0
+                data:{
+                    metaData: {
+                        currentPage: 1,
+                        itemsPerPage: 1,
+                        lastPage: 1,
+                        totalItems: 0
+                    }
                 }
             }
            
         }catch(error){
-            console.log(error);
-            return{
-                status: 500,
-                message: "Internal server error",
-            }
+            return { errorType: 'GENERIC-ERROR' }
         }
     }
     
-    async postNew(req:Request) :Promise<any>{
+    async postNew(req: Request) : Promise<IPostNewResponse | IErrorType>{
         try{
             const file = req?.file;
             const body: IPostNewBodyRequest = req.body;
 
             if(file){
-                const response = await ContentRepositories.postNew(file, body);
-                console.log(response)
-                return{
-                    status: 200,
-                    message: "Teste",
-                    data: response
+                const cloudinaryResponse = await cloudinary.uploadImage(file);
+                
+                if(cloudinaryResponse?.status === 200 && cloudinaryResponse?.data){
+                    const response = await ContentRepositories.postNew(cloudinaryResponse?.data, body);
+                    
+                    if(response instanceof Error){
+                        return { errorType: 'MONGODB-ERROR' }
+                    }
+                    return{
+                        status: 200,
+                        message: "It was created successfully",
+                        data: response
+                    }     
                 }
+                return{ errorType: 'CLOUDINARY-ERROR' }
             }
-            return{
-                status: 400,
-                message: "File not found"
-            }
+
+            return { errorType: 'FILE-NOT-FOUND' }
         }catch(error){
-            console.log(error);
-            return{
-                status: 500,
-                message: error
-            }
+            return { errorType: 'GENERIC-ERROR' }
         }
     }
 
@@ -82,25 +87,38 @@ class ContentServices{
             const { id } = req.params;
 
             if(file){
-                const response = await ContentRepositories.updateNew(file, body, id);
-                console.log(response)
-                return{
-                    status: 200,
-                    message: "Teste",
-                    data: response
+                const cloudinaryResponse = await cloudinary.uploadImage(file);
+
+                if(cloudinaryResponse?.status === 200 && cloudinaryResponse?.data){
+
+                    await cloudinary.deleteImage(req?.body?.oldImage);
+
+                    const response = await ContentRepositories.updateNew(body, id, cloudinaryResponse?.data);
+                    console.log(response)
+
+                    if(response instanceof Error){
+                        return { errorType: 'MONGODB-ERROR' }
+                    }
+
+                    return{
+                        status: 200,
+                        message: "It was updated successfully",
+                        data: response
+                    }
                 }
+                return{ errorType: 'CLOUDINARY-ERROR' }
+            }
+            const response = await ContentRepositories.updateNew(body, id);
+            if(response instanceof Error){
+                return { errorType: 'MONGODB-ERROR' }
             }
             return{
-                status: 400,
-                message: "File not found"
-
+                status: 200,
+                message: "It was updated successfully",
+                data: response
             }
         }catch(error){
-            console.log(error);
-            return{
-                status: 500,
-                message: error
-            }
+            return { errorType: 'GENERIC-ERROR' }
         }
     }
 }

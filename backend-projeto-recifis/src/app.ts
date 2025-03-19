@@ -3,6 +3,7 @@ import ExpressConfig from './config/express';
 import userRouter from './routes/user.routes';
 import contentRouter from './routes/content.routes';
 import dotenv from 'dotenv';
+import cloudinary from './config/cloudinary';
 class App{
     private app = ExpressConfig.getExpress();
     private port = process.env.PORT;
@@ -18,6 +19,7 @@ class App{
         })
 
         await this.connection();
+        cloudinary.config();
     }
 
     private async connection(): Promise<void>{

@@ -42,13 +42,29 @@ const newsSchema = new Schema<INews>({
                 type: String,
                 required: true
             },
-            fileName: {
+            size: {
+                type: Number,
+                required: false
+            },
+            publicId: {
                 type: String,
                 required: true
             },
-            size: {
+            assetId:{
                 type: String,
                 required: true
+            },
+            versionId:{
+                type: String,
+                required: true
+            },
+            signature:{
+                type: String,
+                required: true
+            },
+            createdAt:{
+                type: String,
+                required: false
             }
         }
     }

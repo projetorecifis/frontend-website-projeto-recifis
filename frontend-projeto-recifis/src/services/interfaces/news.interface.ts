@@ -1,16 +1,22 @@
-export interface ICreateNewsRequest{
+export interface INewsRequest{
+    _id?: string,
     title: string,
     description: string,
     listSpeakers: string[] | null,
     mainSpeaker: string,
-    image: File
+    image?: File
+    oldImage?: string
 }
 
 export interface INewsImage{
-    fileName: string,
-    originalName: string,
-    path: string,
-    size: number,
+    originalName: string;
+    path: string;
+    size: number;
+    publicId: string;
+    assetId: string;
+    versionId: string;
+    signature: string;
+    createdAt: string;
 }
 
 export interface INewsDataResponse{
@@ -28,8 +34,10 @@ export interface INewsMetaDataResponse{
     totalDocuments: number
 }
 export interface INewsResponse{
-    metaData: INewsMetaDataResponse[],
-    data: INewsDataResponse[],
+    data: {
+        news: INewsDataResponse[],
+        metaData: INewsMetaDataResponse[]
+    },
     message: string;
     status: number;
 }
