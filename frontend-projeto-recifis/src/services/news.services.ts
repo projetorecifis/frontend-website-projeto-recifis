@@ -3,6 +3,7 @@ import { httpMultFormData, http } from './http/index';
 import { INewsRequest, INewsErrorResponse, INewsResponse } from './interfaces/news.interface';
 import  AxiosError from 'axios';
 import { htppErrorReturn } from '@/utils/htpp';
+import { metadata } from '@/app/layout';
 
 class NewsServices{
     createFormData(request : INewsRequest){
@@ -23,9 +24,12 @@ class NewsServices{
     async getAllNews(page: string, limit: number){
         try{
             const response = await http.get<INewsResponse>(`${"http://localhost:3003"}/content/news/getAll?page=${Number(page)}&limit=${limit}`);
- 
+            console.log(response.data.data.metaData)
             return {
-                data: response.data.data,
+                data: {
+                    news: response.data.data.news,
+                    metaData: response.data.data.metaData,
+                },
                 message: response.data.message,
                 status: response.data.status
             };

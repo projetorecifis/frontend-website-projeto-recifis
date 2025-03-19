@@ -41,17 +41,16 @@ class ContentController{
     }
 
     public async deleteNew(req:Request, res:Response) :Promise<any>{
-        console.log(req)
-        // const response = await ContentServices.deleteNew(req);
+        const response = await ContentServices.deleteNew(req);
 
-        // console.log(response)
+        console.log(response)
 
-        // const middleware = new Middleware();
-        // const verifyResponse = middleware.verifyResponse(response);
+        const middleware = new Middleware();
+        const verifyResponse = middleware.verifyResponse(response);
 
-        // const formatResponse = middleware.formatResponse(verifyResponse)
+        const formatResponse = middleware.formatResponse(verifyResponse)
 
-        // return res.status(formatResponse.status).json(formatResponse);
+        return res.status(formatResponse.status).json(formatResponse);
     }
 
 }

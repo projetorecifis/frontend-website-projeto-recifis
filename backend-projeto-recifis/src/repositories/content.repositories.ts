@@ -126,6 +126,11 @@ class ContentRepositories{
             return error;
         }
     }     
+
+    async deleteNew(id: string){
+        const response = await NewsModel.findOneAndDelete({_id: id});
+        return response;
+    }
 }
 
 export default new ContentRepositories();

@@ -21,9 +21,7 @@ class ContentServices{
             const skip = (Number(page) - 1) * Number(limit);
 
             const { data, metaData } = await ContentRepositories.getAllNews(skip, Number(limit), Number(page));
-            const response = {
 
-            }
             return {
                 status: 200,
                 message: "News were found",
@@ -80,7 +78,7 @@ class ContentServices{
         }
     }
 
-    async updateNew(req:Request) :Promise<any>{
+    async updateNew(req: Request) :Promise<any>{
         try{
             const file = req?.file;
             const body: IPostNewBodyRequest = req.body;
@@ -117,6 +115,27 @@ class ContentServices{
                 message: "It was updated successfully",
                 data: response
             }
+        }catch(error){
+            return { errorType: 'GENERIC-ERROR' }
+        }
+    }
+
+    async deleteNew(req: Request){
+        try{
+            const { id } = req?.params;
+            const { image } = req?.query;
+
+            const response = await ContentRepositories.deleteNew(id);
+            
+            if(response instanceof Error){
+                return { errorType: 'MONGODB-ERROR' }
+            }
+            await cloudinary.deleteImage(image as string);
+            return{
+                status: 200,
+                message: "It was deleted successfully",
+            }
+
         }catch(error){
             return { errorType: 'GENERIC-ERROR' }
         }

@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Plus, Trash } from "lucide-react";
 import NewsServices from "@/services/news.services";
@@ -91,6 +91,8 @@ export default function EditNewsPage() {
   const mainSpeaker = listSpeakers[0];
   listSpeakers.shift(mainSpeaker);
 
+  const [loading, setLoading] = useState<boolean>(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -104,6 +106,7 @@ export default function EditNewsPage() {
 
 
   const updateNews = async (values: z.infer<typeof formSchema>) => {
+    setLoading(true);
     const response = await NewsServices.updateNews({
       _id: searchParams.get("id") || "",
       title: values?.title,
@@ -113,6 +116,10 @@ export default function EditNewsPage() {
       image: values?.image ?? undefined,
       oldImage: getImageFromUrl
     });
+    
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
 
     if(response?.status === 200){
         toast.success('Notícia editada com sucesso');
@@ -123,7 +130,6 @@ export default function EditNewsPage() {
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("values =>", values);
     updateNews(values);
   }
 
@@ -131,10 +137,6 @@ export default function EditNewsPage() {
   const speakersWatch = form.watch("listSpeakers") || undefined;
   const { fields, append, remove } = useFieldArray({ name: "listSpeakers" as never, control: form.control });
   const { errors } = form.formState;
-
-  useEffect(() => {
-   
-  }, [])
 
   return (
     <SidebarInset>
@@ -261,7 +263,7 @@ export default function EditNewsPage() {
                   </FormItem> 
                 )}
               />
-              <Button className="" size={"lg"} variant="primary" type="submit">Enviar</Button>
+              <Button loading={loading} size={"lg"} variant="primary" type="submit">Enviar</Button>
             </form>
           </Form>
         </div>
