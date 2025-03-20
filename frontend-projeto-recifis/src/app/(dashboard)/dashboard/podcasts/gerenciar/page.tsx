@@ -36,7 +36,7 @@ export default function ManagerNewsPage() {
   const page = searchParams.get('page') || "1";
   const limit = 3;
 
-  const [allNews, setAllNews] = useState<INewsDataResponse[] | undefined>([]);
+  const [allNewsResponse, setAllNewsResponse] = useState<INewsDataResponse[] | undefined>([]);
   const [metaData, setMetaData] = useState<INewsMetaDataResponse | undefined>(undefined);
   const [open, setOpen] = useState<boolean>(false);
   const [newsToBeDeleted, setNewsToBeDeleted] = useState<{ id: string, image: string } | undefined>(undefined);
@@ -47,14 +47,14 @@ export default function ManagerNewsPage() {
     const newsResponse = response?.data?.news;
     const metaDataResponse = response?.data?.metaData;
     
-    setAllNews(newsResponse);
+    setAllNewsResponse(newsResponse);
 
     if(metaDataResponse !== undefined){
       setMetaData(metaDataResponse[0]);
     }
 
     if(response?.message === "No news were found"){
-      setAllNews([]);
+      setAllNewsResponse([]);
     }
 
     console.log(response);
@@ -74,12 +74,12 @@ export default function ManagerNewsPage() {
       const response = await NewsServices.deleteNew(newsToBeDeleted.id, newsToBeDeleted.image);
 
       if(response?.status !== 200){
-        toast.error("Não foi possível deletar a notícia, por favor, tente novamente mais tarde.");
+        toast.error("Não foi possível deletar a podcast, por favor, tente novamente mais tarde.");
         return;
       }
       setTimeout(() => {
         setLoading(false);  
-        toast.success("Notícia deletada com sucesso!");
+        toast.success("podcast deletada com sucesso!");
         setNewsToBeDeleted(undefined);
         setOpen(false);
         getAllNews();
@@ -97,36 +97,36 @@ export default function ManagerNewsPage() {
 
   return (
     <SidebarInset>
-    <DashboardHeader breadcrumbNameLink="Notícias" breadcrumbLink="/dashboard/noticias/gerenciar" breadcrumbPage="Gerenciar notícias" />
+    <DashboardHeader breadcrumbNameLink="podcasts" breadcrumbLink="/dashboard/noticias/gerenciar" breadcrumbPage="Gerenciar podcasts" />
     <div className="px-8">
-      <h1 className="text-2xl font-bold">Gerenciar notícias</h1>
-      <p className="text-gray-400">Aqui você pode gerenciar as notícias do projeto recifis. Editar, remover e visualizá-las.</p>
+      <h1 className="text-2xl font-bold">Gerenciar podcasts</h1>
+      <p className="text-gray-400">Aqui você pode gerenciar as podcasts do projeto recifis. Editar, remover e visualizá-las.</p>
     </div>
     <div className="p-8">
     <Separator className="mb-8" />
-    {!!allNews === false && (
+    {!!allNewsResponse === false && (
       <div className="flex flex-col justify-center items-center space-y-4">
         <Skeleton className="h-160 w-full" />
         <Skeleton className="text-center h-8 w-112" />
       </div>
     )}
-    {allNews !== undefined && (
+    {allNewsResponse !== undefined && (
         <Table>
-          {allNews?.length === 0 && (
-            <TableCaption className="py-12">Nenhuma notícia foi encontrada</TableCaption>
+          {allNewsResponse?.length === 0 && (
+            <TableCaption className="py-12">Nenhum podcast foi encontrado</TableCaption>
           )}
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">Ordem</TableHead>
-              <TableHead className="w-80">Título da notícia</TableHead>
-              <TableHead >Descrição da notícia</TableHead>
+              <TableHead className="w-80">Título do podcast</TableHead>
+              <TableHead >Descrição do podcast</TableHead>
               <TableHead className="w-80">Palestrantes</TableHead>
               <TableHead>Editar/Deletar</TableHead>
             </TableRow>
           </TableHeader>
           
           <TableBody>
-            {allNews?.length >= 0 && allNews?.map((news: INewsDataResponse, index: number) => (
+            {allNewsResponse?.length >= 0 && allNewsResponse?.map((news: INewsDataResponse, index: number) => (
               <TableRow key={index}>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{news.title}</TableCell>
@@ -165,7 +165,7 @@ export default function ManagerNewsPage() {
     <AlertDialog open={open} onOpenChange={setOpen} >
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Deseja excluir esta notícia?</AlertDialogTitle>
+          <AlertDialogTitle>Deseja excluir este podcast?</AlertDialogTitle>
           <AlertDialogDescription>
             Essa ação não poderá ser desfeita.
           </AlertDialogDescription>

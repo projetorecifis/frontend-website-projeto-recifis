@@ -46,7 +46,7 @@ export default function ManagerNewsPage() {
     const response = await NewsServices.getAllNews(page, limit);
     const newsResponse = response?.data?.news;
     const metaDataResponse = response?.data?.metaData;
-    
+
     setAllNews(newsResponse);
 
     if(metaDataResponse !== undefined){
@@ -74,12 +74,12 @@ export default function ManagerNewsPage() {
       const response = await NewsServices.deleteNew(newsToBeDeleted.id, newsToBeDeleted.image);
 
       if(response?.status !== 200){
-        toast.error("Não foi possível deletar a notícia, por favor, tente novamente mais tarde.");
+        toast.error("Não foi possível deletar a palestra, por favor, tente novamente mais tarde.");
         return;
       }
       setTimeout(() => {
         setLoading(false);  
-        toast.success("Notícia deletada com sucesso!");
+        toast.success("palestra deletada com sucesso!");
         setNewsToBeDeleted(undefined);
         setOpen(false);
         getAllNews();
@@ -92,15 +92,15 @@ export default function ManagerNewsPage() {
   }, [])
 
   useEffect(() => {
-    console.log(metaData);
-  }, [metaData])
+    console.log(allNews);
+  }, [allNews])
 
   return (
     <SidebarInset>
-    <DashboardHeader breadcrumbNameLink="Notícias" breadcrumbLink="/dashboard/noticias/gerenciar" breadcrumbPage="Gerenciar notícias" />
+    <DashboardHeader breadcrumbNameLink="Palestras" breadcrumbLink="/dashboard/palestras/gerenciar" breadcrumbPage="Gerenciar palestras" />
     <div className="px-8">
-      <h1 className="text-2xl font-bold">Gerenciar notícias</h1>
-      <p className="text-gray-400">Aqui você pode gerenciar as notícias do projeto recifis. Editar, remover e visualizá-las.</p>
+      <h1 className="text-2xl font-bold">Gerenciar palestras</h1>
+      <p className="text-gray-400">Aqui você pode gerenciar as palestras do projeto recifis. Editar, remover e visualizá-las.</p>
     </div>
     <div className="p-8">
     <Separator className="mb-8" />
@@ -113,13 +113,13 @@ export default function ManagerNewsPage() {
     {allNews !== undefined && (
         <Table>
           {allNews?.length === 0 && (
-            <TableCaption className="py-12">Nenhuma notícia foi encontrada</TableCaption>
+            <TableCaption className="py-12">Nenhuma palestra foi encontrada</TableCaption>
           )}
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">Ordem</TableHead>
-              <TableHead className="w-80">Título da notícia</TableHead>
-              <TableHead >Descrição da notícia</TableHead>
+              <TableHead className="w-80">Título da palestra</TableHead>
+              <TableHead >Descrição da palestra</TableHead>
               <TableHead className="w-80">Palestrantes</TableHead>
               <TableHead>Editar/Deletar</TableHead>
             </TableRow>
@@ -165,7 +165,7 @@ export default function ManagerNewsPage() {
     <AlertDialog open={open} onOpenChange={setOpen} >
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Deseja excluir esta notícia?</AlertDialogTitle>
+          <AlertDialogTitle>Deseja excluir esta palestra?</AlertDialogTitle>
           <AlertDialogDescription>
             Essa ação não poderá ser desfeita.
           </AlertDialogDescription>
