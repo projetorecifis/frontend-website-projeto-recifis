@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import ContentServices from '../services/content.services';
+import NewsServices from '../services/news.services';
 import { Middleware } from '../middleware/middleware';
 
-class ContentController{
+class NewsController{
     public async getAllNews(req:Request, res:Response) :Promise<any>{
         const { page = 1, limit = 15 } = req.query;
         
-        const response = await ContentServices.getAllNews(page, limit);
+        const response = await NewsServices.getAllNews(page, limit);
 
         // const middleware = new Middleware();
         // const verifyResponse = middleware.verify(response);
@@ -18,7 +18,7 @@ class ContentController{
         return res.json(response);
     }
     public async postNew(req:Request, res:Response) :Promise<any>{
-        const response = await ContentServices.postNew(req);
+        const response = await NewsServices.postNew(req);
 
         const middleware = new Middleware();
         const verifyResponse = middleware.verifyResponse(response);
@@ -28,7 +28,7 @@ class ContentController{
         return res.status(formatResponse.status).json(formatResponse);
     }
     public async updateNew(req:Request, res:Response) :Promise<any>{
-        const response = await ContentServices.updateNew(req);
+        const response = await NewsServices.updateNew(req);
 
         console.log(response)
 
@@ -41,7 +41,7 @@ class ContentController{
     }
 
     public async deleteNew(req:Request, res:Response) :Promise<any>{
-        const response = await ContentServices.deleteNew(req);
+        const response = await NewsServices.deleteNew(req);
 
         console.log(response)
 
@@ -55,4 +55,4 @@ class ContentController{
 
 }
 
-export default new ContentController()
+export default new NewsController()

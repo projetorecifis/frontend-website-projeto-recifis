@@ -1,6 +1,6 @@
 
 import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
-import { IUploadImageCloudinaryResponse } from '../services/interfaces/content.interface';
+import { IUploadImageCloudinaryResponse } from '../services/interfaces/news.interface';
 import { CloudinaryError } from '../helpers/api-errors';
 import crypto from "crypto";
 

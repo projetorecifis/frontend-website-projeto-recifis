@@ -6,3 +6,9 @@ export interface IGenericResponse{
 export interface IErrorType{
     errorType: "GENERIC-ERROR" | "FILE-NOT-FOUND" | "CLOUDINARY-ERROR" | "MONGODB-ERROR";
 }
+
+export interface IImage{
+    originalName: string;
+    path: string;
+    fileName: string;
+}

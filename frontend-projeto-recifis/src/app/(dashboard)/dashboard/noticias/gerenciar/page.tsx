@@ -36,7 +36,7 @@ export default function ManagerNewsPage() {
   const page = searchParams.get('page') || "1";
   const limit = 3;
 
-  const [allNews, setAllNews] = useState<INewsDataResponse[] | undefined>([]);
+  const [allNews, setAllNews] = useState<INewsDataResponse[] | undefined>();
   const [metaData, setMetaData] = useState<INewsMetaDataResponse | undefined>(undefined);
   const [open, setOpen] = useState<boolean>(false);
   const [newsToBeDeleted, setNewsToBeDeleted] = useState<{ id: string, image: string } | undefined>(undefined);
@@ -104,15 +104,9 @@ export default function ManagerNewsPage() {
     </div>
     <div className="p-8">
     <Separator className="mb-8" />
-    {!!allNews === false && (
-      <div className="flex flex-col justify-center items-center space-y-4">
-        <Skeleton className="h-160 w-full" />
-        <Skeleton className="text-center h-8 w-112" />
-      </div>
-    )}
-    {allNews !== undefined && (
+    
         <Table>
-          {allNews?.length === 0 && (
+          {allNews?.length === 0 || allNews === undefined && (
             <TableCaption className="py-12">Nenhuma notícia foi encontrada</TableCaption>
           )}
           <TableHeader>
@@ -124,35 +118,42 @@ export default function ManagerNewsPage() {
               <TableHead>Editar/Deletar</TableHead>
             </TableRow>
           </TableHeader>
-          
-          <TableBody>
-            {allNews?.length >= 0 && allNews?.map((news: INewsDataResponse, index: number) => (
-              <TableRow key={index}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{news.title}</TableCell>
-                <TableCell>{news.description.length > 120 ? news.description.substring(0,120) + "..." : news.description}</TableCell>
-                <TableCell>
-                  {JSON.parse(news.speakers).map((speaker: string, indexSpeaker: number) => (
-                    <ul>
-                      <li className="py-1" key={indexSpeaker}>{speaker}</li>
-                    </ul>
-                  ))}
-                </TableCell>
-                <TableCell >
-                  <div className="flex flex-row items-center">
-                    <a 
-                      href={"/dashboard/noticias/editar"+ "?id=" + news._id + "&title=" + news.title + "&description=" + news.description + "&speakers=" + news.speakers + "&image=" + news.image.path} 
-                      className="text-blue-500">
-                        Editar
-                    </a>
-                    <Button variant={"link"} onClick={() => triggerAlertDialog(news._id, news.image.path)} className="text-red-500">Deletar</Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+          {allNews !== undefined && (
+            <TableBody>
+                {allNews?.length >= 0 && allNews?.map((news: INewsDataResponse, index: number) => (
+                  <TableRow key={index}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{news.title}</TableCell>
+                    <TableCell>{news.description.length > 120 ? news.description.substring(0,120) + "..." : news.description}</TableCell>
+                    <TableCell>
+                      {JSON.parse(news.speakers).map((speaker: string, indexSpeaker: number) => (
+                        <ul>
+                          <li className="py-1" key={indexSpeaker}>{speaker}</li>
+                        </ul>
+                      ))}
+                    </TableCell>
+                    <TableCell >
+                      <div className="flex flex-row items-center">
+                        <a 
+                          href={"/dashboard/noticias/editar"+ "?id=" + news._id + "&title=" + news.title + "&description=" + news.description + "&speakers=" + news.speakers + "&image=" + news.image.path} 
+                          className="text-blue-500">
+                            Editar
+                        </a>
+                        <Button variant={"link"} onClick={() => triggerAlertDialog(news._id, news.image.path)} className="text-red-500">Deletar</Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            )}
       </Table>
-    )}
+  
+      {!!allNews === false && !!loading && (
+        <div className="flex flex-col justify-center items-center space-y-4">
+          <Skeleton className="h-160 w-full" />
+          <Skeleton className="text-center h-8 w-112" />
+        </div>
+      )}
       {metaData !== undefined && (
         <PaginationWithLinks 
           page={metaData.page}

@@ -29,6 +29,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { toast } from "sonner";
+import { set } from "react-hook-form";
 
 export default function ManagerNewsPage() {
 
@@ -104,17 +105,11 @@ export default function ManagerNewsPage() {
     </div>
     <div className="p-8">
     <Separator className="mb-8" />
-    {!!allNews === false && (
-      <div className="flex flex-col justify-center items-center space-y-4">
-        <Skeleton className="h-160 w-full" />
-        <Skeleton className="text-center h-8 w-112" />
-      </div>
-    )}
-    {allNews !== undefined && (
         <Table>
-          {allNews?.length === 0 && (
+          {allNews?.length === 0 || allNews === undefined && (
             <TableCaption className="py-12">Nenhuma palestra foi encontrada</TableCaption>
           )}
+           
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">Ordem</TableHead>
@@ -124,35 +119,41 @@ export default function ManagerNewsPage() {
               <TableHead>Editar/Deletar</TableHead>
             </TableRow>
           </TableHeader>
-          
-          <TableBody>
-            {allNews?.length >= 0 && allNews?.map((news: INewsDataResponse, index: number) => (
-              <TableRow key={index}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{news.title}</TableCell>
-                <TableCell>{news.description.length > 120 ? news.description.substring(0,120) + "..." : news.description}</TableCell>
-                <TableCell>
-                  {JSON.parse(news.speakers).map((speaker: string, indexSpeaker: number) => (
-                    <ul>
-                      <li className="py-1" key={indexSpeaker}>{speaker}</li>
-                    </ul>
-                  ))}
-                </TableCell>
-                <TableCell >
-                  <div className="flex flex-row items-center">
-                    <a 
-                      href={"/dashboard/noticias/editar"+ "?id=" + news._id + "&title=" + news.title + "&description=" + news.description + "&speakers=" + news.speakers + "&image=" + news.image.path} 
-                      className="text-blue-500">
-                        Editar
-                    </a>
-                    <Button variant={"link"} onClick={() => triggerAlertDialog(news._id, news.image.path)} className="text-red-500">Deletar</Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+          {allNews !== undefined && (
+            <TableBody>
+              {allNews?.length >= 0 && allNews?.map((news: INewsDataResponse, index: number) => (
+                <TableRow key={index}>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{news.title}</TableCell>
+                  <TableCell>{news.description.length > 120 ? news.description.substring(0,120) + "..." : news.description}</TableCell>
+                  <TableCell>
+                    {JSON.parse(news.speakers).map((speaker: string, indexSpeaker: number) => (
+                      <ul>
+                        <li className="py-1" key={indexSpeaker}>{speaker}</li>
+                      </ul>
+                    ))}
+                  </TableCell>
+                  <TableCell >
+                    <div className="flex flex-row items-center">
+                      <a 
+                        href={"/dashboard/noticias/editar"+ "?id=" + news._id + "&title=" + news.title + "&description=" + news.description + "&speakers=" + news.speakers + "&image=" + news.image.path} 
+                        className="text-blue-500">
+                          Editar
+                      </a>
+                      <Button variant={"link"} onClick={() => triggerAlertDialog(news._id, news.image.path)} className="text-red-500">Deletar</Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )}
       </Table>
-    )}
+      {!!allNews !== undefined && !!loading && (
+        <div className="flex flex-col justify-center items-center space-y-4 py-2">
+          <Skeleton className="h-160 w-full" />
+          <Skeleton className="text-center h-8 w-112" />
+        </div>
+      )}
       {metaData !== undefined && (
         <PaginationWithLinks 
           page={metaData.page}

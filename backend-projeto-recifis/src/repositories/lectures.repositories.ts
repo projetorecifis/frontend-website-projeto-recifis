@@ -1,12 +1,11 @@
 import { UploadApiResponse } from "cloudinary";
-import NewsModel from "../models/content.model";
-import ImageModel from "../models/image.moodel";
-import { IPostNewBodyRequest } from "../services/interfaces/content.interface";
+import LecturesModel from "../models/lectures.model";
+import { IPostLectureBodyRequest } from "../services/interfaces/lectures.interface";
 import { GenericError } from "../helpers/api-errors";
-class ContentRepositories{    
-    async getAllNews(skip: number, limit: number, page: number): Promise<any>{
+class LecturesRespositories{    
+    async getAllLectures(skip: number, limit: number, page: number): Promise<any>{
         try{
-            const response = await NewsModel.aggregate([
+            const response = await LecturesModel.aggregate([
                 {
                     $match: {}
                 },
@@ -45,8 +44,8 @@ class ContentRepositories{
         }
     }
 
-    async postNew(fileFromCloudinary: UploadApiResponse, body: IPostNewBodyRequest){
-        const report = new NewsModel({
+    async postLecture(fileFromCloudinary: UploadApiResponse, body: IPostLectureBodyRequest){
+        const report = new LecturesModel({
             title: body.title,
             description: body.description,
             createdAt: new Date().toISOString(),
@@ -93,10 +92,10 @@ class ContentRepositories{
     //     }
     // }
 
-    async updateNew(body: IPostNewBodyRequest, id: string, fileFromCloudinary?: UploadApiResponse){
+    async updateLecture(body: IPostLectureBodyRequest, id: string, fileFromCloudinary?: UploadApiResponse){
         try{
             if(fileFromCloudinary){
-                const response = await NewsModel.findOneAndUpdate({_id: id}, {
+                const response = await LecturesModel.findOneAndUpdate({_id: id}, {
                     title: body?.title,
                     description: body?.description,
                     speakers: body?.speakers,
@@ -113,7 +112,7 @@ class ContentRepositories{
                 });
                 return response;
             }
-            const response = await NewsModel.findOneAndUpdate({_id: id}, {
+            const response = await LecturesModel.findOneAndUpdate({_id: id}, {
                 title: body?.title,
                 description: body?.description,
                 speakers: body?.speakers,
@@ -127,10 +126,10 @@ class ContentRepositories{
         }
     }     
 
-    async deleteNew(id: string){
-        const response = await NewsModel.findOneAndDelete({_id: id});
+    async deleteLecture(id: string){
+        const response = await LecturesModel.findOneAndDelete({_id: id});
         return response;
     }
 }
 
-export default new ContentRepositories();
+export default new LecturesRespositories();

@@ -1,6 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
+import { IImage } from "../services/interfaces/general.interface";
 
-export interface INews extends Document {
+interface ILectures extends Document {
     title: string;
     description: string;
     speakers: string[];
@@ -8,13 +9,7 @@ export interface INews extends Document {
     image: IImage;
 }
 
-export interface IImage{
-    originalName: string;
-    path: string;
-    fileName: string;
-}
-
-const newsSchema = new Schema<INews>({
+const lectureSchema = new Schema<ILectures>({
     title:{
         type: String,
         required: true
@@ -70,6 +65,6 @@ const newsSchema = new Schema<INews>({
     }
 });
 
-const NewsModel = mongoose.model<INews>('News', newsSchema);
+const LecturesModel = mongoose.model<ILectures>('Lectures', lectureSchema);
 
-export default NewsModel;
+export default LecturesModel;

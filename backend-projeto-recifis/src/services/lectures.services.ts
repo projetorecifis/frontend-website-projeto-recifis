@@ -1,39 +1,38 @@
-import ContentRepositories from "../repositories/content.repositories";
-import { Request, Response } from 'express';
-import { IGetAllNewsResponse, IPostNewBodyRequest, IPostNewResponse } from "./interfaces/content.interface";
+import LecturesRespositories from "../repositories/lectures.repositories";
+import { Request } from 'express';
+import { IGetAllLecturesResponse, IPostLectureBodyRequest, IPostLectureResponse } from "./interfaces/lectures.interface";
 import QueryString from "qs";
-import NewsModel from "../models/content.model";
+import LecturesModel from "../models/lectures.model";
 import cloudinary from "../utils/cloudinary";
-import { FileNotFoundError, GenericError } from "../helpers/api-errors";
-import { error } from "console";
 import { IErrorType } from "./interfaces/general.interface";
-class ContentServices{    
-    async getAllNews(
+class LecturesServices{    
+    async getAllLectures(
         page: string | QueryString.ParsedQs | 1 | (string | QueryString.ParsedQs)[], 
         limit: string | QueryString.ParsedQs | (string | QueryString.ParsedQs)[] | 15) 
-        :Promise<IGetAllNewsResponse | IErrorType >
+        :Promise<IGetAllLecturesResponse | IErrorType >
     {
         try{
-           const countNews = await NewsModel.countDocuments();
-           if(countNews !== 0){
+           const countLectures = await LecturesModel.countDocuments();
+           
+           if(countLectures !== 0){
             let lastPage = 1;
-            lastPage = Math.ceil(countNews / Number(limit));
+            lastPage = Math.ceil(countLectures / Number(limit));
             const skip = (Number(page) - 1) * Number(limit);
 
-            const { data, metaData } = await ContentRepositories.getAllNews(skip, Number(limit), Number(page));
+            const { data, metaData } = await LecturesRespositories.getAllLectures(skip, Number(limit), Number(page));
 
             return {
                 status: 200,
-                message: "News were found",
+                message: "Lectures were found",
                 data: {
-                    news: data,
+                    lectures: data,
                     metaData: metaData
                 },
             }
            }
            return{
                 status: 400,
-                message: "No news were found",
+                message: "No lectures were found",
                 data:{
                     metaData: {
                         currentPage: 1,
@@ -49,16 +48,16 @@ class ContentServices{
         }
     }
     
-    async postNew(req: Request) : Promise<IPostNewResponse | IErrorType>{
+    async postLecture(req: Request) : Promise<IPostLectureResponse | IErrorType>{
         try{
             const file = req?.file;
-            const body: IPostNewBodyRequest = req.body;
+            const body: IPostLectureBodyRequest = req.body;
 
             if(file){
                 const cloudinaryResponse = await cloudinary.uploadImage(file);
                 
                 if(cloudinaryResponse?.status === 200 && cloudinaryResponse?.data){
-                    const response = await ContentRepositories.postNew(cloudinaryResponse?.data, body);
+                    const response = await LecturesRespositories.postLecture(cloudinaryResponse?.data, body);
                     
                     if(response instanceof Error){
                         return { errorType: 'MONGODB-ERROR' }
@@ -78,10 +77,10 @@ class ContentServices{
         }
     }
 
-    async updateNew(req: Request) :Promise<any>{
+    async updateLecture(req: Request) :Promise<any>{
         try{
             const file = req?.file;
-            const body: IPostNewBodyRequest = req.body;
+            const body: IPostLectureBodyRequest = req.body;
             const { id } = req.params;
 
             if(file){
@@ -91,7 +90,7 @@ class ContentServices{
 
                     await cloudinary.deleteImage(req?.body?.oldImage);
 
-                    const response = await ContentRepositories.updateNew(body, id, cloudinaryResponse?.data);
+                    const response = await LecturesRespositories.updateLecture(body, id, cloudinaryResponse?.data);
                     console.log(response)
 
                     if(response instanceof Error){
@@ -106,7 +105,7 @@ class ContentServices{
                 }
                 return{ errorType: 'CLOUDINARY-ERROR' }
             }
-            const response = await ContentRepositories.updateNew(body, id);
+            const response = await LecturesRespositories.updateLecture(body, id);
             if(response instanceof Error){
                 return { errorType: 'MONGODB-ERROR' }
             }
@@ -120,12 +119,12 @@ class ContentServices{
         }
     }
 
-    async deleteNew(req: Request){
+    async deleteLecture(req: Request){
         try{
             const { id } = req?.params;
             const { image } = req?.query;
 
-            const response = await ContentRepositories.deleteNew(id);
+            const response = await LecturesRespositories.deleteLecture(id);
             
             if(response instanceof Error){
                 return { errorType: 'MONGODB-ERROR' }
@@ -142,4 +141,4 @@ class ContentServices{
     }
 }
 
-export default new ContentServices();
+export default new LecturesServices();
