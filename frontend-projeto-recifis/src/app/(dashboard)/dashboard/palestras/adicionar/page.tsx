@@ -21,6 +21,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Plus, Trash } from "lucide-react";
 import NewsServices from "@/services/news.services";
 import { toast } from "sonner";
+import lecturesServices from "@/services/lectures.services";
 
 const MAX_SIZE = 1000000 //1mb
 
@@ -34,6 +35,7 @@ const formSchema = z.object({
   description: z.string().min(1, message).max(550, messageNomeDescription),
   mainSpeaker: z.string().min(4, message).max(50, messageNomeParticipante),
   listSpeakers: z.array(z.string().min(4, messageNomeParticipante).max(50, messageNomeParticipante)).nullable(),
+  link: z.string().min(1, message),
   image: z
     .instanceof(File, { message } )
     .refine(
@@ -57,7 +59,7 @@ const formSchema = z.object({
       { message: "Tipo de imagem inváligo, tente png, jpeg ou jpg." }),
 })
 
-export default function AddNewsPage() {
+export default function AddLecturesPage() {
 
   function CloudUploadIcon(props: any) {
     return (
@@ -89,18 +91,20 @@ export default function AddNewsPage() {
       description: "",
       mainSpeaker: "",
       listSpeakers: undefined,
+      link: "",
       image: undefined
     },
   })
 
-  const createNews = async (values: z.infer<typeof formSchema>) => {
+  const createLectures = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
 
-    const response = await NewsServices.createNews({
+    const response = await lecturesServices.createLectures({
       title: values.title,
       description: values.description,
       mainSpeaker: values.mainSpeaker,
       listSpeakers: values?.listSpeakers,
+      link: values?.link,
       image: values.image
     });
 
@@ -109,15 +113,17 @@ export default function AddNewsPage() {
     }, 1000);
 
     if(response?.status === 200){
-      toast.success('palestra criada com sucesso');
+      toast.success(response?.message);
       form.reset();
+      return
     }
+    toast.error('Erro ao criar palestra, por favor, tente novamente');
     console.log(response)
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("values =>", values);
-    createNews(values);
+    createLectures(values);
   }
   const speakersWatch = form.watch("listSpeakers") || undefined;
   const imageWatch = form.watch("image") || undefined;
@@ -165,6 +171,21 @@ export default function AddNewsPage() {
                       <FormMessage />
                     </div>
                   </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="link"
+                render={({ field }) => (
+                  <FormItem className="space-y-4">
+                    <div>
+                      <FormLabel>Link da palestra</FormLabel>
+                      <FormControl>
+                        <Input placeholder="" type="text" {...field}  />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem> 
                 )}
               />
               <FormField 

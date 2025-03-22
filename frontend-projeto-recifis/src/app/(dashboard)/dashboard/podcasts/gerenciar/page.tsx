@@ -11,9 +11,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import NewsServices from "@/services/news.services";
+import PodcastsServices from "@/services/podcasts.services";
 import { useEffect, useState } from "react";
-import { INewsDataResponse, INewsImage, INewsMetaDataResponse } from "@/services/interfaces/news.interface";
+import { IPodcastsDataResponse, IPodcastsImage, IPodcastsMetaDataResponse } from "@/services/interfaces/podcasts.interface";
 import { useSearchParams } from 'next/navigation'
 import { PaginationWithLinks } from "@/components/created/PaginationWithLinks";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -30,31 +30,31 @@ import {
 } from "@/components/ui/alert-dialog"
 import { toast } from "sonner";
 
-export default function ManagerNewsPage() {
+export default function ManagerPodcastsPage() {
 
   const searchParams = useSearchParams();
   const page = searchParams.get('page') || "1";
   const limit = 3;
 
-  const [allNewsResponse, setAllNewsResponse] = useState<INewsDataResponse[] | undefined>([]);
-  const [metaData, setMetaData] = useState<INewsMetaDataResponse | undefined>(undefined);
+  const [allPodcasts, setAllPodcasts] = useState<IPodcastsDataResponse[] | undefined>();
+  const [metaData, setMetaData] = useState<IPodcastsMetaDataResponse | undefined>(undefined);
   const [open, setOpen] = useState<boolean>(false);
-  const [newsToBeDeleted, setNewsToBeDeleted] = useState<{ id: string, image: string } | undefined>(undefined);
+  const [PodcastsToBeDeleted, setPodcastsToBeDeleted] = useState<{ id: string, imageId: string } | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const getAllNews = async() => {
-    const response = await NewsServices.getAllNews(page, limit);
-    const newsResponse = response?.data?.news;
+  const getAllPodcasts = async() => {
+    const response = await PodcastsServices.getAllPodcasts(page, limit);
+    const podcastsResponse = response?.data?.podcasts;
     const metaDataResponse = response?.data?.metaData;
     
-    setAllNewsResponse(newsResponse);
+    setAllPodcasts(podcastsResponse);
 
     if(metaDataResponse !== undefined){
       setMetaData(metaDataResponse[0]);
     }
 
-    if(response?.message === "No news were found"){
-      setAllNewsResponse([]);
+    if(response?.message === "No Podcasts were found"){
+      setAllPodcasts([]);
     }
 
     console.log(response);
@@ -63,32 +63,32 @@ export default function ManagerNewsPage() {
   }
 
 
-  const triggerAlertDialog = (id: string, image: string) => {
+  const triggerAlertDialog = (id: string, imageId: string) => {
     setOpen(true);
-    setNewsToBeDeleted({ id, image });
+    setPodcastsToBeDeleted({ id, imageId });
   }
 
-  const deleteNew = async () => {
-    if(newsToBeDeleted !== undefined){
+  const deletePodcast = async () => {
+    if(PodcastsToBeDeleted !== undefined){
       setLoading(true);
-      const response = await NewsServices.deleteNew(newsToBeDeleted.id, newsToBeDeleted.image);
+      const response = await PodcastsServices.deletePodcast(PodcastsToBeDeleted.id, PodcastsToBeDeleted.imageId);
 
       if(response?.status !== 200){
-        toast.error("Não foi possível deletar a podcast, por favor, tente novamente mais tarde.");
+        toast.error("Não foi possível deletar o podcast, por favor, tente novamente mais tarde.");
         return;
       }
       setTimeout(() => {
         setLoading(false);  
-        toast.success("podcast deletada com sucesso!");
-        setNewsToBeDeleted(undefined);
+        toast.success(response?.message);
+        setPodcastsToBeDeleted(undefined);
         setOpen(false);
-        getAllNews();
+        getAllPodcasts();
       }, 1000);
     }
   }
 
   useEffect(() => {
-    getAllNews();
+    getAllPodcasts();
   }, [])
 
   useEffect(() => {
@@ -97,62 +97,65 @@ export default function ManagerNewsPage() {
 
   return (
     <SidebarInset>
-    <DashboardHeader breadcrumbNameLink="podcasts" breadcrumbLink="/dashboard/noticias/gerenciar" breadcrumbPage="Gerenciar podcasts" />
+    <DashboardHeader breadcrumbNameLink="Podcasts" breadcrumbLink="/dashboard/podcast/gerenciar" breadcrumbPage="Gerenciar Podcasts" />
     <div className="px-8">
-      <h1 className="text-2xl font-bold">Gerenciar podcasts</h1>
-      <p className="text-gray-400">Aqui você pode gerenciar as podcasts do projeto recifis. Editar, remover e visualizá-las.</p>
+      <h1 className="text-2xl font-bold">Gerenciar Podcasts</h1>
+      <p className="text-gray-400">Aqui você pode gerenciar os podcasts do projeto recifis. Editar, remover e visualizá-las.</p>
     </div>
     <div className="p-8">
     <Separator className="mb-8" />
-    {!!allNewsResponse === false && (
-      <div className="flex flex-col justify-center items-center space-y-4">
-        <Skeleton className="h-160 w-full" />
-        <Skeleton className="text-center h-8 w-112" />
-      </div>
-    )}
-    {allNewsResponse !== undefined && (
+    
         <Table>
-          {allNewsResponse?.length === 0 && (
-            <TableCaption className="py-12">Nenhum podcast foi encontrado</TableCaption>
+          {allPodcasts?.length === 0 || allPodcasts === undefined && (
+            <TableCaption className="py-12">Nenhum podcast foi encontrada</TableCaption>
           )}
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Ordem</TableHead>
-              <TableHead className="w-80">Título do podcast</TableHead>
-              <TableHead >Descrição do podcast</TableHead>
-              <TableHead className="w-80">Palestrantes</TableHead>
+              <TableHead className="w-20">Ordem</TableHead>
+              <TableHead >Título do Podcast</TableHead>
+              <TableHead >Descrição do Podcast</TableHead>
+              <TableHead className="w-80">Link do Podcast</TableHead>
               <TableHead>Editar/Deletar</TableHead>
             </TableRow>
           </TableHeader>
-          
-          <TableBody>
-            {allNewsResponse?.length >= 0 && allNewsResponse?.map((news: INewsDataResponse, index: number) => (
-              <TableRow key={index}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{news.title}</TableCell>
-                <TableCell>{news.description.length > 120 ? news.description.substring(0,120) + "..." : news.description}</TableCell>
-                <TableCell>
-                  {JSON.parse(news.speakers).map((speaker: string, indexSpeaker: number) => (
-                    <ul>
-                      <li className="py-1" key={indexSpeaker}>{speaker}</li>
-                    </ul>
-                  ))}
-                </TableCell>
-                <TableCell >
-                  <div className="flex flex-row items-center">
-                    <a 
-                      href={"/dashboard/noticias/editar"+ "?id=" + news._id + "&title=" + news.title + "&description=" + news.description + "&speakers=" + news.speakers + "&image=" + news.image.path} 
-                      className="text-blue-500">
-                        Editar
-                    </a>
-                    <Button variant={"link"} onClick={() => triggerAlertDialog(news._id, news.image.path)} className="text-red-500">Deletar</Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+          {allPodcasts !== undefined  && !loading && (
+            <TableBody>
+                {allPodcasts?.length >= 0 && allPodcasts?.map((podcasts: IPodcastsDataResponse, index: number) => (
+                  <TableRow key={index}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{podcasts.title}</TableCell>
+                    <TableCell>{podcasts?.link?.length > 120 ? podcasts.link.substring(0,120) + "..." : podcasts.link}</TableCell>
+                    <TableCell>{podcasts.description.length > 120 ? podcasts.description.substring(0,120) + "..." : podcasts.description}</TableCell>
+                    <TableCell >
+                      <div className="flex flex-row items-center">
+                        <a 
+                          href={
+                            "/dashboard/podcasts/editar"+ 
+                            "?id=" + podcasts._id 
+                            + "&title=" + podcasts.title 
+                            + "&description=" + podcasts.description
+                            + "&link="+ podcasts.link
+                            + "&image=" + podcasts.image.path
+                            + "&publicId=" + podcasts.image.publicId
+                          } 
+                          className="text-blue-500">
+                            Editar
+                        </a>
+                        <Button variant={"link"} onClick={() => triggerAlertDialog(podcasts._id, podcasts.image.publicId)} className="text-red-500">Deletar</Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            )}
       </Table>
-    )}
+  
+      {!!allPodcasts !== undefined && !!loading && (
+        <div className="flex flex-col justify-center items-center space-y-4 py-2">
+          <Skeleton className="h-144 w-full" />
+          <Skeleton className="text-center h-8 w-112" />
+        </div>
+      )}
       {metaData !== undefined && (
         <PaginationWithLinks 
           page={metaData.page}
@@ -165,14 +168,14 @@ export default function ManagerNewsPage() {
     <AlertDialog open={open} onOpenChange={setOpen} >
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Deseja excluir este podcast?</AlertDialogTitle>
+          <AlertDialogTitle>Deseja excluir este Podcast?</AlertDialogTitle>
           <AlertDialogDescription>
             Essa ação não poderá ser desfeita.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => {setNewsToBeDeleted(undefined)}}>Voltar</AlertDialogCancel>
-          <AlertDialogAction onClick={deleteNew} className="bg-red-500">Excluir</AlertDialogAction>
+          <AlertDialogCancel onClick={() => {setPodcastsToBeDeleted(undefined)}}>Voltar</AlertDialogCancel>
+          <AlertDialogAction onClick={deletePodcast} className="bg-red-500">Excluir</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

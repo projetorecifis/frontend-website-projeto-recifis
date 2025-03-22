@@ -24,16 +24,14 @@ import { toast } from "sonner";
 
 const MAX_SIZE = 1000000 //1mb
 
-const messageNomeParticipante = "O nome do participante deve ter no mínimo 4 caracteres e no máximo 50 caracteres"
 const messageNomeNoticia = "O nome da notícia deve ter no máximo 250 caracteres"
-const messageNomeDescription = "A descrição da notícia deve ter no máximo 550 caracteres"
+const messageNomeSubtitle = "A descrição da notícia deve ter no máximo 550 caracteres"
 const message = "Campo obrigatório"
 
 const formSchema = z.object({
   title: z.string().min(1, message).max(250, messageNomeNoticia),
-  description: z.string().min(1, message).max(550, messageNomeDescription),
-  mainSpeaker: z.string().min(4, message).max(50, messageNomeParticipante),
-  listSpeakers: z.array(z.string().min(4, messageNomeParticipante).max(50, messageNomeParticipante)).nullable(),
+  subtitle: z.string().min(1, message).max(550, messageNomeSubtitle),
+  text: z.string().min(1, message),
   image: z
     .instanceof(File, { message } )
     .refine(
@@ -86,9 +84,8 @@ export default function AddNewsPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
-      description: "",
-      mainSpeaker: "",
-      listSpeakers: undefined,
+      subtitle: "",
+      text: "",
       image: undefined
     },
   })
@@ -98,9 +95,8 @@ export default function AddNewsPage() {
 
     const response = await NewsServices.createNews({
       title: values.title,
-      description: values.description,
-      mainSpeaker: values.mainSpeaker,
-      listSpeakers: values?.listSpeakers,
+      subtitle: values.subtitle,
+      text: values.text,
       image: values.image
     });
 
@@ -111,7 +107,9 @@ export default function AddNewsPage() {
     if(response?.status === 200){
       toast.success('Notícia criada com sucesso');
       form.reset();
+      return
     }
+    toast.error('Erro ao criar notícia, por favor, tente novamente');
     console.log(response)
   };
 
@@ -119,9 +117,8 @@ export default function AddNewsPage() {
     console.log("values =>", values);
     createNews(values);
   }
-  const speakersWatch = form.watch("listSpeakers") || undefined;
   const imageWatch = form.watch("image") || undefined;
-  const { fields, append, remove } = useFieldArray({ name: "listSpeakers" as never, control: form.control });
+  const { append, remove } = useFieldArray({ name: "listSpeakers" as never, control: form.control });
   const { errors } = form.formState;
 
   return (
@@ -154,11 +151,11 @@ export default function AddNewsPage() {
               />
               <FormField
                 control={form.control}
-                name="description"
+                name="subtitle"
                 render={({ field }) => (
                   <FormItem className="m-0">
                     <div>
-                      <FormLabel>Descrição da notícia</FormLabel>
+                      <FormLabel>Subtítulo da notícia</FormLabel>
                       <FormControl>
                         <Textarea placeholder="" {...field} />
                       </FormControl>
@@ -167,55 +164,21 @@ export default function AddNewsPage() {
                   </FormItem>
                 )}
               />
-              <FormField 
+              <FormField
                 control={form.control}
-                name={"mainSpeaker"}
+                name="text"
                 render={({ field }) => (
                   <FormItem className="m-0">
                     <div>
-                      <FormLabel>Nome dos palestrantes</FormLabel>
+                      <FormLabel>Texto da notícia</FormLabel>
                       <FormControl>
-                        <Input placeholder="Nome do primeiro palestrante" type="text" {...field} />
+                        <Textarea placeholder="" {...field} />
                       </FormControl>
                       <FormMessage />
                     </div>
                   </FormItem>
                 )}
-              
               />
-              {fields.map((field, index) => (
-                <FormField
-                  control={form.control}
-                  key={field.id}
-                  name={`listSpeakers.${index}`}
-                  render={({ field }) => (
-                    <div>
-                        <FormItem>
-                        <div>
-                          <FormControl>
-                            <Input placeholder={`Nome do palestrante ${index + 2}`} type="text" {...form.register(`listSpeakers.${index}`)} />
-                          </FormControl>
-                          <FormMessage />
-                        </div>
-                      </FormItem>
-                    </div>
-                  )}
-                />
-              ))}
-              <div className="flex gap-2">
-                <Button variant={"primary"} onClick={() => append(undefined)} type="button" className="my-2 flex text-center justify-center items-center space-x-2">
-                  <Plus className="size-4" />
-                  <p>Adicionar palestrante</p>
-                </Button>
-                <Button variant={"destructive"} onClick={() => {
-                  if(speakersWatch !== undefined) {
-                    remove(speakersWatch?.length-1)
-                  }
-                }} type="button" className="my-2 flex text-center justify-center items-center space-x-2">
-                  <Trash className="size-4" />
-                  <p>Remover palestrante</p>
-                </Button>
-              </div>
                 <div className="flex w-full gap-2">
                     <FormField
                     control={form.control}

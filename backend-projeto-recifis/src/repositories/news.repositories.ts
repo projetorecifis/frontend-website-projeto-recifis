@@ -48,9 +48,9 @@ class NewsRespositories{
     async postNew(fileFromCloudinary: UploadApiResponse, body: IPostNewBodyRequest){
         const report = new NewsModel({
             title: body.title,
-            description: body.description,
+            subtitle: body.subtitle,
+            text: body.text,
             createdAt: new Date().toISOString(),
-            speakers: body.speakers,
             image: {
                 originalName: fileFromCloudinary?.original_filename,
                 path: fileFromCloudinary?.secure_url,
@@ -69,37 +69,13 @@ class NewsRespositories{
     }
  
 
-    // async postImage(file: Express.Multer.File){
-    //     try{
-    //         const image = new ImageModel({
-    //             originalName: file?.originalname,
-    //             path: file?.path,
-    //             fileName: file?.filename,
-    //             createdAt: new Date().toISOString()
-    //         });
-
-    //         const response = await image.save();
-
-    //         return{
-    //             status: 200,
-    //             message: "Image was saved",
-    //             data: response
-    //         }   
-    //     }catch(error){
-    //         return{
-    //             status: 500,
-    //             message: "error"
-    //         }
-    //     }
-    // }
-
     async updateNew(body: IPostNewBodyRequest, id: string, fileFromCloudinary?: UploadApiResponse){
         try{
             if(fileFromCloudinary){
                 const response = await NewsModel.findOneAndUpdate({_id: id}, {
                     title: body?.title,
-                    description: body?.description,
-                    speakers: body?.speakers,
+                    subtitle: body?.subtitle,
+                    text: body?.text,
                     image: {
                         originalName: fileFromCloudinary?.original_filename,
                         path: fileFromCloudinary?.secure_url,
@@ -115,8 +91,8 @@ class NewsRespositories{
             }
             const response = await NewsModel.findOneAndUpdate({_id: id}, {
                 title: body?.title,
-                description: body?.description,
-                speakers: body?.speakers,
+                subtitle: body?.subtitle,
+                text: body?.text
             });
 
             return response

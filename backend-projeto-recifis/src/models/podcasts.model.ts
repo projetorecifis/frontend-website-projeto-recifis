@@ -1,28 +1,28 @@
 import mongoose, { Document, Schema } from "mongoose";
 import { IImage } from "../services/interfaces/general.interface";
 
-interface INews extends Document {
+interface IPodcasts extends Document {
     title: string;
-    subtitle: string;
-    text: string;
+    description: string;
+    link: string;
     createdAt: string;
     image: IImage;
 }
 
-const newsSchema = new Schema<INews>({
+const podcastsSchema = new Schema<IPodcasts>({
     title:{
         type: String,
         required: true
     },
-    subtitle:{
-        type: String,
-        required: true
-    },
-    text:{
+    description:{
         type: String,
         required: true
     },
     createdAt:{
+        type: String,
+        required: true
+    },
+    link:{
         type: String,
         required: true
     },
@@ -65,6 +65,6 @@ const newsSchema = new Schema<INews>({
     }
 });
 
-const NewsModel = mongoose.model<INews>('News', newsSchema);
+const PodcastsModel = mongoose.model<IPodcasts>('Podcasts', podcastsSchema);
 
-export default NewsModel;
+export default PodcastsModel;

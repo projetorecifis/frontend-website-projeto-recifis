@@ -13,18 +13,17 @@ export interface IImage{
 }
 export interface IPostNewBodyRequest{
     title: string;
-    description: string;
-    speakers: string;
+    subtitle: string;
+    text: string;
     image: IImage;
-    oldImage?: string;
 }
 
 export interface IGetAllNewsDataResponse{
     _id: string;
     title: string;
-    description: string;
+    subtitle: string;
+    text: string;
     createdAt: string;
-    speakers: string;
     image: IImage;
 };
 

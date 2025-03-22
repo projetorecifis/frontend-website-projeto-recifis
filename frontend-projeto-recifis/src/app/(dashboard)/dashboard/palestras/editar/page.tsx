@@ -19,7 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Plus, Trash } from "lucide-react";
-import NewsServices from "@/services/news.services";
+import LecturesServices from "@/services/lectures.services";
 import { useSearchParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -35,6 +35,7 @@ const formSchema = z.object({
   description: z.string().min(1, message).max(550, messageNomeDescription),
   mainSpeaker: z.string().min(4, message).max(50, messageNomeParticipante),
   listSpeakers: z.array(z.string().min(4, messageNomeParticipante).max(50, messageNomeParticipante)).nullable(),
+  link: z.string().min(1, message),
   image: z
     .instanceof(File, { message } )
     .refine(
@@ -80,11 +81,12 @@ function CloudUploadIcon(props: any) {
   )
 }
 
-export default function EditNewsPage() {
+export default function EditLecturesPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const getImageFromUrl = searchParams.get("image") || "";
+  const getPublicId = searchParams.get("publicId") || "";
 
   const speakers = searchParams.get("speakers");
   const listSpeakers =  speakers !== null ? JSON.parse(speakers) : [];
@@ -100,21 +102,23 @@ export default function EditNewsPage() {
       description: searchParams.get("description") || "",
       mainSpeaker: mainSpeaker,
       listSpeakers: listSpeakers,
+      link: searchParams.get("link") || "",
       image: undefined
     },
   })
 
 
-  const updateNews = async (values: z.infer<typeof formSchema>) => {
+  const updateLectures = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
-    const response = await NewsServices.updateNews({
+    const response = await LecturesServices.updateLectures({
       _id: searchParams.get("id") || "",
       title: values?.title,
       description: values?.description,
       mainSpeaker: values?.mainSpeaker,
       listSpeakers: values?.listSpeakers,
+      link: values?.link,
       image: values?.image ?? undefined,
-      oldImage: getImageFromUrl
+      publicId: getPublicId
     });
     
     setTimeout(() => {
@@ -123,14 +127,14 @@ export default function EditNewsPage() {
 
     if(response?.status === 200){
         toast.success('Palestra editada com sucesso');
-        router.push("/dashboard/noticias/gerenciar");
+        router.push("/dashboard/palestras/gerenciar");
         return;
     }
     toast.error('Aconteceu um erro ao criar a palestra, por favor, tente novamente mais tarde');
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    updateNews(values);
+    updateLectures(values);
   }
 
   const imageWatch = form.watch("image") || undefined;
@@ -140,7 +144,7 @@ export default function EditNewsPage() {
 
   return (
     <SidebarInset>
-      <DashboardHeader breadcrumbPage="Editar palestra" breadcrumbNameLink="Palestras" breadcrumbLink="/dashboard/noticias/gerenciar" />
+      <DashboardHeader breadcrumbPage="Editar palestra" breadcrumbNameLink="Palestras" breadcrumbLink="/dashboard/palestras/gerenciar" />
       <div className="px-8">
         <h1 className="text-2xl font-bold">Editar palestra</h1>
         <p className="text-gray-400">Nessa página você pode adicionar uma nova palestra</p>
@@ -180,6 +184,21 @@ export default function EditNewsPage() {
                   </FormItem>
                 )}
               />
+               <FormField
+                  control={form.control}
+                  name="link"
+                  render={({ field }) => (
+                    <FormItem className="space-y-4">
+                      <div>
+                        <FormLabel>Link da palestra</FormLabel>
+                        <FormControl>
+                          <Input placeholder="" type="text" {...field}  />
+                        </FormControl>
+                        <FormMessage />
+                      </div>
+                    </FormItem> 
+                  )}
+                />
               <FormField 
                 control={form.control}
                 name={"mainSpeaker"}

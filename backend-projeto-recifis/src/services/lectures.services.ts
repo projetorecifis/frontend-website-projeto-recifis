@@ -88,7 +88,7 @@ class LecturesServices{
 
                 if(cloudinaryResponse?.status === 200 && cloudinaryResponse?.data){
 
-                    await cloudinary.deleteImage(req?.body?.oldImage);
+                    await cloudinary.deleteImage(req?.body?.publicId as string);
 
                     const response = await LecturesRespositories.updateLecture(body, id, cloudinaryResponse?.data);
                     console.log(response)

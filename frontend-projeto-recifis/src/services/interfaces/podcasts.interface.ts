@@ -1,15 +1,13 @@
-export interface ILecturesRequest{
+export interface IPodcastsRequest{
     _id?: string,
     title: string,
     description: string,
-    listSpeakers: string[] | null,
-    mainSpeaker: string,
     link: string,
     image?: File
     publicId?: string
 }
 
-export interface ILecturesImage{
+export interface IPodcastsImage{
     originalName: string;
     path: string;
     size: number;
@@ -20,31 +18,30 @@ export interface ILecturesImage{
     createdAt: string;
 }
 
-export interface ILecturesDataResponse{
+export interface IPodcastsDataResponse{
     title: string,
     description: string,
-    speakers: string,
-    image: ILecturesImage,
+    image: IPodcastsImage,
     link: string,
     createdAt: string,
     _id: string
 }
 
-export interface ILecturesMetaDataResponse{
+export interface IPodcastsMetaDataResponse{
     totalPages: number,
     page: number,
     totalDocuments: number
 }
-export interface ILecturesResponse{
+export interface IPodcastsResponse{
     data: {
-        lectures: ILecturesDataResponse[],
-        metaData: ILecturesMetaDataResponse[]
+        podcasts: IPodcastsDataResponse[],
+        metaData: IPodcastsMetaDataResponse[]
     },
     message: string;
     status: number;
 }
 
-export interface ILecturesErrorResponse{
+export interface IPodcastsErrorResponse{
     status: number,
     message: string
 }

@@ -1,11 +1,10 @@
 export interface INewsRequest{
     _id?: string,
     title: string,
-    description: string,
-    listSpeakers: string[] | null,
-    mainSpeaker: string,
+    subtitle: string,
+    text: string,
     image?: File
-    oldImage?: string
+    publicId?: string
 }
 
 export interface INewsImage{
@@ -21,8 +20,8 @@ export interface INewsImage{
 
 export interface INewsDataResponse{
     title: string,
-    description: string,
-    speakers: string,
+    subtitle: string,
+    text: string,
     image: INewsImage,
     createdAt: string,
     _id: string

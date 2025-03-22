@@ -57,7 +57,7 @@ const data = {
       title: "Noticias",
       url: "#",
       icon: Newspaper,
-      isActive: true,
+      isActive: false,
       items: [
         {
           title: "Adicionar notícia",

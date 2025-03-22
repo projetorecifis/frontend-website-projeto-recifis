@@ -1,11 +1,11 @@
 import { UploadApiResponse } from "cloudinary";
-import LecturesModel from "../models/lectures.model";
-import { IPostLectureBodyRequest } from "../services/interfaces/lectures.interface";
+import PodcastsModel from "../models/podcasts.model";
+import { IPostPodcastBodyRequest } from "../services/interfaces/podcasts.interface";
 import { GenericError } from "../helpers/api-errors";
-class LecturesRespositories{    
-    async getAllLectures(skip: number, limit: number, page: number): Promise<any>{
+class PodcastsRespositories{    
+    async getAllPodcasts(skip: number, limit: number, page: number): Promise<any>{
         try{
-            const response = await LecturesModel.aggregate([
+            const response = await PodcastsModel.aggregate([
                 {
                     $match: {}
                 },
@@ -44,12 +44,11 @@ class LecturesRespositories{
         }
     }
 
-    async postLecture(fileFromCloudinary: UploadApiResponse, body: IPostLectureBodyRequest){
-        const report = new LecturesModel({
+    async postPodcast(fileFromCloudinary: UploadApiResponse, body: IPostPodcastBodyRequest){
+        const report = new PodcastsModel({
             title: body.title,
             description: body.description,
             createdAt: new Date().toISOString(),
-            speakers: body.speakers,
             link: body.link,
             image: {
                 originalName: fileFromCloudinary?.original_filename,
@@ -68,14 +67,12 @@ class LecturesRespositories{
         return response;
     }
  
-
-    async updateLecture(body: IPostLectureBodyRequest, id: string, fileFromCloudinary?: UploadApiResponse){
+    async updatePodcast(body: IPostPodcastBodyRequest, id: string, fileFromCloudinary?: UploadApiResponse){
         try{
             if(fileFromCloudinary){
-                const response = await LecturesModel.findOneAndUpdate({_id: id}, {
+                const response = await PodcastsModel.findOneAndUpdate({_id: id}, {
                     title: body?.title,
                     description: body?.description,
-                    speakers: body?.speakers,
                     link: body?.link,
                     image: {
                         originalName: fileFromCloudinary?.original_filename,
@@ -90,10 +87,9 @@ class LecturesRespositories{
                 });
                 return response;
             }
-            const response = await LecturesModel.findOneAndUpdate({_id: id}, {
+            const response = await PodcastsModel.findOneAndUpdate({_id: id}, {
                 title: body?.title,
                 description: body?.description,
-                speakers: body?.speakers,
                 link: body?.link,
             });
 
@@ -105,10 +101,10 @@ class LecturesRespositories{
         }
     }     
 
-    async deleteLecture(id: string){
-        const response = await LecturesModel.findOneAndDelete({_id: id});
+    async deletePodcast(id: string){
+        const response = await PodcastsModel.findOneAndDelete({_id: id});
         return response;
     }
 }
 
-export default new LecturesRespositories();
+export default new PodcastsRespositories();

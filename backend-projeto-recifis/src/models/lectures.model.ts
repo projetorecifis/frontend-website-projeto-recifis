@@ -5,6 +5,7 @@ interface ILectures extends Document {
     title: string;
     description: string;
     speakers: string[];
+    link: string;
     createdAt: string;
     image: IImage;
 }
@@ -21,6 +22,10 @@ const lectureSchema = new Schema<ILectures>({
     speakers:{
         type: [String],
         required: true
+    },
+    link:{
+        type: String,
+        required: false
     },
     createdAt:{
         type: String,

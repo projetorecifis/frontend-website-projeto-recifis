@@ -11,9 +11,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import NewsServices from "@/services/news.services";
+import LecturesServices from "@/services/lectures.services";
 import { useEffect, useState } from "react";
-import { INewsDataResponse, INewsImage, INewsMetaDataResponse } from "@/services/interfaces/news.interface";
+import { ILecturesDataResponse, ILecturesImage, ILecturesMetaDataResponse } from "@/services/interfaces/lectures.interface";
 import { useSearchParams } from 'next/navigation'
 import { PaginationWithLinks } from "@/components/created/PaginationWithLinks";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -29,33 +29,32 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { toast } from "sonner";
-import { set } from "react-hook-form";
 
-export default function ManagerNewsPage() {
+export default function ManagerLecturesPage() {
 
   const searchParams = useSearchParams();
   const page = searchParams.get('page') || "1";
   const limit = 3;
 
-  const [allNews, setAllNews] = useState<INewsDataResponse[] | undefined>([]);
-  const [metaData, setMetaData] = useState<INewsMetaDataResponse | undefined>(undefined);
+  const [allLectures, setAllLectures] = useState<ILecturesDataResponse[] | undefined>([]);
+  const [metaData, setMetaData] = useState<ILecturesMetaDataResponse | undefined>(undefined);
   const [open, setOpen] = useState<boolean>(false);
-  const [newsToBeDeleted, setNewsToBeDeleted] = useState<{ id: string, image: string } | undefined>(undefined);
+  const [LecturesToBeDeleted, setLecturesToBeDeleted] = useState<{ id: string, imageId: string } | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const getAllNews = async() => {
-    const response = await NewsServices.getAllNews(page, limit);
-    const newsResponse = response?.data?.news;
+  const getAllLectures = async() => {
+    const response = await LecturesServices.getAllLectures(page, limit);
+    const LecturesResponse = response?.data?.lectures;
     const metaDataResponse = response?.data?.metaData;
 
-    setAllNews(newsResponse);
+    setAllLectures(LecturesResponse);
 
     if(metaDataResponse !== undefined){
       setMetaData(metaDataResponse[0]);
     }
 
-    if(response?.message === "No news were found"){
-      setAllNews([]);
+    if(response?.message === "No Lectures were found"){
+      setAllLectures([]);
     }
 
     console.log(response);
@@ -64,15 +63,15 @@ export default function ManagerNewsPage() {
   }
 
 
-  const triggerAlertDialog = (id: string, image: string) => {
+  const triggerAlertDialog = (id: string, imageId: string) => {
     setOpen(true);
-    setNewsToBeDeleted({ id, image });
+    setLecturesToBeDeleted({ id, imageId });
   }
 
-  const deleteNew = async () => {
-    if(newsToBeDeleted !== undefined){
+  const deleteLecture = async () => {
+    if(LecturesToBeDeleted !== undefined){
       setLoading(true);
-      const response = await NewsServices.deleteNew(newsToBeDeleted.id, newsToBeDeleted.image);
+      const response = await LecturesServices.deleteLecture(LecturesToBeDeleted.id, LecturesToBeDeleted.imageId);
 
       if(response?.status !== 200){
         toast.error("Não foi possível deletar a palestra, por favor, tente novamente mais tarde.");
@@ -80,21 +79,21 @@ export default function ManagerNewsPage() {
       }
       setTimeout(() => {
         setLoading(false);  
-        toast.success("palestra deletada com sucesso!");
-        setNewsToBeDeleted(undefined);
+        toast.success(response?.message);
+        setLecturesToBeDeleted(undefined);
         setOpen(false);
-        getAllNews();
+        getAllLectures();
       }, 1000);
     }
   }
 
   useEffect(() => {
-    getAllNews();
+    getAllLectures();
   }, [])
 
   useEffect(() => {
-    console.log(allNews);
-  }, [allNews])
+    console.log(allLectures);
+  }, [allLectures])
 
   return (
     <SidebarInset>
@@ -106,28 +105,30 @@ export default function ManagerNewsPage() {
     <div className="p-8">
     <Separator className="mb-8" />
         <Table>
-          {allNews?.length === 0 || allNews === undefined && (
+          {allLectures?.length === 0 || allLectures === undefined && (
             <TableCaption className="py-12">Nenhuma palestra foi encontrada</TableCaption>
           )}
            
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">Ordem</TableHead>
-              <TableHead className="w-80">Título da palestra</TableHead>
-              <TableHead >Descrição da palestra</TableHead>
-              <TableHead className="w-80">Palestrantes</TableHead>
+              <TableHead >Título da palestra</TableHead>
+              <TableHead>Descrição da palestra</TableHead>
+              <TableHead>Link da palestra</TableHead>
+              <TableHead className="w-72">Palestrantes</TableHead>
               <TableHead>Editar/Deletar</TableHead>
             </TableRow>
           </TableHeader>
-          {allNews !== undefined && (
+          {allLectures !== undefined && !loading && (
             <TableBody>
-              {allNews?.length >= 0 && allNews?.map((news: INewsDataResponse, index: number) => (
+              {allLectures?.length >= 0 && allLectures?.map((lectures: ILecturesDataResponse, index: number) => (
                 <TableRow key={index}>
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell>{news.title}</TableCell>
-                  <TableCell>{news.description.length > 120 ? news.description.substring(0,120) + "..." : news.description}</TableCell>
+                  <TableCell>{lectures.title}</TableCell>
+                  <TableCell>{lectures.description.length > 120 ? lectures.description.substring(0,120) + "..." : lectures.description}</TableCell>
+                  <TableCell>{lectures.link.length > 120 ? lectures.link.substring(0,120) + "..." : lectures.link}</TableCell>
                   <TableCell>
-                    {JSON.parse(news.speakers).map((speaker: string, indexSpeaker: number) => (
+                    {JSON.parse(lectures.speakers).map((speaker: string, indexSpeaker: number) => (
                       <ul>
                         <li className="py-1" key={indexSpeaker}>{speaker}</li>
                       </ul>
@@ -136,11 +137,19 @@ export default function ManagerNewsPage() {
                   <TableCell >
                     <div className="flex flex-row items-center">
                       <a 
-                        href={"/dashboard/noticias/editar"+ "?id=" + news._id + "&title=" + news.title + "&description=" + news.description + "&speakers=" + news.speakers + "&image=" + news.image.path} 
+                        href={
+                          "/dashboard/palestras/editar"+ "?id=" + lectures._id 
+                          + "&title=" + lectures.title 
+                          + "&description=" + lectures.description 
+                          + "&link="+ lectures.link 
+                          + "&speakers=" + lectures.speakers 
+                          + "&image=" + lectures.image.path 
+                          + "&publicId=" + lectures.image.publicId
+                        }  
                         className="text-blue-500">
                           Editar
                       </a>
-                      <Button variant={"link"} onClick={() => triggerAlertDialog(news._id, news.image.path)} className="text-red-500">Deletar</Button>
+                      <Button variant={"link"} onClick={() => triggerAlertDialog(lectures._id, lectures.image.publicId)} className="text-red-500">Deletar</Button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -148,7 +157,7 @@ export default function ManagerNewsPage() {
             </TableBody>
           )}
       </Table>
-      {!!allNews !== undefined && !!loading && (
+      {!!allLectures !== undefined && !!loading && (
         <div className="flex flex-col justify-center items-center space-y-4 py-2">
           <Skeleton className="h-160 w-full" />
           <Skeleton className="text-center h-8 w-112" />
@@ -172,8 +181,8 @@ export default function ManagerNewsPage() {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => {setNewsToBeDeleted(undefined)}}>Voltar</AlertDialogCancel>
-          <AlertDialogAction onClick={deleteNew} className="bg-red-500">Excluir</AlertDialogAction>
+          <AlertDialogCancel onClick={() => {setLecturesToBeDeleted(undefined)}}>Voltar</AlertDialogCancel>
+          <AlertDialogAction onClick={deleteLecture} className="bg-red-500">Excluir</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -39,7 +39,7 @@ export default function ManagerNewsPage() {
   const [allNews, setAllNews] = useState<INewsDataResponse[] | undefined>();
   const [metaData, setMetaData] = useState<INewsMetaDataResponse | undefined>(undefined);
   const [open, setOpen] = useState<boolean>(false);
-  const [newsToBeDeleted, setNewsToBeDeleted] = useState<{ id: string, image: string } | undefined>(undefined);
+  const [newsToBeDeleted, setNewsToBeDeleted] = useState<{ id: string, imageId: string } | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
   const getAllNews = async() => {
@@ -63,15 +63,15 @@ export default function ManagerNewsPage() {
   }
 
 
-  const triggerAlertDialog = (id: string, image: string) => {
+  const triggerAlertDialog = (id: string, imageId: string) => {
     setOpen(true);
-    setNewsToBeDeleted({ id, image });
+    setNewsToBeDeleted({ id, imageId });
   }
 
   const deleteNew = async () => {
     if(newsToBeDeleted !== undefined){
       setLoading(true);
-      const response = await NewsServices.deleteNew(newsToBeDeleted.id, newsToBeDeleted.image);
+      const response = await NewsServices.deleteNew(newsToBeDeleted.id, newsToBeDeleted.imageId);
 
       if(response?.status !== 200){
         toast.error("Não foi possível deletar a notícia, por favor, tente novamente mais tarde.");
@@ -111,35 +111,34 @@ export default function ManagerNewsPage() {
           )}
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Ordem</TableHead>
-              <TableHead className="w-80">Título da notícia</TableHead>
-              <TableHead >Descrição da notícia</TableHead>
-              <TableHead className="w-80">Palestrantes</TableHead>
+              <TableHead className="w-20 text-center">Ordem</TableHead>
+              <TableHead className="w-60">Título da notícia</TableHead>
+              <TableHead>Subtítulo da notícia</TableHead>
+              <TableHead>Texto da notícia</TableHead>
               <TableHead>Editar/Deletar</TableHead>
             </TableRow>
           </TableHeader>
-          {allNews !== undefined && (
+          {allNews !== undefined  && !loading && (
             <TableBody>
                 {allNews?.length >= 0 && allNews?.map((news: INewsDataResponse, index: number) => (
                   <TableRow key={index}>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{news.title}</TableCell>
-                    <TableCell>{news.description.length > 120 ? news.description.substring(0,120) + "..." : news.description}</TableCell>
-                    <TableCell>
-                      {JSON.parse(news.speakers).map((speaker: string, indexSpeaker: number) => (
-                        <ul>
-                          <li className="py-1" key={indexSpeaker}>{speaker}</li>
-                        </ul>
-                      ))}
-                    </TableCell>
+                    <TableCell>{news.subtitle.length > 120 ? news.subtitle.substring(0,120) + "..." : news.subtitle}</TableCell>
+                    <TableCell>{news.text.length > 120 ? news.text.substring(0,190) + "..." : news.text}</TableCell>
                     <TableCell >
                       <div className="flex flex-row items-center">
                         <a 
-                          href={"/dashboard/noticias/editar"+ "?id=" + news._id + "&title=" + news.title + "&description=" + news.description + "&speakers=" + news.speakers + "&image=" + news.image.path} 
+                          href={"/dashboard/noticias/editar"+ "?id=" + news._id 
+                            + "&title=" + news.title + "&subtitle=" 
+                            + news.subtitle + "&text=" + news.text 
+                            + "&image=" + news.image.path
+                            + "&publicId=" + news.image.publicId
+                          } 
                           className="text-blue-500">
                             Editar
                         </a>
-                        <Button variant={"link"} onClick={() => triggerAlertDialog(news._id, news.image.path)} className="text-red-500">Deletar</Button>
+                        <Button variant={"link"} onClick={() => triggerAlertDialog(news._id, news.image.publicId)} className="text-red-500">Deletar</Button>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -148,8 +147,8 @@ export default function ManagerNewsPage() {
             )}
       </Table>
   
-      {!!allNews === false && !!loading && (
-        <div className="flex flex-col justify-center items-center space-y-4">
+      {!!allNews !== undefined && !!loading && (
+        <div className="flex flex-col justify-center items-center space-y-4 py-2">
           <Skeleton className="h-160 w-full" />
           <Skeleton className="text-center h-8 w-112" />
         </div>

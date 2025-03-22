@@ -19,22 +19,21 @@ import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Plus, Trash } from "lucide-react";
-import NewsServices from "@/services/news.services";
+import PodcastsServices from "@/services/podcasts.services";
 import { useSearchParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const MAX_SIZE = 1000000 //1mb
 
 const messageNomeParticipante = "O nome do participante deve ter no mínimo 4 caracteres e no máximo 50 caracteres"
-const messageNomeNoticia = "O nome da notícia deve ter no máximo 250 caracteres"
-const messageNomeDescription = "A descrição da notícia deve ter no máximo 550 caracteres"
+const messageNomeNoticia = "O nome do podcast deve ter no máximo 250 caracteres"
+const messageNomeDescription = "A descrição do podcast deve ter no máximo 550 caracteres"
 const message = "Campo obrigatório"
 
 const formSchema = z.object({
   title: z.string().min(1, message).max(250, messageNomeNoticia),
   description: z.string().min(1, message).max(550, messageNomeDescription),
-  mainSpeaker: z.string().min(4, message).max(50, messageNomeParticipante),
-  listSpeakers: z.array(z.string().min(4, messageNomeParticipante).max(50, messageNomeParticipante)).nullable(),
+  link: z.string().min(1, message),
   image: z
     .instanceof(File, { message } )
     .refine(
@@ -55,7 +54,7 @@ const formSchema = z.object({
           "image/jpg",
           "image/gif",
         ].includes(file.type),
-      { message: "Tipo de imagem inváligo, tente png, jpeg ou jpg." })
+      { message: "Tipo de imagem inválido, tente png, jpeg ou jpg." })
     .optional(),
 })
 
@@ -80,11 +79,12 @@ function CloudUploadIcon(props: any) {
   )
 }
 
-export default function EditNewsPage() {
+export default function EditPodcastsPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const getImageFromUrl = searchParams.get("image") || "";
+  const getPublicId = searchParams.get("publicId") || "";
 
   const speakers = searchParams.get("speakers");
   const listSpeakers =  speakers !== null ? JSON.parse(speakers) : [];
@@ -98,23 +98,21 @@ export default function EditNewsPage() {
     defaultValues: {
       title: searchParams.get("title") || "",
       description: searchParams.get("description") || "",
-      mainSpeaker: mainSpeaker,
-      listSpeakers: listSpeakers,
+      link: searchParams.get("link") || "",
       image: undefined
     },
   })
 
 
-  const updateNews = async (values: z.infer<typeof formSchema>) => {
+  const updatePodcasts = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
-    const response = await NewsServices.updateNews({
+    const response = await PodcastsServices.updatePodcasts({
       _id: searchParams.get("id") || "",
       title: values?.title,
       description: values?.description,
-      mainSpeaker: values?.mainSpeaker,
-      listSpeakers: values?.listSpeakers,
+      link: values?.link,
       image: values?.image ?? undefined,
-      oldImage: getImageFromUrl
+      publicId: getPublicId
     });
     
     setTimeout(() => {
@@ -122,28 +120,26 @@ export default function EditNewsPage() {
     }, 1000);
 
     if(response?.status === 200){
-        toast.success('Notícia editada com sucesso');
-        router.push("/dashboard/noticias/gerenciar");
+        toast.success('Podcast editada com sucesso');
+        router.push("/dashboard/podcasts/gerenciar");
         return;
     }
-    toast.error('Aconteceu um erro ao criar a notícia, por favor, tente novamente mais tarde');
+    toast.error('Aconteceu um erro ao criar o podcast, por favor, tente novamente mais tarde');
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    updateNews(values);
+    updatePodcasts(values);
   }
 
   const imageWatch = form.watch("image") || undefined;
-  const speakersWatch = form.watch("listSpeakers") || undefined;
-  const { fields, append, remove } = useFieldArray({ name: "listSpeakers" as never, control: form.control });
   const { errors } = form.formState;
 
   return (
     <SidebarInset>
-      <DashboardHeader breadcrumbPage="Editar Notícia" breadcrumbNameLink="Notícias" breadcrumbLink="/dashboard/noticias/gerenciar" />
+      <DashboardHeader breadcrumbPage="Editar Podcast" breadcrumbNameLink="Podcasts" breadcrumbLink="/dashboard/podcasts/gerenciar" />
       <div className="px-8">
-        <h1 className="text-2xl font-bold">Editar notícia</h1>
-        <p className="text-gray-400">Nessa página você pode adicionar uma nova notícia</p>
+        <h1 className="text-2xl font-bold">Editar Podcast</h1>
+        <p className="text-gray-400">Nessa página você pode adicionar um novo podcast</p>
       </div>
       <div className="p-8">
         <Separator className="mb-8" /> 
@@ -156,7 +152,7 @@ export default function EditNewsPage() {
                 render={({ field }) => (
                   <FormItem className="space-y-4">
                     <div>
-                      <FormLabel>Título da notícia</FormLabel>
+                      <FormLabel>Título do Podcast</FormLabel>
                       <FormControl>
                         <Input placeholder="" type="text" {...field}  />
                       </FormControl>
@@ -171,7 +167,7 @@ export default function EditNewsPage() {
                 render={({ field }) => (
                   <FormItem className="m-0">
                     <div>
-                      <FormLabel>Descrição da notícia</FormLabel>
+                      <FormLabel>Descrição do Podcast</FormLabel>
                       <FormControl>
                         <Textarea placeholder="" {...field} />
                       </FormControl>
@@ -180,55 +176,21 @@ export default function EditNewsPage() {
                   </FormItem>
                 )}
               />
-              <FormField 
+              <FormField
                 control={form.control}
-                name={"mainSpeaker"}
+                name="link"
                 render={({ field }) => (
-                  <FormItem className="m-0">
+                  <FormItem className="space-y-4">
                     <div>
-                      <FormLabel>Nome dos palestrantes</FormLabel>
+                      <FormLabel>Link do Podcast</FormLabel>
                       <FormControl>
-                        <Input placeholder="Nome do primeiro palestrante" type="text" {...field} />
+                        <Input placeholder="" type="text" {...field}  />
                       </FormControl>
                       <FormMessage />
                     </div>
-                  </FormItem>
+                  </FormItem> 
                 )}
-              
               />
-              {fields.map((field, index) => (
-                <FormField
-                  control={form.control}
-                  key={field.id}
-                  name={`listSpeakers.${index}`}
-                  render={({ field }) => (
-                    <div>
-                        <FormItem>
-                        <div>
-                          <FormControl>
-                            <Input placeholder={`Nome do palestrante ${index + 2}`} type="text" {...form.register(`listSpeakers.${index}`)} />
-                          </FormControl>
-                          <FormMessage />
-                        </div>
-                      </FormItem>
-                    </div>
-                  )}
-                />
-              ))}
-              <div className="flex gap-2">
-                <Button variant={"primary"} onClick={() => append(undefined)} type="button" className="my-2 flex text-center justify-center items-center space-x-2">
-                  <Plus className="size-4" />
-                  <p>Editar palestrante</p>
-                </Button>
-                <Button variant={"destructive"} onClick={() => {
-                  if(speakersWatch !== undefined) {
-                    remove(speakersWatch?.length-1)
-                  }
-                }} type="button" className="my-2 flex text-center justify-center items-center space-x-2">
-                  <Trash className="size-4" />
-                  <p>Remover palestrante</p>
-                </Button>
-              </div>
               <FormField
                 control={form.control}
                 name="image"
@@ -238,7 +200,7 @@ export default function EditNewsPage() {
                       <FormControl>
                         <Card>
                           <CardHeader>
-                            <CardTitle>Fazer o upload da imagem da notícia</CardTitle>
+                            <CardTitle>Fazer o upload da imagem do podcast</CardTitle>
                             <CardDescription>Arraste e solte a imagem ou clique no botão para adicioná-la</CardDescription>
                           </CardHeader>
                           <CardContent className={`${!!errors?.image ? " border-red-600 focus-visible:ring-red-600" : "border-zinc-200"} flex flex-col items-center justify-center border-2 border-dashed dark:border-zinc-800 rounded-lg p-10 space-y-6`}>
@@ -252,8 +214,8 @@ export default function EditNewsPage() {
                                 onChange(event.target.files && event.target.files[0])
                               }}
                             /> 
-                            {imageWatch && <img src={URL.createObjectURL(imageWatch)} alt="Imagem da notícia" className="w-200 h-80 object-cover rounded-lg" />}
-                            {!imageWatch && getImageFromUrl !== null && <img src={getImageFromUrl} alt="Imagem da notícia" className="w-200 h-80 object-cover rounded-lg" />}
+                            {imageWatch && <img src={URL.createObjectURL(imageWatch)} alt="Imagem do Podcast" className="w-200 h-80 object-cover rounded-lg" />}
+                            {!imageWatch && getImageFromUrl !== null && <img src={getImageFromUrl} alt="Imagem do Podcast" className="w-200 h-80 object-cover rounded-lg" />}
 
                           </CardContent>
                         </Card>

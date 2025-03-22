@@ -42,10 +42,8 @@ class Cloudinary{
         return match ? match[1] : undefined;
     };
 
-    async deleteImage(cloudinaryUrl: string) : Promise<IUploadImageCloudinaryResponse>{
-        const publicId = this.getPublicIdFromUrl(cloudinaryUrl);
-        console.log(publicId);
-
+    async deleteImage(publicId: string) : Promise<IUploadImageCloudinaryResponse>{
+        console.log(publicId)
         if(publicId){
             await cloudinary.uploader
                 .destroy(publicId)

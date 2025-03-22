@@ -10,5 +10,10 @@ export interface IErrorType{
 export interface IImage{
     originalName: string;
     path: string;
-    fileName: string;
+    size: number;
+    publicId: string;
+    assetId: string;
+    versionId: string;
+    signature: string;
+    createdAt: string;
 }
