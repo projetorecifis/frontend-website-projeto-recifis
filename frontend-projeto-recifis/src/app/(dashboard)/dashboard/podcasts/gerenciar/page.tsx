@@ -92,8 +92,9 @@ export default function ManagerPodcastsPage() {
   }, [])
 
   useEffect(() => {
-    console.log(metaData);
-  }, [metaData])
+    console.log(allPodcasts);
+    console.log(allPodcasts?.length)
+  }, [allPodcasts])
 
   return (
     <SidebarInset>
@@ -106,7 +107,7 @@ export default function ManagerPodcastsPage() {
     <Separator className="mb-8" />
     
         <Table>
-          {allPodcasts?.length === 0 || allPodcasts === undefined && (
+          {(allPodcasts?.length === 0 || allPodcasts == undefined) && (
             <TableCaption className="py-12">Nenhum podcast foi encontrada</TableCaption>
           )}
           <TableHeader>
@@ -120,7 +121,7 @@ export default function ManagerPodcastsPage() {
           </TableHeader>
           {allPodcasts !== undefined  && !loading && (
             <TableBody>
-                {allPodcasts?.length >= 0 && allPodcasts?.map((podcasts: IPodcastsDataResponse, index: number) => (
+                {allPodcasts?.length > 0 && allPodcasts?.map((podcasts: IPodcastsDataResponse, index: number) => (
                   <TableRow key={index}>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{podcasts.title}</TableCell>

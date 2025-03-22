@@ -99,14 +99,14 @@ export default function ManagerNewsPage() {
     <SidebarInset>
     <DashboardHeader breadcrumbNameLink="Notícias" breadcrumbLink="/dashboard/noticias/gerenciar" breadcrumbPage="Gerenciar notícias" />
     <div className="px-8">
-      <h1 className="text-2xl font-bold">Gerenciar notícias</h1>
+      <h1 className="text-2xl font-bold">Gerenciar Notícias</h1>
       <p className="text-gray-400">Aqui você pode gerenciar as notícias do projeto recifis. Editar, remover e visualizá-las.</p>
     </div>
     <div className="p-8">
     <Separator className="mb-8" />
     
         <Table>
-          {allNews?.length === 0 || allNews === undefined && (
+          {(allNews?.length === 0 || allNews === undefined) && (
             <TableCaption className="py-12">Nenhuma notícia foi encontrada</TableCaption>
           )}
           <TableHeader>

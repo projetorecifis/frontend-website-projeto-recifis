@@ -99,7 +99,7 @@ export default function ManagerLecturesPage() {
     <SidebarInset>
     <DashboardHeader breadcrumbNameLink="Palestras" breadcrumbLink="/dashboard/palestras/gerenciar" breadcrumbPage="Gerenciar palestras" />
     <div className="px-8">
-      <h1 className="text-2xl font-bold">Gerenciar palestras</h1>
+      <h1 className="text-2xl font-bold">Gerenciar Palestras</h1>
       <p className="text-gray-400">Aqui você pode gerenciar as palestras do projeto recifis. Editar, remover e visualizá-las.</p>
     </div>
     <div className="p-8">
