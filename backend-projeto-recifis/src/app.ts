@@ -28,7 +28,7 @@ class App{
         await connection.run().catch(console.dir);
     }
     private routes(): void{
-        this.app.use('/user', userRouter)
+        this.app.use('/users', userRouter)
         this.app.use('/news', newsRouter)
         this.app.use('/lectures', lecturesRouter)
         this.app.use('/podcasts', podcastsRouter)

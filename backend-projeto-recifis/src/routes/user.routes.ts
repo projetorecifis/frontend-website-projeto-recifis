@@ -4,8 +4,8 @@ import UserController from '../controllers/user.controller'
 
 const userRouter = Router()
 
-userRouter.get('/teste', UserController.getTeste)
-// userRouter.post('/signIn', usuarioController.signInUser)
+// userRouter.get('/teste', UserController.getTeste)
+userRouter.post('/signIn', UserController.signInUser)
 // userRouter.get('/auth/verify', verifyJWT, usuarioController.verifyAuth)
 
 export default userRouter
