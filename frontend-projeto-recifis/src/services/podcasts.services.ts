@@ -1,16 +1,17 @@
 import axios from 'axios';
 import { httpMultFormData, http } from './http/index';
-import { INewsRequest, INewsErrorResponse, INewsResponse } from './interfaces/news.interface';
+import { IPodcastsRequest, IPodcastsErrorResponse, IPodcastsResponse } from './interfaces/podcasts.interface';
 import  AxiosError from 'axios';
 import { htppErrorReturn } from '@/utils/htpp';
 import { metadata } from '@/app/layout';
 
-class NewsServices{
-    createFormData(request : INewsRequest){
+class PodcastsServices{
+    createFormData(request : IPodcastsRequest){
+        
         var formData = new FormData();
         formData.append("title", request.title);
-        formData.append("subtitle", request.subtitle);
-        formData.append("text", request.text);
+        formData.append("description", request.description);
+        formData.append("link", request.link);
         
         if(request?.image) formData.append("image", request.image); 
         if(request?.publicId) formData.append("publicId", request.publicId);
@@ -18,13 +19,13 @@ class NewsServices{
         return formData;
     }
 
-    async getAllNews(page: string, limit: number){
+    async getAllPodcasts(page: string, limit: number){
         try{
-            const response = await http.get<INewsResponse>(`${"http://localhost:3003"}/news/getAll?page=${Number(page)}&limit=${limit}`);
+            const response = await http.get<IPodcastsResponse>(`${"http://localhost:3003"}/podcasts/getAll?page=${Number(page)}&limit=${limit}`);
             console.log(response.data.data.metaData)
             return {
                 data: {
-                    news: response.data.data.news,
+                    podcasts: response.data.data.podcasts,
                     metaData: response.data.data.metaData,
                 },
                 message: response.data.message,
@@ -34,68 +35,68 @@ class NewsServices{
             if(error instanceof AxiosError){
                 return htppErrorReturn((await error).status, (await error).statusText, undefined);
             }
-            return htppErrorReturn(500, 'Não foi possível buscar as notícias', undefined);
+            return htppErrorReturn(500, 'Não foi possível buscar os podcasts', undefined);
         }
     }
-    async getNewsById(id: string){
-        const response = await http.get(`${"http://localhost:3003"}/news/get/${id}`);
+    async getPodcastsById(id: string){
+        const response = await http.get(`${"http://localhost:3003"}/podcasts/get/${id}`);
         return response;
     }
-    async createNews(request: INewsRequest): Promise<any>{
+    async createPodcasts(request: IPodcastsRequest): Promise<any>{
         try{
             const formData = this.createFormData(request);   
             
-            const response = await httpMultFormData.post(`${"http://localhost:3003"}/news/create`, formData);
+            const response = await httpMultFormData.post(`${"http://localhost:3003"}/podcasts/create`, formData);
             console.log(response)
             return {
                 data: response,
                 status: 200,
-                message: "Notícia criada com sucesso",
+                message: "Podcast criado com sucesso",
             }
         }catch(error: any){  
             console.log(error);
             return{
                 status: error?.status,
-                message: 'Não foi possível criar a notícia'
+                message: 'Não foi possível criar o podcast'
             }
         }
     }
-    async updateNews(request: INewsRequest): Promise<any>{
+    async updatePodcasts(request: IPodcastsRequest): Promise<any>{
         try{
             const formData = this.createFormData(request);
 
-            const response = await httpMultFormData.put(`${"http://localhost:3003"}/news/update/${request._id}`, formData);
+            const response = await httpMultFormData.put(`${"http://localhost:3003"}/podcasts/update/${request._id}`, formData);
             console.log(response)
             return {
                 data: request,
                 status: 200,
-                message: "Notícia criada com sucesso",
+                message: "Podcast criado com sucesso",
             }
         }catch(error: any){  
             console.log(error);
             return{
                 status: error?.status,
-                message: 'Não foi possível criar a notícia'
+                message: 'Não foi possível criar o podcast'
             }
         }
     }
 
-    async deleteNew(id: string, imageId: string){
+    async deletePodcast(id: string, imageId: string){
         try{
-            await http.delete(`${"http://localhost:3003"}/news/delete/${id}?image=${imageId}`);
+            await http.delete(`${"http://localhost:3003"}/podcasts/delete/${id}?image=${imageId}`);
             return {
                 status: 200,
-                message: "Notícia deletada com sucesso",
+                message: "Podcast deletado com sucesso",
             }
         }catch(error){
             if(error instanceof AxiosError){
                 return htppErrorReturn((await error).status, (await error).statusText, undefined);
             }
-            return htppErrorReturn(500, 'Não foi possível deletar a notícia', undefined);
+            return htppErrorReturn(500, 'Não foi possível deletar o podcast', undefined);
         }
     }
 
 
 }
 
-export default new NewsServices();
+export default new PodcastsServices();

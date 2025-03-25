@@ -1,16 +1,20 @@
 import axios from 'axios';
 import { httpMultFormData, http } from './http/index';
-import { INewsRequest, INewsErrorResponse, INewsResponse } from './interfaces/news.interface';
+import { ILecturesRequest, ILecturesErrorResponse, ILecturesResponse } from './interfaces/lectures.interface';
 import  AxiosError from 'axios';
 import { htppErrorReturn } from '@/utils/htpp';
 import { metadata } from '@/app/layout';
 
-class NewsServices{
-    createFormData(request : INewsRequest){
+class LecturesServices{
+    createFormData(request : ILecturesRequest){
+        const speakers = request.listSpeakers || [];
+        speakers.unshift(request.mainSpeaker);
+        
         var formData = new FormData();
         formData.append("title", request.title);
-        formData.append("subtitle", request.subtitle);
-        formData.append("text", request.text);
+        formData.append("description", request.description);
+        formData.append("speakers", JSON.stringify(speakers));
+        formData.append("link", request.link);
         
         if(request?.image) formData.append("image", request.image); 
         if(request?.publicId) formData.append("publicId", request.publicId);
@@ -18,13 +22,13 @@ class NewsServices{
         return formData;
     }
 
-    async getAllNews(page: string, limit: number){
+    async getAllLectures(page: string, limit: number){
         try{
-            const response = await http.get<INewsResponse>(`${"http://localhost:3003"}/news/getAll?page=${Number(page)}&limit=${limit}`);
+            const response = await http.get<ILecturesResponse>(`${"http://localhost:3003"}/lectures/getAll?page=${Number(page)}&limit=${limit}`);
             console.log(response.data.data.metaData)
             return {
                 data: {
-                    news: response.data.data.news,
+                    lectures: response.data.data.lectures,
                     metaData: response.data.data.metaData,
                 },
                 message: response.data.message,
@@ -34,68 +38,68 @@ class NewsServices{
             if(error instanceof AxiosError){
                 return htppErrorReturn((await error).status, (await error).statusText, undefined);
             }
-            return htppErrorReturn(500, 'Não foi possível buscar as notícias', undefined);
+            return htppErrorReturn(500, 'Não foi possível buscar as Palestras', undefined);
         }
     }
-    async getNewsById(id: string){
-        const response = await http.get(`${"http://localhost:3003"}/news/get/${id}`);
+    async getLecturesById(id: string){
+        const response = await http.get(`${"http://localhost:3003"}/lectures/get/${id}`);
         return response;
     }
-    async createNews(request: INewsRequest): Promise<any>{
+    async createLectures(request: ILecturesRequest): Promise<any>{
         try{
             const formData = this.createFormData(request);   
             
-            const response = await httpMultFormData.post(`${"http://localhost:3003"}/news/create`, formData);
+            const response = await httpMultFormData.post(`${"http://localhost:3003"}/lectures/create`, formData);
             console.log(response)
             return {
                 data: response,
                 status: 200,
-                message: "Notícia criada com sucesso",
+                message: "Palestra criada com sucesso",
             }
         }catch(error: any){  
             console.log(error);
             return{
                 status: error?.status,
-                message: 'Não foi possível criar a notícia'
+                message: 'Não foi possível criar a palestra'
             }
         }
     }
-    async updateNews(request: INewsRequest): Promise<any>{
+    async updateLectures(request: ILecturesRequest): Promise<any>{
         try{
             const formData = this.createFormData(request);
 
-            const response = await httpMultFormData.put(`${"http://localhost:3003"}/news/update/${request._id}`, formData);
+            const response = await httpMultFormData.put(`${"http://localhost:3003"}/lectures/update/${request._id}`, formData);
             console.log(response)
             return {
                 data: request,
                 status: 200,
-                message: "Notícia criada com sucesso",
+                message: "Palestra criada com sucesso",
             }
         }catch(error: any){  
             console.log(error);
             return{
                 status: error?.status,
-                message: 'Não foi possível criar a notícia'
+                message: 'Não foi possível criar a palestra'
             }
         }
     }
 
-    async deleteNew(id: string, imageId: string){
+    async deleteLecture(id: string, imageId: string){
         try{
-            await http.delete(`${"http://localhost:3003"}/news/delete/${id}?image=${imageId}`);
+            await http.delete(`${"http://localhost:3003"}/lectures/delete/${id}?image=${imageId}`);
             return {
                 status: 200,
-                message: "Notícia deletada com sucesso",
+                message: "Palestra deletada com sucesso",
             }
         }catch(error){
             if(error instanceof AxiosError){
                 return htppErrorReturn((await error).status, (await error).statusText, undefined);
             }
-            return htppErrorReturn(500, 'Não foi possível deletar a notícia', undefined);
+            return htppErrorReturn(500, 'Não foi possível deletar a palestra', undefined);
         }
     }
 
 
 }
 
-export default new NewsServices();
+export default new LecturesServices();

@@ -3,15 +3,15 @@
 import * as React from "react"
 import {
   AudioWaveform,
-  BookOpen,
   Bot,
   Command,
   Frame,
   GalleryVerticalEnd,
   Map,
   PieChart,
-  Settings2,
-  SquareTerminal,
+  Newspaper,
+  Mic,
+  NotebookPen
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -56,8 +56,8 @@ const data = {
     {
       title: "Noticias",
       url: "#",
-      icon: SquareTerminal,
-      isActive: true,
+      icon: Newspaper,
+      isActive: false,
       items: [
         {
           title: "Adicionar notícia",
@@ -72,42 +72,30 @@ const data = {
     {
       title: "Palestras",
       url: "#",
-      icon: Bot,
+      icon: NotebookPen,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: "Adicionar palestra",
+          url: "/dashboard/palestras/adicionar",
         },
         {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
+          title: "Gerenciar palestras",
+          url: "/dashboard/palestras/gerenciar",
         },
       ],
     },
     {
       title: "Podcasts",
       url: "#",
-      icon: BookOpen,
+      icon: Mic,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: "Adicionar podcast",
+          url: "/dashboard/podcasts/adicionar",
         },
         {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
+          title: "Gerenciar podcasts",
+          url: "/dashboard/podcasts/gerenciar",
         },
       ],
     },

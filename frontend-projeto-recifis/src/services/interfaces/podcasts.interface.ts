@@ -1,13 +1,13 @@
-export interface INewsRequest{
+export interface IPodcastsRequest{
     _id?: string,
     title: string,
-    subtitle: string,
-    text: string,
+    description: string,
+    link: string,
     image?: File
     publicId?: string
 }
 
-export interface INewsImage{
+export interface IPodcastsImage{
     originalName: string;
     path: string;
     size: number;
@@ -18,30 +18,30 @@ export interface INewsImage{
     createdAt: string;
 }
 
-export interface INewsDataResponse{
+export interface IPodcastsDataResponse{
     title: string,
-    subtitle: string,
-    text: string,
-    image: INewsImage,
+    description: string,
+    image: IPodcastsImage,
+    link: string,
     createdAt: string,
     _id: string
 }
 
-export interface INewsMetaDataResponse{
+export interface IPodcastsMetaDataResponse{
     totalPages: number,
     page: number,
     totalDocuments: number
 }
-export interface INewsResponse{
+export interface IPodcastsResponse{
     data: {
-        news: INewsDataResponse[],
-        metaData: INewsMetaDataResponse[]
+        podcasts: IPodcastsDataResponse[],
+        metaData: IPodcastsMetaDataResponse[]
     },
     message: string;
     status: number;
 }
 
-export interface INewsErrorResponse{
+export interface IPodcastsErrorResponse{
     status: number,
     message: string
 }

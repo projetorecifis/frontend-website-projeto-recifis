@@ -1,10 +1,7 @@
 "use client"
 import DashboardHeader from "@/components/dashboard-header";
 import { Separator } from "@/components/ui/separator";
-import {
-  SidebarInset,
-} from "@/components/ui/sidebar"
-
+import { SidebarInset } from "@/components/ui/sidebar"
 import {
   Table,
   TableBody,
@@ -21,7 +18,6 @@ import { useSearchParams } from 'next/navigation'
 import { PaginationWithLinks } from "@/components/created/PaginationWithLinks";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { useRouter } from 'next/navigation'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -31,118 +27,142 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { toast } from "sonner";
 
 export default function ManagerNewsPage() {
-  const router = useRouter()
 
   const searchParams = useSearchParams();
   const page = searchParams.get('page') || "1";
   const limit = 3;
 
-  const [allNewsResponse, setAllNewsResponse] = useState<INewsDataResponse[] | undefined>(undefined);
-  const [metadata, setMetadata] = useState<INewsMetaDataResponse | undefined>(undefined);
+  const [allNews, setAllNews] = useState<INewsDataResponse[] | undefined>();
+  const [metaData, setMetaData] = useState<INewsMetaDataResponse | undefined>(undefined);
   const [open, setOpen] = useState<boolean>(false);
+  const [newsToBeDeleted, setNewsToBeDeleted] = useState<{ id: string, imageId: string } | undefined>(undefined);
+  const [loading, setLoading] = useState<boolean>(false);
 
-    
   const getAllNews = async() => {
     const response = await NewsServices.getAllNews(page, limit);
+    const newsResponse = response?.data?.news;
+    const metaDataResponse = response?.data?.metaData;
+    
+    setAllNews(newsResponse);
 
-    if(response?.data !== undefined && response?.metaData !== undefined){
-      setAllNewsResponse(response?.data);
-      setMetadata(response?.metaData[0]);
-      // setStatus(response?.status);
+    if(metaDataResponse !== undefined){
+      setMetaData(metaDataResponse[0]);
     }
+
+    if(response?.message === "No news were found"){
+      setAllNews([]);
+    }
+
     console.log(response);
 
     return response;
   }
 
-  const goToEditPage = (image: INewsImage) => {
-    router.push("/dashboard/")
-    console.log(image)
-    // Store.setItemToLocalStorage("image");
+
+  const triggerAlertDialog = (id: string, imageId: string) => {
+    setOpen(true);
+    setNewsToBeDeleted({ id, imageId });
   }
 
-  const deleteNew = (id: string) => {
-    // router.push("/dashboard/")
-    setOpen(true);
-    console.log(id)
-    // Store.setItemToLocalStorage("image");
+  const deleteNew = async () => {
+    if(newsToBeDeleted !== undefined){
+      setLoading(true);
+      const response = await NewsServices.deleteNew(newsToBeDeleted.id, newsToBeDeleted.imageId);
+
+      if(response?.status !== 200){
+        toast.error("Não foi possível deletar a notícia, por favor, tente novamente mais tarde.");
+        return;
+      }
+      setTimeout(() => {
+        setLoading(false);  
+        toast.success("Notícia deletada com sucesso!");
+        setNewsToBeDeleted(undefined);
+        setOpen(false);
+        getAllNews();
+      }, 1000);
+    }
   }
 
   useEffect(() => {
     getAllNews();
   }, [])
 
+  useEffect(() => {
+    console.log(metaData);
+  }, [metaData])
+
   return (
     <SidebarInset>
     <DashboardHeader breadcrumbNameLink="Notícias" breadcrumbLink="/dashboard/noticias/gerenciar" breadcrumbPage="Gerenciar notícias" />
     <div className="px-8">
-      <h1 className="text-2xl font-bold">Gerenciar notícias</h1>
+      <h1 className="text-2xl font-bold">Gerenciar Notícias</h1>
       <p className="text-gray-400">Aqui você pode gerenciar as notícias do projeto recifis. Editar, remover e visualizá-las.</p>
     </div>
     <div className="p-8">
     <Separator className="mb-8" />
-    {!!allNewsResponse === false && (
-      <div className="flex flex-col justify-center items-center space-y-4">
-        <Skeleton className="h-160 w-full" />
-        <Skeleton className="text-center h-8 w-112" />
-      </div>
-    )}
-    {!!allNewsResponse && (
+    
         <Table>
-        {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Ordem</TableHead>
-            <TableHead className="w-80">Título da notícia</TableHead>
-            <TableHead >Descrição da notícia</TableHead>
-            <TableHead className="w-80">Palestrantes</TableHead>
-            <TableHead>Editar/Deletar</TableHead>
-          </TableRow>
-        </TableHeader>
-        
-        <TableBody>
-          {allNewsResponse?.length >= 0 && allNewsResponse?.map((news: INewsDataResponse, index: number) => (
-            <TableRow key={index}>
-              <TableCell>{index + 1}</TableCell>
-              <TableCell>{news.title}</TableCell>
-              <TableCell>{news.description.length > 120 ? news.description.substring(0,120) + "..." : news.description}</TableCell>
-              <TableCell>
-                {JSON.parse(news.speakers).map((speaker: string, indexSpeaker: number) => (
-                  <ul>
-                    <li className="py-1" key={indexSpeaker}>{speaker}</li>
-                  </ul>
-                ))}
-              </TableCell>
-              <TableCell >
-                <div className="flex flex-row items-center">
-                  <a 
-                    href={"/dashboard/noticias/editar/" + news._id + "?title=" + news.title + "&description=" + news.description + "&speakers=" + news.speakers} 
-                    className="text-blue-500">
-                      Editar
-                  </a>
-                  <Button variant={"link"} onClick={() => deleteNew(news._id)} className="text-red-500">Deletar</Button>
-                </div>
-              </TableCell>
+          {(allNews?.length === 0 || allNews === undefined) && (
+            <TableCaption className="py-12">Nenhuma notícia foi encontrada</TableCaption>
+          )}
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-20 text-center">Ordem</TableHead>
+              <TableHead className="w-60">Título da notícia</TableHead>
+              <TableHead>Subtítulo da notícia</TableHead>
+              <TableHead>Texto da notícia</TableHead>
+              <TableHead>Editar/Deletar</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
+          </TableHeader>
+          {allNews !== undefined  && !loading && (
+            <TableBody>
+                {allNews?.length >= 0 && allNews?.map((news: INewsDataResponse, index: number) => (
+                  <TableRow key={index}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{news.title}</TableCell>
+                    <TableCell>{news.subtitle.length > 120 ? news.subtitle.substring(0,120) + "..." : news.subtitle}</TableCell>
+                    <TableCell>{news.text.length > 120 ? news.text.substring(0,190) + "..." : news.text}</TableCell>
+                    <TableCell >
+                      <div className="flex flex-row items-center">
+                        <a 
+                          href={"/dashboard/noticias/editar"+ "?id=" + news._id 
+                            + "&title=" + news.title + "&subtitle=" 
+                            + news.subtitle + "&text=" + news.text 
+                            + "&image=" + news.image.path
+                            + "&publicId=" + news.image.publicId
+                          } 
+                          className="text-blue-500">
+                            Editar
+                        </a>
+                        <Button variant={"link"} onClick={() => triggerAlertDialog(news._id, news.image.publicId)} className="text-red-500">Deletar</Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            )}
       </Table>
-    )}
-      {metadata !== undefined && (
+  
+      {!!allNews !== undefined && !!loading && (
+        <div className="flex flex-col justify-center items-center space-y-4 py-2">
+          <Skeleton className="h-160 w-full" />
+          <Skeleton className="text-center h-8 w-112" />
+        </div>
+      )}
+      {metaData !== undefined && (
         <PaginationWithLinks 
-          page={metadata.page}
+          page={metaData.page}
           pageSize={limit}
-          totalCount={metadata.totalDocuments}
+          totalCount={metaData.totalDocuments}
         />
       )}
     </div>
 
     <AlertDialog open={open} onOpenChange={setOpen} >
-      {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Deseja excluir esta notícia?</AlertDialogTitle>
@@ -151,8 +171,8 @@ export default function ManagerNewsPage() {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Voltar</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-500">Excluir</AlertDialogAction>
+          <AlertDialogCancel onClick={() => {setNewsToBeDeleted(undefined)}}>Voltar</AlertDialogCancel>
+          <AlertDialogAction onClick={deleteNew} className="bg-red-500">Excluir</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

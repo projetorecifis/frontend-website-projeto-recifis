@@ -2,7 +2,6 @@
 import {
     SidebarGroup,
     SidebarGroupContent,
-    SidebarGroupLabel,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
@@ -10,11 +9,14 @@ import {
   
   // Menu items.
   
+  interface INavMenu{
+    items: { title: string; url: string; icon: React.ComponentType }[]
+  }
   
-  export function NavMenu({ items }: { items: { title: string; url: string; icon: React.ComponentType }[] }) {
+  export function NavMenu({ items }: INavMenu) {
     return (
           <SidebarGroup>
-            <SidebarGroupLabel>Application</SidebarGroupLabel>
+            {/* <SidebarGroupLabel>Application</SidebarGroupLabel> */}
             <SidebarGroupContent>
               <SidebarMenu>
                 {items.map((item) => (
