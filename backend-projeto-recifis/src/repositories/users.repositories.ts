@@ -12,6 +12,7 @@ export interface IUserResponse{
 class UsersRepositories{  
     async getUserByEmail(email: string): Promise<any>{
         const user = await UsersModel.findOne({email: email});
+        console.log(user)
         const userResponse = user ? {
             _id: user._id,
             isAdmin: user?.isAdmin,

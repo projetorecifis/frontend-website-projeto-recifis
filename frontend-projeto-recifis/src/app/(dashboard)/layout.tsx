@@ -14,7 +14,6 @@ export default async function Layout({ children }: { children: React.ReactNode }
             <AppSidebar />
             <main className="w-full">
                 {children}
-                <Toaster />
             </main>
         </SidebarProvider>
     )

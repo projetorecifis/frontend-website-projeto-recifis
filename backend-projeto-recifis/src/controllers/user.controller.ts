@@ -10,24 +10,28 @@ class UserController{
     // }
     public async signInUser(req:Request, res:Response) :Promise<any>{
         const body = req.body;
-        const response = await UserServices.signInUser(body)
+        const response = await UserServices.signInUser(body);
         
         const middleware = new Middleware();
         const verifyResponse = middleware.verifyResponse(response);
 
-        const formatResponse = middleware.formatResponse(verifyResponse)
+        const formatResponse = middleware.formatResponse(verifyResponse);
+
+        console.log(formatResponse);
 
         return res.status(formatResponse.status).json(formatResponse);
     }
 
     public async signUpUser(req:Request, res:Response) :Promise<any>{
         const body = req.body;
-        const response = await UserServices.signUpUser(body)
+        const response = await UserServices.signUpUser(body);
         
         const middleware = new Middleware();
         const verifyResponse = middleware.verifyResponse(response);
 
-        const formatResponse = middleware.formatResponse(verifyResponse)
+        const formatResponse = middleware.formatResponse(verifyResponse);
+
+        console.log(formatResponse);
 
         return res.status(formatResponse.status).json(formatResponse);
     }

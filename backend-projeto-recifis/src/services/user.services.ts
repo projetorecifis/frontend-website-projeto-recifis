@@ -5,29 +5,7 @@ import JWT from '../middleware/jwt'
 import UserRepositories from "../repositories/users.repositories";
 
 class UserServices{   
-    // public async getUserByEmail(email: string){
-    //     try{
-    //         if(email){
-    //             const response = await UserRepositories.getUserByEmail(email);
-    //             return {
-    //                 status: 200,
-    //                 message: "ok",
-    //                 data: response
-    //             }
-    //         }
-    //         return {
-    //             status: 400,
-    //             message: "Email not found"
-    //         }
-    //     }catch(error){
-    //         console.log(error);
-    //         return{
-    //             status: 500,
-    //             message: "Internal server error"
-    //         }
-    //     }
-    // }
-    
+
     public async signUpUser(body: any){
         try{
 
@@ -70,7 +48,6 @@ class UserServices{
            const user = {
             email: body?.email,
             password: body?.password,
-            name: body?.name,
            }
 
             const response = await UserRepositories.getUserByEmail(user.email);
@@ -85,6 +62,8 @@ class UserServices{
                 return { errorType: 'UNAUTHORIZED-ERROR' }
             }
 
+            console.log("response", response);
+
             return{
                 status: 200,
                 message: "User signed in successfully",
@@ -92,6 +71,7 @@ class UserServices{
                     _id: response._id,
                     email: response.email,
                     name: response.name,
+                    isAdmin: response.isAdmin,
                     token: JWT.generateToken(response),
                 },
             }
@@ -100,6 +80,29 @@ class UserServices{
             return { errorType: 'GENERIC-ERROR' }
         }
     }
+        // public async getUserByEmail(email: string){
+    //     try{
+    //         if(email){
+    //             const response = await UserRepositories.getUserByEmail(email);
+    //             return {
+    //                 status: 200,
+    //                 message: "ok",
+    //                 data: response
+    //             }
+    //         }
+    //         return {
+    //             status: 400,
+    //             message: "Email not found"
+    //         }
+    //     }catch(error){
+    //         console.log(error);
+    //         return{
+    //             status: 500,
+    //             message: "Internal server error"
+    //         }
+    //     }
+    // }
+    
  
 }
 

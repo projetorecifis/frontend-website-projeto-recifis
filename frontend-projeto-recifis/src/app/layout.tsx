@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Header } from "@/components/created/Header";
-import { Footer } from "@/components/created/Footer";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { headers } from "next/headers";
+import { Toaster } from "@/components/ui/sonner"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,6 +34,7 @@ export default function RootLayout({
         {/* <Header /> */}
         {children}
           <SpeedInsights />
+          <Toaster />
         {/* <Footer /> */}
       </body>
     </html>

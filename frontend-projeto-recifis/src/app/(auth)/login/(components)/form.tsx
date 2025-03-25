@@ -12,11 +12,17 @@ import { zodResolver } from "@hookform/resolvers/zod"
 
 import Image from "next/image";
 import logo from "../../../../../public/img/logo-recifis-fundo-branco.png";
+import AuthServices from "@/services/auth.services"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import { signIn } from "@/app/actions/auth"
 
 const message = "Campo obrigatório"
 const messageNomeNoticia = "O nome da notícia deve ter no máximo 250 caracteres"
 
 export function LoginForm() {
+    const router = useRouter()
+
     const formSchema = z.object({
       email: z.string().min(1, message).max(250, messageNomeNoticia),
       password: z.string().min(1, message),
@@ -30,21 +36,28 @@ export function LoginForm() {
         },
     })
 
-    const doLogin = (values: z.infer<typeof formSchema>) => {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        const response = await signIn(values);
+        console.log("response =>", response);
 
-    }
-
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log("values =>", values);
-        doLogin(values);
+        if(response?.status !== 200){
+          if(response?.status === 401){
+            form.setError("email", { message: response?.message });
+            form.setError("password", { message: response?.message });
+          }
+          toast.error(response.message);
+          return 
+        }
+  
+        toast.success(response.message);
     }
 
   return (
     <div className={cn("flex flex-col gap-6")} >
       <Card className="overflow-hidden">
-        <CardContent className="grid p-0 md:grid-cols-2">
+        <CardContent className="grid p-0 gap-8 md:grid-cols-2">
         <Form {...form}>
-          <form  onSubmit={form.handleSubmit(onSubmit)} className="p-6 md:p-8">
+          <form  onSubmit={form.handleSubmit(onSubmit)} className="p-6 md:p-10">
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Projeto RECIFIS</h1>
@@ -56,7 +69,7 @@ export function LoginForm() {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                    <FormItem className="space-y-4">               
+                    <FormItem className="space-y-8">               
                         <div className="grid gap-2">
                             <Label htmlFor="email">E-mail</Label>
                             <Input
@@ -113,10 +126,10 @@ export function LoginForm() {
           <div className="relative hidden bg-muted md:block">
             <Image
               src={logo}
-              width={420}
-              height={420}
+              width={500}
+              height={500}
               alt="Image"
-              className="mt-8 absolute inset-0 w-full object-cover"
+              className="absolute inset-0 w-full object-cover"
             />
           </div>
         </CardContent>
