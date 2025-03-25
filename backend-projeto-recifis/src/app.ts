@@ -1,6 +1,6 @@
 import Connection from './models/connection';
 import ExpressConfig from './config/express';
-import userRouter from './routes/user.routes';
+import userRouter from './routes/users.routes';
 import newsRouter from './routes/news.routes';
 import cloudinary from './config/cloudinary';
 import lecturesRouter from './routes/lectures.routes';

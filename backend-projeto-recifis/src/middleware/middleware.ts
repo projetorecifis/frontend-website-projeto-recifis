@@ -1,5 +1,5 @@
 import { failure, FailureOrSuccess, success } from "./failure-or-success";
-import { FileNotFoundError, GenericError, CloudinaryError, MongoDBError } from "../helpers/api-errors";
+import { FileNotFoundError, GenericError, CloudinaryError, MongoDBError, EmailAlreadyExistsError, UnauthorizedError } from "../helpers/api-errors";
 
 export interface IMiddleware<T> {
     formatResponse(response: any): any,
@@ -31,7 +31,9 @@ export class Middleware<T> implements IMiddleware<T>{
                 'GENERIC-ERROR': new GenericError(),
                 'FILE-NOT-FOUND': new FileNotFoundError(),
                 'CLOUDINARY-ERROR': new CloudinaryError(),
-                'MONGODB-ERROR': new MongoDBError()
+                'MONGODB-ERROR': new MongoDBError(),
+                'EMAIL-EXISTS': new EmailAlreadyExistsError(),
+                'UNAUTHORIZED-ERROR': new UnauthorizedError()
             };
             const errorTypeKey = data.errorType as keyof typeof error;
          
