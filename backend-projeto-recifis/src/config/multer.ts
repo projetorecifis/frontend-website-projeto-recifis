@@ -19,13 +19,13 @@ class UploadAvatar {
     //Methodo onde armazenaremos nossos arquivos
     private storage(): multer.StorageEngine {
         return multer.diskStorage({
-            destination: (req, file, cb) => {
-                const uploadPath = path.resolve(__dirname, '..', '..', this.URL);
-                if (!fs.existsSync(uploadPath)) {
-                    fs.mkdirSync(uploadPath, { recursive: true });
-                }
-                cb(null, uploadPath);
-            },
+            // destination: (req, file, cb) => {
+            //     const uploadPath = path.resolve(__dirname, '..', '..', this.URL);
+            //     if (!fs.existsSync(uploadPath)) {
+            //         fs.mkdirSync(uploadPath, { recursive: true });
+            //     }
+            //     cb(null, uploadPath);
+            // },
             filename: (req, file, cb) => {
                 const fileName = `${Date.now()}-${file.originalname}`;
                 cb(null, fileName);
