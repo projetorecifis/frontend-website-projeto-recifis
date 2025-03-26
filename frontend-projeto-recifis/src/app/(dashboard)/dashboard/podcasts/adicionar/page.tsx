@@ -4,7 +4,7 @@ import { SidebarInset } from "@/components/ui/sidebar"
 import { z } from "zod";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -18,13 +18,11 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Plus, Trash } from "lucide-react";
 import PodcastsServices from "@/services/podcasts.services";
 import { toast } from "sonner";
 
 const MAX_SIZE = 1000000 //1mb
 
-const messageNomeParticipante = "O nome do participante deve ter no mínimo 4 caracteres e no máximo 50 caracteres"
 const messageNomeNoticia = "O nome do podcast deve ter no máximo 250 caracteres"
 const messageNomeDescription = "A descrição do podcast deve ter no máximo 550 caracteres"
 const message = "Campo obrigatório"
@@ -58,7 +56,7 @@ const formSchema = z.object({
 
 export default function AddPodcastsPage() {
 
-  function CloudUploadIcon(props: any) {
+  function CloudUploadIcon({ ...props }) {
     return (
       <svg
         {...props}
@@ -118,7 +116,6 @@ export default function AddPodcastsPage() {
   }
  
   const imageWatch = form.watch("image") || undefined;
-  const { fields, append, remove } = useFieldArray({ name: "listSpeakers" as never, control: form.control });
   const { errors } = form.formState;
 
   return (
@@ -196,6 +193,7 @@ export default function AddPodcastsPage() {
                               <CardContent className={`${!!errors?.image ? " border-red-600 focus-visible:ring-red-600" : "border-zinc-200"} p-10 flex flex-col items-center justify-center border-2 border-dashed dark:border-zinc-800 rounded-lg space-y-6`}>
                                 <CloudUploadIcon className="w-16 h-16 text-zinc-500 dark:text-zinc-400" />
                                 <Input 
+                                  {...value}
                                   {...fieldProps}
                                   className="w-80 text-center"
                                   type="file"

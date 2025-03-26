@@ -4,7 +4,7 @@ import { getCookies } from "./utils/cookies";
 import { decrypt} from "./app/actions/auth";
 
 const protectedRoutes = ["/dashboard", "/dashboard/noticias/adicionar", "/dashboard/noticias"];
-const publicRoutes = ["/login", "/quem-somos", "/conteudos", "/noticias" , "/"];
+// const publicRoutes = ["/login", "/quem-somos", "/conteudos", "/noticias" , "/"];
 // const loginRoute = ["/login"];
 
 export default async function middleware(request: NextRequest) {

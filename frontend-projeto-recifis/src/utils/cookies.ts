@@ -6,7 +6,7 @@ export const getCookies = async(name: string) => {
     return await cookies().get(name)?.value;
 }
 
-export const setCookies = async(name: string, value: any) => {
+export const setCookies = async(name: string, value: string) => {
     return await cookies().set({
         name,
         value,

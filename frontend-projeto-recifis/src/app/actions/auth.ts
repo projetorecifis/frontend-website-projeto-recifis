@@ -1,6 +1,6 @@
 "use server"
 import { z } from "zod";
-import { deleteToken, SignInFormSchema } from "../lib/definitions";
+import { SignInFormSchema } from "../lib/definitions";
 import AuthServices from "@/services/auth.services";
 import { getCookies, setCookies } from "@/utils/cookies";
 import { jwtVerify } from 'jose'
@@ -62,7 +62,7 @@ export async function decrypt(session: string | undefined = '') {
         algorithms: ['HS256'],
       })
       return payload
-    } catch (error) {
-      console.log('Failed to verify session')
+    } catch{
+      console.log('Failed to verify session');
     }
   }

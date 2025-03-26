@@ -5,7 +5,7 @@ import { htppErrorReturn } from '@/utils/htpp';
 
 class NewsServices{
     createFormData(request : INewsRequest){
-        var formData = new FormData();
+        const formData = new FormData();
         formData.append("title", request.title);
         formData.append("subtitle", request.subtitle);
         formData.append("text", request.text);
@@ -39,7 +39,7 @@ class NewsServices{
         const response = await http.get(`${process.env.NEXT_PUBLIC_API_URL}/news/get/${id}`);
         return response;
     }
-    async createNews(request: INewsRequest): Promise<any>{
+    async createNews(request: INewsRequest){
         try{
             const formData = this.createFormData(request);   
             
@@ -50,15 +50,14 @@ class NewsServices{
                 status: 200,
                 message: "Notícia criada com sucesso",
             }
-        }catch(error: any){  
-            console.log(error);
-            return{
-                status: error?.status,
-                message: 'Não foi possível criar a notícia'
+        }catch(error){  
+            if(error instanceof AxiosError){
+                return htppErrorReturn((await error).status, (await error).statusText, undefined);
             }
+            return htppErrorReturn(500, 'Não foi possível criar a notícia', undefined);
         }
     }
-    async updateNews(request: INewsRequest): Promise<any>{
+    async updateNews(request: INewsRequest){
         try{
             const formData = this.createFormData(request);
 
@@ -69,12 +68,11 @@ class NewsServices{
                 status: 200,
                 message: "Notícia criada com sucesso",
             }
-        }catch(error: any){  
-            console.log(error);
-            return{
-                status: error?.status,
-                message: 'Não foi possível criar a notícia'
+        }catch(error){  
+            if(error instanceof AxiosError){
+                return htppErrorReturn((await error).status, (await error).statusText, undefined);
             }
+            return htppErrorReturn(500, 'Não foi possível atualizar a notícia', undefined);
         }
     }
 

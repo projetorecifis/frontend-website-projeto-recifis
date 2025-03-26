@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table"
 import LecturesServices from "@/services/lectures.services";
 import { useEffect, useState } from "react";
-import { ILecturesDataResponse, ILecturesImage, ILecturesMetaDataResponse } from "@/services/interfaces/lectures.interface";
+import { ILecturesDataResponse, ILecturesMetaDataResponse } from "@/services/interfaces/lectures.interface";
 import { useSearchParams } from 'next/navigation'
 import { PaginationWithLinks } from "@/components/created/PaginationWithLinks";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -129,7 +129,7 @@ export default function ManagerLecturesPage() {
                   <TableCell>{lectures.link.length > 120 ? lectures.link.substring(0,120) + "..." : lectures.link}</TableCell>
                   <TableCell>
                     {JSON.parse(lectures.speakers).map((speaker: string, indexSpeaker: number) => (
-                      <ul>
+                      <ul key={indexSpeaker}>
                         <li className="py-1" key={indexSpeaker}>{speaker}</li>
                       </ul>
                     ))}

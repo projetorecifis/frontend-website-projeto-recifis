@@ -9,7 +9,7 @@ class LecturesServices{
         const speakers = request.listSpeakers || [];
         speakers.unshift(request.mainSpeaker);
         
-        var formData = new FormData();
+        const formData = new FormData();
         formData.append("title", request.title);
         formData.append("description", request.description);
         formData.append("speakers", JSON.stringify(speakers));
@@ -44,7 +44,7 @@ class LecturesServices{
         const response = await http.get(`${process.env.NEXT_PUBLIC_API_URL}/lectures/get/${id}`);
         return response;
     }
-    async createLectures(request: ILecturesRequest): Promise<any>{
+    async createLectures(request: ILecturesRequest){
         try{
             const formData = this.createFormData(request);   
             
@@ -55,15 +55,14 @@ class LecturesServices{
                 status: 200,
                 message: "Palestra criada com sucesso",
             }
-        }catch(error: any){  
-            console.log(error);
-            return{
-                status: error?.status,
-                message: 'Não foi possível criar a palestra'
+        }catch(error){  
+            if(error instanceof AxiosError){
+                return htppErrorReturn((await error).status, (await error).statusText, undefined);
             }
+            return htppErrorReturn(500, 'Não foi possível criar a palestra', undefined);
         }
     }
-    async updateLectures(request: ILecturesRequest): Promise<any>{
+    async updateLectures(request: ILecturesRequest){
         try{
             const formData = this.createFormData(request);
 
@@ -74,12 +73,11 @@ class LecturesServices{
                 status: 200,
                 message: "Palestra criada com sucesso",
             }
-        }catch(error: any){  
-            console.log(error);
-            return{
-                status: error?.status,
-                message: 'Não foi possível criar a palestra'
+        }catch(error){  
+            if(error instanceof AxiosError){
+                return htppErrorReturn((await error).status, (await error).statusText, undefined);
             }
+            return htppErrorReturn(500, 'Não foi possível atualizar a palestra', undefined);
         }
     }
 

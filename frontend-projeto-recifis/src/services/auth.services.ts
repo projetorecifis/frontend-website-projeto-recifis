@@ -1,8 +1,9 @@
 // "use server"
 
-import { setCookies } from '@/utils/cookies';
+import { htppErrorReturn } from '@/utils/htpp';
 import { http } from './http/index';
 import { ILoginUserDataResponse, ILoginUserRequest, ILoginUserResponse } from './interfaces/user.interface';
+import AxiosError from 'axios';
 
 class AuthServices{
     async signInUser(user: ILoginUserRequest): Promise<ILoginUserResponse>{
@@ -22,18 +23,13 @@ class AuthServices{
                 status: 500,
                 message: "Não foi possível fazer o login, por favor, tente novamente."
             }
-        }catch(error: any){
-    
-            if(error?.status === 401){
-                return{
-                    status: 401,
-                    message: "E-mail ou senha inválidos."
+        }catch(error){
+            if(error instanceof AxiosError){
+                if((await error).status === 401){
+                    return htppErrorReturn(401, "E-mail ou senha inválidos.", undefined);
                 }
             }
-            return{
-                status: 500,
-                message: "Não foi possível fazer o login, por favor, tente novamente."
-            }
+            return htppErrorReturn(500, "Não foi possível fazer o login, por favor, tente novamente.", undefined);
         }
     }
 }

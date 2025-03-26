@@ -1,10 +1,9 @@
 import { Heading } from "@/components/created/Heading";
-import { Paragraph } from "@/components/created/Paragraph";
 import { Button } from "@/components/ui/button";
 import { tv } from "tailwind-variants";
 import Image from "next/image";
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Carousel,
   CarouselContent,
@@ -31,8 +30,7 @@ const homePageStyles = tv({
 })
 
 const {
-  sectionRecifisProject, imgRecifis, imgHug, imgTreeWords, imgPeopleSmiling, h1KnowMoreAboutOurProject, h1, divRecifisProject, sectionKnowMoreAboutOurProject,
-  h1Recifis, divKnowMoreAboutOurProject
+  sectionRecifisProject, h1, divRecifisProject
 } = homePageStyles()
 
 export default function Speechs() {
@@ -96,9 +94,7 @@ export default function Speechs() {
                     <CardTitle>7° Congresso Luso-Brasileiro de Auditores Fiscais - Dia 2 </CardTitle>
                     <p>Palestrantes: Nome dos palestrantes</p>
                     <CardDescription className="text-justify">
-                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                     Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                     when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                     Aqui você encontra palestras. Esse é um texto de teste, apenas para ver como vai ficar na página. É necessário trocar esse texto.
                     </CardDescription>
                 </div>
                 <div>

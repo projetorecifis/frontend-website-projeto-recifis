@@ -4,7 +4,7 @@ import { SidebarInset } from "@/components/ui/sidebar"
 import { z } from "zod";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -56,7 +56,7 @@ const formSchema = z.object({
     .optional(),
 })
 
-function CloudUploadIcon(props: any) {
+function CloudUploadIcon({...props}) {
   return (
     <svg
       {...props}
@@ -200,6 +200,7 @@ export default function EditNewsPage() {
                           <CardContent className={`${!!errors?.image ? " border-red-600 focus-visible:ring-red-600" : "border-zinc-200"} flex flex-col items-center justify-center border-2 border-dashed dark:border-zinc-800 rounded-lg p-10 space-y-6`}>
                             <CloudUploadIcon className="w-16 h-16 text-zinc-500 dark:text-zinc-400" />
                             <Input 
+                              {...value}
                               {...fieldProps}
                               className="w-80 text-center"
                               type="file"

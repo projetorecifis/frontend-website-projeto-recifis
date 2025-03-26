@@ -19,7 +19,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Plus, Trash } from "lucide-react";
-import NewsServices from "@/services/news.services";
 import { toast } from "sonner";
 import lecturesServices from "@/services/lectures.services";
 
@@ -61,7 +60,7 @@ const formSchema = z.object({
 
 export default function AddLecturesPage() {
 
-  function CloudUploadIcon(props: any) {
+  function CloudUploadIcon({ ...props}) {
     return (
       <svg
         {...props}
@@ -254,6 +253,7 @@ export default function AddLecturesPage() {
                               <CardContent className={`${!!errors?.image ? " border-red-600 focus-visible:ring-red-600" : "border-zinc-200"} p-10 flex flex-col items-center justify-center border-2 border-dashed dark:border-zinc-800 rounded-lg space-y-6`}>
                                 <CloudUploadIcon className="w-16 h-16 text-zinc-500 dark:text-zinc-400" />
                                 <Input 
+                                  {...value}
                                   {...fieldProps}
                                   className="w-80 text-center"
                                   type="file"

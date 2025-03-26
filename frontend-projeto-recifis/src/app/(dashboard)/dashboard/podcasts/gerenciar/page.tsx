@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table"
 import PodcastsServices from "@/services/podcasts.services";
 import { useEffect, useState } from "react";
-import { IPodcastsDataResponse, IPodcastsImage, IPodcastsMetaDataResponse } from "@/services/interfaces/podcasts.interface";
+import { IPodcastsDataResponse, IPodcastsMetaDataResponse } from "@/services/interfaces/podcasts.interface";
 import { useSearchParams } from 'next/navigation'
 import { PaginationWithLinks } from "@/components/created/PaginationWithLinks";
 import { Skeleton } from "@/components/ui/skeleton";

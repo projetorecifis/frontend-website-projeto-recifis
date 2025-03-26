@@ -32,7 +32,7 @@ export interface IPodcastsMetaDataResponse{
     page: number,
     totalDocuments: number
 }
-export interface IPodcastsResponse{
+export interface IPodcastsApiDataResponse{
     data: {
         podcasts: IPodcastsDataResponse[],
         metaData: IPodcastsMetaDataResponse[]
@@ -41,7 +41,14 @@ export interface IPodcastsResponse{
     status: number;
 }
 
-export interface IPodcastsErrorResponse{
+export interface IGetAllPodcastsResponse{
     status: number,
-    message: string
+    message: string,
+    data?: IPodcastsApiDataResponse["data"]
+}
+
+export interface ICreateOrUpdatePodcastsResponse{
+    status: number,
+    message: string,
+    data?: IPodcastsDataResponse
 }

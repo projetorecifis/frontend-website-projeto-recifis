@@ -1,14 +1,12 @@
-import axios from 'axios';
 import { httpMultFormData, http } from './http/index';
-import { IPodcastsRequest, IPodcastsErrorResponse, IPodcastsResponse } from './interfaces/podcasts.interface';
+import { IPodcastsRequest, IPodcastsDataResponse, IPodcastsApiDataResponse, IGetAllPodcastsResponse } from './interfaces/podcasts.interface';
 import  AxiosError from 'axios';
 import { htppErrorReturn } from '@/utils/htpp';
-import { metadata } from '@/app/layout';
 
 class PodcastsServices{
     createFormData(request : IPodcastsRequest){
         
-        var formData = new FormData();
+        const formData = new FormData();
         formData.append("title", request.title);
         formData.append("description", request.description);
         formData.append("link", request.link);
@@ -19,9 +17,9 @@ class PodcastsServices{
         return formData;
     }
 
-    async getAllPodcasts(page: string, limit: number){
+    async getAllPodcasts(page: string, limit: number): Promise<IGetAllPodcastsResponse>{
         try{
-            const response = await http.get<IPodcastsResponse>(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/getAll?page=${Number(page)}&limit=${limit}`);
+            const response = await http.get<IPodcastsApiDataResponse>(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/getAll?page=${Number(page)}&limit=${limit}`);
             console.log(response.data.data.metaData)
             return {
                 data: {
@@ -42,26 +40,25 @@ class PodcastsServices{
         const response = await http.get(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/get/${id}`);
         return response;
     }
-    async createPodcasts(request: IPodcastsRequest): Promise<any>{
+    async createPodcasts(request: IPodcastsRequest){
         try{
             const formData = this.createFormData(request);   
             
-            const response = await httpMultFormData.post(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/create`, formData);
+            const response = await httpMultFormData.post<IPodcastsDataResponse | undefined>(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/create`, formData);
             console.log(response)
             return {
                 data: response,
                 status: 200,
                 message: "Podcast criado com sucesso",
             }
-        }catch(error: any){  
-            console.log(error);
-            return{
-                status: error?.status,
-                message: 'Não foi possível criar o podcast'
+        }catch(error){  
+            if(error instanceof AxiosError){
+                return htppErrorReturn((await error).status, (await error).statusText, undefined);
             }
+            return htppErrorReturn(500, 'Não foi possível criar o podcast', undefined);
         }
     }
-    async updatePodcasts(request: IPodcastsRequest): Promise<any>{
+    async updatePodcasts(request: IPodcastsRequest){
         try{
             const formData = this.createFormData(request);
 
@@ -72,12 +69,11 @@ class PodcastsServices{
                 status: 200,
                 message: "Podcast criado com sucesso",
             }
-        }catch(error: any){  
-            console.log(error);
-            return{
-                status: error?.status,
-                message: 'Não foi possível criar o podcast'
+        }catch(error){  
+            if(error instanceof AxiosError){
+                return htppErrorReturn((await error).status, (await error).statusText, undefined);
             }
+            return htppErrorReturn(500, 'Não foi possível criar o podcast', undefined);
         }
     }
 
