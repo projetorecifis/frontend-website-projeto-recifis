@@ -18,7 +18,6 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Plus, Trash } from "lucide-react";
 import NewsServices from "@/services/news.services";
 import { toast } from "sonner";
 
@@ -118,7 +117,6 @@ export default function AddNewsPage() {
     createNews(values);
   }
   const imageWatch = form.watch("image") || undefined;
-  const { append, remove } = useFieldArray({ name: "listSpeakers" as never, control: form.control });
   const { errors } = form.formState;
 
   return (

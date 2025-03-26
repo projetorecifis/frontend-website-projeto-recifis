@@ -1,25 +1,11 @@
 import DashboardHeader from "@/components/dashboard-header";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
-
+import { SidebarInset } from "@/components/ui/sidebar"
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@radix-ui/react-avatar"
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -27,7 +13,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,

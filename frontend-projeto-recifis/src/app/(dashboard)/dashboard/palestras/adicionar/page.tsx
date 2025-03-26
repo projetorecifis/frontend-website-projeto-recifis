@@ -209,7 +209,7 @@ export default function AddLecturesPage() {
                   control={form.control}
                   key={field.id}
                   name={`listSpeakers.${index}`}
-                  render={({ field }) => (
+                  render={({  }) => (
                     <div>
                         <FormItem>
                         <div>

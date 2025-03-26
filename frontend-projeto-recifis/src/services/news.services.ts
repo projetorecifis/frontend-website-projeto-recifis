@@ -1,9 +1,7 @@
-import axios from 'axios';
 import { httpMultFormData, http } from './http/index';
-import { INewsRequest, INewsErrorResponse, INewsResponse } from './interfaces/news.interface';
+import { INewsRequest, INewsResponse } from './interfaces/news.interface';
 import  AxiosError from 'axios';
 import { htppErrorReturn } from '@/utils/htpp';
-import { metadata } from '@/app/layout';
 
 class NewsServices{
     createFormData(request : INewsRequest){

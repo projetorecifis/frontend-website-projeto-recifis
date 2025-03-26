@@ -26,7 +26,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { NavMenu } from "./ui/nav-menu"
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+import { Home } from "lucide-react"
 
 // This is sample data.
 const data = {

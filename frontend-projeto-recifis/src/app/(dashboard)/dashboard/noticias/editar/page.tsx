@@ -16,9 +16,8 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Plus, Trash } from "lucide-react";
 import NewsServices from "@/services/news.services";
 import { useSearchParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -127,7 +126,6 @@ export default function EditNewsPage() {
 
   const imageWatch = form.watch("image") || undefined;
   
-  const { append, remove } = useFieldArray({ name: "listSpeakers" as never, control: form.control });
   const { errors } = form.formState;
 
   return (

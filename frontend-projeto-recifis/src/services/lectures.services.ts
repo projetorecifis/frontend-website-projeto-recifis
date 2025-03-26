@@ -1,9 +1,8 @@
-import axios from 'axios';
+
 import { httpMultFormData, http } from './http/index';
-import { ILecturesRequest, ILecturesErrorResponse, ILecturesResponse } from './interfaces/lectures.interface';
+import { ILecturesRequest, ILecturesResponse } from './interfaces/lectures.interface';
 import  AxiosError from 'axios';
 import { htppErrorReturn } from '@/utils/htpp';
-import { metadata } from '@/app/layout';
 
 class LecturesServices{
     createFormData(request : ILecturesRequest){

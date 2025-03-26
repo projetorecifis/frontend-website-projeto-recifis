@@ -5,14 +5,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormField, FormItem } from "@/components/ui/form"
 import { z } from "zod";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import Image from "next/image";
 import logo from "../../../../../public/img/logo-recifis-fundo-branco.png";
-import AuthServices from "@/services/auth.services"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { signIn } from "@/app/actions/auth"
@@ -50,6 +49,7 @@ export function LoginForm() {
         }
   
         toast.success(response.message);
+        router.push("/dashboard");
     }
 
   return (

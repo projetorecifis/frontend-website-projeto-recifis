@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table"
 import NewsServices from "@/services/news.services";
 import { useEffect, useState } from "react";
-import { INewsDataResponse, INewsImage, INewsMetaDataResponse } from "@/services/interfaces/news.interface";
+import { INewsDataResponse, INewsMetaDataResponse } from "@/services/interfaces/news.interface";
 import { useSearchParams } from 'next/navigation'
 import { PaginationWithLinks } from "@/components/created/PaginationWithLinks";
 import { Skeleton } from "@/components/ui/skeleton";
