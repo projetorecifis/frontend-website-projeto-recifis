@@ -21,7 +21,7 @@ class PodcastsServices{
 
     async getAllPodcasts(page: string, limit: number){
         try{
-            const response = await http.get<IPodcastsResponse>(`${"http://localhost:3003"}/podcasts/getAll?page=${Number(page)}&limit=${limit}`);
+            const response = await http.get<IPodcastsResponse>(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/getAll?page=${Number(page)}&limit=${limit}`);
             console.log(response.data.data.metaData)
             return {
                 data: {
@@ -39,14 +39,14 @@ class PodcastsServices{
         }
     }
     async getPodcastsById(id: string){
-        const response = await http.get(`${"http://localhost:3003"}/podcasts/get/${id}`);
+        const response = await http.get(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/get/${id}`);
         return response;
     }
     async createPodcasts(request: IPodcastsRequest): Promise<any>{
         try{
             const formData = this.createFormData(request);   
             
-            const response = await httpMultFormData.post(`${"http://localhost:3003"}/podcasts/create`, formData);
+            const response = await httpMultFormData.post(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/create`, formData);
             console.log(response)
             return {
                 data: response,
@@ -65,7 +65,7 @@ class PodcastsServices{
         try{
             const formData = this.createFormData(request);
 
-            const response = await httpMultFormData.put(`${"http://localhost:3003"}/podcasts/update/${request._id}`, formData);
+            const response = await httpMultFormData.put(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/update/${request._id}`, formData);
             console.log(response)
             return {
                 data: request,
@@ -83,7 +83,7 @@ class PodcastsServices{
 
     async deletePodcast(id: string, imageId: string){
         try{
-            await http.delete(`${"http://localhost:3003"}/podcasts/delete/${id}?image=${imageId}`);
+            await http.delete(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/delete/${id}?image=${imageId}`);
             return {
                 status: 200,
                 message: "Podcast deletado com sucesso",

@@ -7,7 +7,7 @@ import { ILoginUserDataResponse, ILoginUserRequest, ILoginUserResponse } from '.
 class AuthServices{
     async signInUser(user: ILoginUserRequest): Promise<ILoginUserResponse>{
         try{
-            const { data } = await http.post<ILoginUserResponse>(`${"http://localhost:3003"}/users/signin`, user);
+            const { data } = await http.post<ILoginUserResponse>(`${process.env.NEXT_PUBLIC_API_URL}/users/signin`, user);
             const response = data?.data as ILoginUserDataResponse;
 
             if(data?.status === 200){
