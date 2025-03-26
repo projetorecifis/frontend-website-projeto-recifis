@@ -1,23 +1,23 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 interface IUsers extends Document {
-    _id: Schema.Types.ObjectId;
+    isAdmin: boolean,
     email: string;
-    username: string;
+    name: string;
     password: string;
     createdAt: string;
 }
 
 const userSchema = new Schema<IUsers>({
-    _id: {
-        type: Schema.Types.ObjectId,
-        auto: true
+    isAdmin:{
+        type: Boolean,
+        required: true
     },
     email:{
         type: String,
         required: true
     },
-    username:{
+    name:{
         type: String,
         required: true
     },

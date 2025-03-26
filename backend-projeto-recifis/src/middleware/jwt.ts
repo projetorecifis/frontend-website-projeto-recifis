@@ -5,11 +5,11 @@ class JWT{
 
     public generateToken(data: any){
         const token = jwt.sign({
-            username: data.username,
+            name: data.name,
             email: data.email,
             id: data._id
             },"JWT_KEY-SECRET-KEY-07022002",{
-            expiresIn: "2000000"
+            expiresIn: "1800000" // 30 minutos
         })
 
         return token

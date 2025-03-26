@@ -17,6 +17,13 @@ export class FileNotFoundError extends Error implements IError{
     status = 400;
 }
 
+export class EmailAlreadyExistsError extends Error implements IError{
+    constructor() {
+        super('Email already exists');
+    }
+    status = 400;
+}
+
 export class CloudinaryError extends Error implements IError{
     constructor() {
         super('An technical error has occured on Cloudinary');
@@ -29,6 +36,13 @@ export class MongoDBError extends Error implements IError{
         super('An technical error has occured on MongoDB');
     }
     status = 500;
+}
+
+export class UnauthorizedError extends Error implements IError{
+    constructor() {
+        super('Unauthorized error');
+    }
+    status = 401;
 }
 
 // export class BadRequestError extends Error implements IError {
