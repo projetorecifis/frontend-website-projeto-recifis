@@ -2,7 +2,9 @@
 import { httpMultFormData, http } from './http/index';
 import { ILecturesRequest, ILecturesResponse } from './interfaces/lectures.interface';
 import  AxiosError from 'axios';
-import { htppErrorReturn } from '@/utils/htpp';
+import { httpErrorReturn } from '@/utils/htpp';
+import axios from 'axios';
+import { AxiosErrorResponse } from './interfaces/axios.interface';
 
 class LecturesServices{
     createFormData(request : ILecturesRequest){
@@ -34,10 +36,7 @@ class LecturesServices{
                 status: response.data.status
             };
         }catch(error){
-            if(error instanceof AxiosError){
-                return htppErrorReturn((await error).status, (await error).statusText, undefined);
-            }
-            return htppErrorReturn(500, 'Não foi possível buscar as Palestras', undefined);
+            return httpErrorReturn(500, 'Não foi possível buscar as Palestras', undefined);
         }
     }
     async getLecturesById(id: string){
@@ -56,10 +55,7 @@ class LecturesServices{
                 message: "Palestra criada com sucesso",
             }
         }catch(error){  
-            if(error instanceof AxiosError){
-                return htppErrorReturn((await error).status, (await error).statusText, undefined);
-            }
-            return htppErrorReturn(500, 'Não foi possível criar a palestra', undefined);
+            return httpErrorReturn(500, 'Não foi possível criar a palestra', undefined);
         }
     }
     async updateLectures(request: ILecturesRequest){
@@ -74,10 +70,7 @@ class LecturesServices{
                 message: "Palestra criada com sucesso",
             }
         }catch(error){  
-            if(error instanceof AxiosError){
-                return htppErrorReturn((await error).status, (await error).statusText, undefined);
-            }
-            return htppErrorReturn(500, 'Não foi possível atualizar a palestra', undefined);
+            return httpErrorReturn(500, 'Não foi possível atualizar a palestra', undefined);
         }
     }
 
@@ -89,10 +82,7 @@ class LecturesServices{
                 message: "Palestra deletada com sucesso",
             }
         }catch(error){
-            if(error instanceof AxiosError){
-                return htppErrorReturn((await error).status, (await error).statusText, undefined);
-            }
-            return htppErrorReturn(500, 'Não foi possível deletar a palestra', undefined);
+            return httpErrorReturn(500, 'Não foi possível deletar a palestra', undefined);
         }
     }
 

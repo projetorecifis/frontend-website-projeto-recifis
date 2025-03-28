@@ -1,7 +1,7 @@
 import { httpMultFormData, http } from './http/index';
 import { IPodcastsRequest, IPodcastsDataResponse, IPodcastsApiDataResponse, IGetAllPodcastsResponse } from './interfaces/podcasts.interface';
 import  AxiosError from 'axios';
-import { htppErrorReturn } from '@/utils/htpp';
+import { httpErrorReturn } from '@/utils/htpp';
 
 class PodcastsServices{
     createFormData(request : IPodcastsRequest){
@@ -30,10 +30,7 @@ class PodcastsServices{
                 status: response.data.status
             };
         }catch(error){
-            if(error instanceof AxiosError){
-                return htppErrorReturn((await error).status, (await error).statusText, undefined);
-            }
-            return htppErrorReturn(500, 'Não foi possível buscar os podcasts', undefined);
+            return httpErrorReturn(500, 'Não foi possível buscar os podcasts', undefined);
         }
     }
     async getPodcastsById(id: string){
@@ -52,10 +49,7 @@ class PodcastsServices{
                 message: "Podcast criado com sucesso",
             }
         }catch(error){  
-            if(error instanceof AxiosError){
-                return htppErrorReturn((await error).status, (await error).statusText, undefined);
-            }
-            return htppErrorReturn(500, 'Não foi possível criar o podcast', undefined);
+            return httpErrorReturn(500, 'Não foi possível criar o podcast', undefined);
         }
     }
     async updatePodcasts(request: IPodcastsRequest){
@@ -70,10 +64,7 @@ class PodcastsServices{
                 message: "Podcast criado com sucesso",
             }
         }catch(error){  
-            if(error instanceof AxiosError){
-                return htppErrorReturn((await error).status, (await error).statusText, undefined);
-            }
-            return htppErrorReturn(500, 'Não foi possível criar o podcast', undefined);
+            return httpErrorReturn(500, 'Não foi possível criar o podcast', undefined);
         }
     }
 
@@ -85,10 +76,7 @@ class PodcastsServices{
                 message: "Podcast deletado com sucesso",
             }
         }catch(error){
-            if(error instanceof AxiosError){
-                return htppErrorReturn((await error).status, (await error).statusText, undefined);
-            }
-            return htppErrorReturn(500, 'Não foi possível deletar o podcast', undefined);
+            return httpErrorReturn(500, 'Não foi possível deletar o podcast', undefined);
         }
     }
 

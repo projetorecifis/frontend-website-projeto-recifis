@@ -15,12 +15,15 @@ import logo from "../../../../../public/img/logo-recifis-fundo-branco.png";
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { signIn } from "@/app/actions/auth"
+import { useState } from "react"
 
 const message = "Campo obrigatório"
 const messageNomeNoticia = "O nome da notícia deve ter no máximo 250 caracteres"
 
 export function LoginForm() {
     const router = useRouter()
+
+    const [loading, setLoading] = useState(false);
 
     const formSchema = z.object({
       email: z.string().min(1, message).max(250, messageNomeNoticia),
@@ -36,10 +39,12 @@ export function LoginForm() {
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
+        setLoading(true);
         const response = await signIn(values);
         console.log("response =>", response);
 
         if(response?.status !== 200){
+          setLoading(false);
           if(response?.status === 401){
             form.setError("email", { message: response?.message });
             form.setError("password", { message: response?.message });
@@ -47,9 +52,10 @@ export function LoginForm() {
           toast.error(response.message);
           return 
         }
-  
-        toast.success(response.message);
+        setLoading(false);
         router.push("/dashboard");
+        toast.success(response.message);
+        
     }
 
   return (
@@ -110,7 +116,7 @@ export function LoginForm() {
                     </FormItem> 
                 )}
             />
-              <Button variant={"primary"} type="submit" className="w-full">
+              <Button loading={loading} variant={"primary"} type="submit" className="w-full">
                 Enviar
               </Button>
      

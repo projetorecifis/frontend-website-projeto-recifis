@@ -1,4 +1,5 @@
 
+import { Heading } from "@/components/created/Heading";
 import Image from "next/image";
 import { tv } from "tailwind-variants";
 

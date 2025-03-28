@@ -1,7 +1,7 @@
 import { httpMultFormData, http } from './http/index';
 import { INewsRequest, INewsResponse } from './interfaces/news.interface';
 import  AxiosError from 'axios';
-import { htppErrorReturn } from '@/utils/htpp';
+import { httpErrorReturn } from '@/utils/htpp';
 
 class NewsServices{
     createFormData(request : INewsRequest){
@@ -29,10 +29,7 @@ class NewsServices{
                 status: response.data.status
             };
         }catch(error){
-            if(error instanceof AxiosError){
-                return htppErrorReturn((await error).status, (await error).statusText, undefined);
-            }
-            return htppErrorReturn(500, 'Não foi possível buscar as notícias', undefined);
+            return httpErrorReturn(500, 'Não foi possível buscar as notícias', undefined);
         }
     }
     async getNewsById(id: string){
@@ -51,10 +48,7 @@ class NewsServices{
                 message: "Notícia criada com sucesso",
             }
         }catch(error){  
-            if(error instanceof AxiosError){
-                return htppErrorReturn((await error).status, (await error).statusText, undefined);
-            }
-            return htppErrorReturn(500, 'Não foi possível criar a notícia', undefined);
+            return httpErrorReturn(500, 'Não foi possível criar a notícia', undefined);
         }
     }
     async updateNews(request: INewsRequest){
@@ -69,10 +63,7 @@ class NewsServices{
                 message: "Notícia criada com sucesso",
             }
         }catch(error){  
-            if(error instanceof AxiosError){
-                return htppErrorReturn((await error).status, (await error).statusText, undefined);
-            }
-            return htppErrorReturn(500, 'Não foi possível atualizar a notícia', undefined);
+            return httpErrorReturn(500, 'Não foi possível atualizar a notícia', undefined);
         }
     }
 
@@ -84,10 +75,7 @@ class NewsServices{
                 message: "Notícia deletada com sucesso",
             }
         }catch(error){
-            if(error instanceof AxiosError){
-                return htppErrorReturn((await error).status, (await error).statusText, undefined);
-            }
-            return htppErrorReturn(500, 'Não foi possível deletar a notícia', undefined);
+            return httpErrorReturn(500, 'Não foi possível deletar a notícia', undefined);
         }
     }
 

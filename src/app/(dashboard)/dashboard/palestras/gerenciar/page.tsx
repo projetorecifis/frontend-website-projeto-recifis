@@ -124,11 +124,11 @@ export default function ManagerLecturesPage() {
               {allLectures?.length >= 0 && allLectures?.map((lectures: ILecturesDataResponse, index: number) => (
                 <TableRow key={index}>
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell>{lectures.title}</TableCell>
-                  <TableCell>{lectures.description.length > 120 ? lectures.description.substring(0,120) + "..." : lectures.description}</TableCell>
-                  <TableCell>{lectures.link.length > 120 ? lectures.link.substring(0,120) + "..." : lectures.link}</TableCell>
+                  <TableCell>{lectures?.title}</TableCell>
+                  <TableCell>{lectures?.description?.length > 120 ? lectures.description.substring(0,120) + "..." : lectures?.description}</TableCell>
+                  <TableCell>{lectures?.link?.length > 120 ? lectures?.link?.substring(0,120) + "..." : lectures?.link}</TableCell>
                   <TableCell>
-                    {JSON.parse(lectures.speakers).map((speaker: string, indexSpeaker: number) => (
+                    {JSON.parse(lectures?.speakers).map((speaker: string, indexSpeaker: number) => (
                       <ul key={indexSpeaker}>
                         <li className="py-1" key={indexSpeaker}>{speaker}</li>
                       </ul>
@@ -139,12 +139,12 @@ export default function ManagerLecturesPage() {
                       <a 
                         href={
                           "/dashboard/palestras/editar"+ "?id=" + lectures._id 
-                          + "&title=" + lectures.title 
-                          + "&description=" + lectures.description 
-                          + "&link="+ lectures.link 
-                          + "&speakers=" + lectures.speakers 
-                          + "&image=" + lectures.image.path 
-                          + "&publicId=" + lectures.image.publicId
+                          + "&title=" + lectures?.title 
+                          + "&description=" + lectures?.description 
+                          + "&link="+ lectures?.link 
+                          + "&speakers=" + lectures?.speakers 
+                          + "&image=" + lectures?.image?.path 
+                          + "&publicId=" + lectures?.image?.publicId
                         }  
                         className="text-blue-500">
                           Editar

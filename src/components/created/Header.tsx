@@ -55,7 +55,8 @@ export function Header() {
       </div>
       <div className={secondDiv()}>
         <Link className={link()} href="/quem-somos">Quem somos</Link>
-        <p className=" h-8 w-1 "></p>
+        <Link className={link()} href="/nossa-jornada">História do projeto</Link>
+        {/* <p className=" h-8 w-1 "></p> */}
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
