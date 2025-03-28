@@ -1,9 +1,7 @@
 
 import { Heading } from "@/components/created/Heading";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChevronsLeft, ChevronsRight, Minus } from "lucide-react";
 import Image from "next/image";
-import { tv } from "tailwind-variants";
 
 const ourStory = {
     cards: [
@@ -92,10 +90,10 @@ export default function OurStoryPage() {
             </Heading>
             <section className="w-full flex  justify-center items-center ">
                 {ourStory?.cards.map((card, index) => (
-                        <div className="space-y-8 mt-8 mx-0 m-auto"> 
-                            <div key={index} className="p-8 space-y-32 mt-0 m-auto  ">     
+                        <div key={index} className="space-y-8 mt-8 mx-0 m-auto"> 
+                            <div  className="p-8 space-y-32 mt-0 m-auto  ">     
                                 {card.map((item, indexCard) => (     
-                                    <div className="flex flex-row-reverse">
+                                    <div key={indexCard} className="flex flex-row-reverse">
                                         {index % 2 === 0 && (
                                             <div className="h-8 mt-2 flex text-center justify-center items-center"> 
                                                 {/* <ChevronsRight className="text-black opacity-25 ml-2 w-10 h-10" />  */}

@@ -3,7 +3,7 @@
 import { httpErrorReturn } from '@/utils/htpp';
 import { http } from './http/index';
 import { ILoginUserDataResponse, ILoginUserRequest, ILoginUserResponse } from './interfaces/user.interface';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { AxiosErrorResponse } from './interfaces/axios.interface';
 
 class AuthServices{

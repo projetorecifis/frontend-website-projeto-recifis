@@ -1,6 +1,5 @@
 import { httpMultFormData, http } from './http/index';
 import { INewsRequest, INewsResponse } from './interfaces/news.interface';
-import  AxiosError from 'axios';
 import { httpErrorReturn } from '@/utils/htpp';
 
 class NewsServices{
@@ -28,7 +27,7 @@ class NewsServices{
                 message: response.data.message,
                 status: response.data.status
             };
-        }catch(error){
+        }catch{
             return httpErrorReturn(500, 'Não foi possível buscar as notícias', undefined);
         }
     }
@@ -47,7 +46,7 @@ class NewsServices{
                 status: 200,
                 message: "Notícia criada com sucesso",
             }
-        }catch(error){  
+        }catch{  
             return httpErrorReturn(500, 'Não foi possível criar a notícia', undefined);
         }
     }
@@ -62,7 +61,7 @@ class NewsServices{
                 status: 200,
                 message: "Notícia criada com sucesso",
             }
-        }catch(error){  
+        }catch{  
             return httpErrorReturn(500, 'Não foi possível atualizar a notícia', undefined);
         }
     }
@@ -74,7 +73,7 @@ class NewsServices{
                 status: 200,
                 message: "Notícia deletada com sucesso",
             }
-        }catch(error){
+        }catch{
             return httpErrorReturn(500, 'Não foi possível deletar a notícia', undefined);
         }
     }

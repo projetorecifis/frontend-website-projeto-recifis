@@ -1,6 +1,5 @@
 import { httpMultFormData, http } from './http/index';
 import { IPodcastsRequest, IPodcastsDataResponse, IPodcastsApiDataResponse, IGetAllPodcastsResponse } from './interfaces/podcasts.interface';
-import  AxiosError from 'axios';
 import { httpErrorReturn } from '@/utils/htpp';
 
 class PodcastsServices{
@@ -29,7 +28,7 @@ class PodcastsServices{
                 message: response.data.message,
                 status: response.data.status
             };
-        }catch(error){
+        }catch{
             return httpErrorReturn(500, 'Não foi possível buscar os podcasts', undefined);
         }
     }
@@ -48,7 +47,7 @@ class PodcastsServices{
                 status: 200,
                 message: "Podcast criado com sucesso",
             }
-        }catch(error){  
+        }catch{  
             return httpErrorReturn(500, 'Não foi possível criar o podcast', undefined);
         }
     }
@@ -63,7 +62,7 @@ class PodcastsServices{
                 status: 200,
                 message: "Podcast criado com sucesso",
             }
-        }catch(error){  
+        }catch{  
             return httpErrorReturn(500, 'Não foi possível criar o podcast', undefined);
         }
     }
@@ -75,7 +74,7 @@ class PodcastsServices{
                 status: 200,
                 message: "Podcast deletado com sucesso",
             }
-        }catch(error){
+        }catch{
             return httpErrorReturn(500, 'Não foi possível deletar o podcast', undefined);
         }
     }

@@ -1,10 +1,7 @@
 
 import { httpMultFormData, http } from './http/index';
 import { ILecturesRequest, ILecturesResponse } from './interfaces/lectures.interface';
-import  AxiosError from 'axios';
 import { httpErrorReturn } from '@/utils/htpp';
-import axios from 'axios';
-import { AxiosErrorResponse } from './interfaces/axios.interface';
 
 class LecturesServices{
     createFormData(request : ILecturesRequest){
@@ -35,7 +32,7 @@ class LecturesServices{
                 message: response.data.message,
                 status: response.data.status
             };
-        }catch(error){
+        }catch{
             return httpErrorReturn(500, 'Não foi possível buscar as Palestras', undefined);
         }
     }
@@ -54,7 +51,7 @@ class LecturesServices{
                 status: 200,
                 message: "Palestra criada com sucesso",
             }
-        }catch(error){  
+        }catch{  
             return httpErrorReturn(500, 'Não foi possível criar a palestra', undefined);
         }
     }
@@ -69,7 +66,7 @@ class LecturesServices{
                 status: 200,
                 message: "Palestra criada com sucesso",
             }
-        }catch(error){  
+        }catch{  
             return httpErrorReturn(500, 'Não foi possível atualizar a palestra', undefined);
         }
     }
@@ -81,7 +78,7 @@ class LecturesServices{
                 status: 200,
                 message: "Palestra deletada com sucesso",
             }
-        }catch(error){
+        }catch{
             return httpErrorReturn(500, 'Não foi possível deletar a palestra', undefined);
         }
     }
