@@ -89,7 +89,7 @@ export default function ManagerPodcastsPage() {
 
   useEffect(() => {
     getAllPodcasts();
-  }, [])
+  })
 
   useEffect(() => {
     console.log(allPodcasts);

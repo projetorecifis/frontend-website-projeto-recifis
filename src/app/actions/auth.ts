@@ -7,7 +7,7 @@ import { jwtVerify } from 'jose'
 import { cookies } from "next/headers";
 import { redirect } from 'next/navigation';
 
-const encodedKey = new TextEncoder().encode(process.env.JWT_KEY);
+const encodedKey = new TextEncoder().encode("JWT_KEY-SECRET-KEY-07022002");
 
 
 export async function signIn(formData: z.infer<typeof SignInFormSchema>) {

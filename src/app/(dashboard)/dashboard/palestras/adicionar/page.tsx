@@ -21,6 +21,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Plus, Trash } from "lucide-react";
 import { toast } from "sonner";
 import lecturesServices from "@/services/lectures.services";
+import Image from "next/image";
 
 const MAX_SIZE = 1000000 //1mb
 
@@ -262,7 +263,15 @@ export default function AddLecturesPage() {
                                     onChange(event.target.files && event.target.files[0])
                                   }}
                                 /> 
-                                {imageWatch && <img src={URL.createObjectURL(imageWatch)} alt="Imagem da palestra" className="w-200 h-80 object-cover rounded-lg" />}
+                                {imageWatch &&
+                                  <Image
+                                    width={640}
+                                    height={320}
+                                    src={URL.createObjectURL(imageWatch)} 
+                                    alt="Imagem da palestra" 
+                                    className="object-cover rounded-lg" 
+                                  />
+                                }
                               </CardContent>
                             </Card>
                           </FormControl>

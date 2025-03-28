@@ -89,7 +89,7 @@ export default function ManagerLecturesPage() {
 
   useEffect(() => {
     getAllLectures();
-  }, [])
+  })
 
   useEffect(() => {
     console.log(allLectures);

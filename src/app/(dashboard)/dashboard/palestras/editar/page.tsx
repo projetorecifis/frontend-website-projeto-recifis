@@ -22,6 +22,7 @@ import { Plus, Trash } from "lucide-react";
 import LecturesServices from "@/services/lectures.services";
 import { useSearchParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Image from "next/image";
 
 const MAX_SIZE = 1000000 //1mb
 
@@ -272,8 +273,24 @@ export default function EditLecturesPage() {
                                 onChange(event.target.files && event.target.files[0])
                               }}
                             /> 
-                            {imageWatch && <img src={URL.createObjectURL(imageWatch)} alt="Imagem da palestra" className="w-200 h-80 object-cover rounded-lg" />}
-                            {!imageWatch && getImageFromUrl !== null && <img src={getImageFromUrl} alt="Imagem da palestra" className="w-200 h-80 object-cover rounded-lg" />}
+                            {imageWatch && 
+                              <Image
+                                width={640}
+                                height={320}
+                                src={URL.createObjectURL(imageWatch)} 
+                                alt="Imagem da palestra" 
+                                className="w-200 h-80  object-cover rounded-lg" 
+                              />
+                            }
+                            {!imageWatch && getImageFromUrl !== null && 
+                              <Image 
+                                width={640}
+                                height={320}
+                                src={getImageFromUrl} 
+                                alt="Imagem da palestra"
+                                className="w-200 h-80 object-cover rounded-lg" 
+                              />
+                            }
 
                           </CardContent>
                         </Card>
