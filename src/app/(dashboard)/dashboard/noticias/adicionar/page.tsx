@@ -20,6 +20,7 @@ import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import NewsServices from "@/services/news.services";
 import { toast } from "sonner";
+import Image from "next/image";
 
 const MAX_SIZE = 1000000 //1mb
 
@@ -203,7 +204,15 @@ export default function AddNewsPage() {
                                     onChange(event.target.files && event.target.files[0])
                                   }}
                                 /> 
-                                {imageWatch && <img src={URL.createObjectURL(imageWatch)} alt="Imagem da notícia" className="w-200 h-80 object-cover rounded-lg" />}
+                                {imageWatch &&
+                                  <Image
+                                    width={640}
+                                    height={320}
+                                    src={URL.createObjectURL(imageWatch)} 
+                                    alt="Imagem da noticia" 
+                                    className="object-cover rounded-lg" 
+                                  />
+                                }
                               </CardContent>
                             </Card>
                           </FormControl>

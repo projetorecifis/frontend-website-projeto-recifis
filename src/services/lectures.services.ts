@@ -22,7 +22,7 @@ class LecturesServices{
 
     async getAllLectures(page: string, limit: number){
         try{
-            const response = await http.get<ILecturesResponse>(`${process.env.NEXT_PUBLIC_API_URL}/lectures/getAll?page=${Number(page)}&limit=${limit}`);
+            const response = await http.get<ILecturesResponse>(`${"http://localhost:3003"}/lectures/getAll?page=${Number(page)}&limit=${limit}`);
             console.log(response.data.data.metaData)
             return {
                 data: {
@@ -37,14 +37,14 @@ class LecturesServices{
         }
     }
     async getLecturesById(id: string){
-        const response = await http.get(`${process.env.NEXT_PUBLIC_API_URL}/lectures/get/${id}`);
+        const response = await http.get(`${"http://localhost:3003"}/lectures/get/${id}`);
         return response;
     }
     async createLectures(request: ILecturesRequest){
         try{
             const formData = this.createFormData(request);   
             
-            const response = await httpMultFormData.post(`${process.env.NEXT_PUBLIC_API_URL}/lectures/create`, formData);
+            const response = await httpMultFormData.post(`${"http://localhost:3003"}/lectures/create`, formData);
             console.log(response)
             return {
                 data: response,
@@ -59,7 +59,7 @@ class LecturesServices{
         try{
             const formData = this.createFormData(request);
 
-            const response = await httpMultFormData.put(`${process.env.NEXT_PUBLIC_API_URL}/lectures/update/${request._id}`, formData);
+            const response = await httpMultFormData.put(`${"http://localhost:3003"}/lectures/update/${request._id}`, formData);
             console.log(response)
             return {
                 data: request,
@@ -73,7 +73,7 @@ class LecturesServices{
 
     async deleteLecture(id: string, imageId: string){
         try{
-            await http.delete(`${process.env.NEXT_PUBLIC_API_URL}/lectures/delete/${id}?image=${imageId}`);
+            await http.delete(`${"http://localhost:3003"}/lectures/delete/${id}?image=${imageId}`);
             return {
                 status: 200,
                 message: "Palestra deletada com sucesso",
@@ -85,5 +85,5 @@ class LecturesServices{
 
 
 }
-
-export default new LecturesServices();
+const lecturesServices = new LecturesServices();
+export default lecturesServices;
