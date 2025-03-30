@@ -10,7 +10,10 @@ export function ChangeTheme() {
   const { setTheme, theme } = useTheme()
 
   const clickAndSetTheme = () => {
-    theme === "light" ? setTheme("dark") : setTheme("light");
+    if(theme === "dark") {
+      setTheme("light");
+    }
+    return setTheme("dark");
   }
 
   return (
