@@ -13,7 +13,7 @@ const homePageStyles = tv({
     imgHug: "duration-300 hover:scale-110 p-4 desk:ml-4 ",
     imgTreeWords: "h-text-center duration-300 hover:scale-110",
     imgPeopleSmiling: "w-full opacity-55 h-auto",
-    h1KnowMoreAboutOurProject: "text-recifis-blue text-4xl",
+    h1KnowMoreAboutOurProject: "text-recifis-blue text-3xl",
     divRecifisProject: "flex flex-col items-center gap-4 p-4",
     h1: "uppercase text-white font-bold text-center text-2xl drop-shadow-lg shadow-black tabl:text-3xl desk:text-4xl",
     sectionKnowMoreAboutOurProject: "flex flex-col justify-center items-center w-full pt-10 tabl:flex-row",
@@ -70,7 +70,7 @@ export default function Home() {
           </div>
           <div className={divKnowMoreAboutOurProject()}>
             <Heading variant="h1" className={h1KnowMoreAboutOurProject()}>Saiba mais sobre nosso projeto</Heading>
-            <Heading variant="h1">
+            <Heading variant="h1" >
               <span className={h1Recifis()}>Recifis</span>
               {" "} - Reprodutores de Cidadania Fiscal
             </Heading>

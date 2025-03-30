@@ -13,7 +13,9 @@ export function ChangeTheme() {
     if(theme === "dark") {
       setTheme("light");
     }
-    return setTheme("dark");
+    else if(theme === "light") {
+      setTheme("dark");
+    }
   }
 
   return (

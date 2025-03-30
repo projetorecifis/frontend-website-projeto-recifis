@@ -13,7 +13,12 @@ export default async function Layout({ children }: { children: React.ReactNode }
     return (
         <SidebarProvider defaultOpen={defaultOpen}>
             <AppSidebar />
-            <ThemeProvider>
+            <ThemeProvider
+             attribute="class"
+             defaultTheme="system"
+             enableSystem
+             disableTransitionOnChange
+             >
                 <main className="w-full">
                     {children}
                 </main>

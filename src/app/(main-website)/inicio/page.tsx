@@ -21,16 +21,14 @@ const homePageStyles = tv({
 })
 
 const {
-  sectionRecifisProject, imgRecifis, imgHug, imgTreeWords, imgPeopleSmiling, h1KnowMoreAboutOurProject, h1, divRecifisProject, sectionKnowMoreAboutOurProject,
+  sectionRecifisProject, imgRecifis, imgHug, imgTreeWords, imgPeopleSmiling, h1KnowMoreAboutOurProject, divRecifisProject, sectionKnowMoreAboutOurProject,
   h1Recifis, divKnowMoreAboutOurProject
 } = homePageStyles()
 
 export default function Home() {
   return (
     <div>
-
       <main>
-
         <section className={sectionRecifisProject()}>
           <div>
             <Image
@@ -42,8 +40,8 @@ export default function Home() {
             />
           </div>
           <div className={divRecifisProject()}>
-            <Heading className={h1()} variant="h1">Projeto Recifis</Heading>
-            <Heading className={h1()} variant="h2">Reprodutores de Cidadania Fiscal</Heading>
+            {/* <Heading className={h1()} variant="h1">Projeto Recifis</Heading>
+            <Heading className={h1()} variant="h2">Reprodutores de Cidadania Fiscal</Heading> */}
           </div>
           <div>
             <Image
