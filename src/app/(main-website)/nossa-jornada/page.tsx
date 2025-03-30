@@ -154,7 +154,7 @@ export default function OurStoryPage() {
                         </div>
                 ))}
             </section>
-            {/* <section className="w-full bg-red-300 flex ">
+            {/* <section className="w-full bg-zinc-950 flex ">
                 <div className="p-8">
                     <Card>
                         <CardHeader>
