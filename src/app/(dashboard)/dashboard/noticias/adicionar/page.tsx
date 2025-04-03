@@ -122,7 +122,6 @@ export default function AddNewsPage() {
 
   return (
     <SidebarInset>
-
       <DashboardHeader breadcrumbPage="Adicionar Notícia" breadcrumbNameLink="Notícias" breadcrumbLink="/dashboard/noticias/adicionar" />
       <div className="px-8">
         <h1 className="text-2xl font-bold">Adicionar notícia</h1>

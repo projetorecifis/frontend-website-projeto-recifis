@@ -3,7 +3,7 @@ export interface ILoginUserRequest{
     password: string
 }
 
-export interface ILoginUserDataResponse{
+export interface IUserDataResponse{
     _id: string,
     email: string,
     name: string,
@@ -14,5 +14,11 @@ export interface ILoginUserDataResponse{
 export interface ILoginUserResponse{
     status: number,
     message: string,
-    data?: ILoginUserDataResponse
+    data?: IUserDataResponse
+}
+
+export interface IGetAllUsersResponse{
+    status: number,
+    message: string,
+    data?: IUserDataResponse[]
 }

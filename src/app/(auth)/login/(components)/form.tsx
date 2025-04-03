@@ -54,7 +54,7 @@ export function LoginForm() {
         }
         router.push("/dashboard");
         toast.success(response.message);
-        setTimeout(() => {setLoading(false);}, 1000);
+        setTimeout(() => {setLoading(false);}, 2000);
 
     }
 
