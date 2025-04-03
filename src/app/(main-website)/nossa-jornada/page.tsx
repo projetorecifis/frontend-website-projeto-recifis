@@ -88,70 +88,70 @@ export default function OurStoryPage() {
             >
                 ★ Um pouco sobre nós ... ★
             </Heading>
-            <section className="w-full flex  justify-center items-center ">
+            <section className="w-full flex mb-2  justify-center items-center ">
                 {ourStory?.cards.map((card, index) => (
-                        <div key={index} className="space-y-8 mt-8 mx-0 m-auto"> 
-                            <div  className="p-8 space-y-32 mt-0 m-auto  ">     
-                                {card.map((item, indexCard) => (     
-                                    <div key={indexCard} className="flex flex-row-reverse">
-                                        {index % 2 === 0 && (
-                                            <div className="h-8 mt-2 flex text-center justify-center items-center"> 
-                                                {/* <ChevronsRight className="text-black opacity-25 ml-2 w-10 h-10" />  */}
-                                                <div className="border-t-4 border-slate-300 w-24"> </div>
-                                                <p className={`
-                                                    w-24 h-24 text-white rounded-full border-2 
-                                                    bg-recifis-orange flex justify-center items-center font-sans font-bold text-2xl`
+                    <div key={index} className={`mt-8 mx-0 m-auto ${index % 2 === 0 ? "" : "mt-40"} `}> 
+                        <div  className="px-2 space-y-28 mt-0 m-auto  ">     
+                            {card.map((item, indexCard) => (     
+                                <div key={indexCard} className="flex flex-row-reverse">
+                                    {index % 2 === 0 && (
+                                        <div className="h-8 mt-2 flex text-center justify-center items-center"> 
+                                            {/* <ChevronsRight className="text-black opacity-25 ml-2 w-10 h-10" />  */}
+                                            <div className="border-t-4 border-slate-300 w-24"> </div>
+                                            <p className={`
+                                                w-24 h-24 text-white rounded-full border-2 
+                                                bg-recifis-orange flex justify-center items-center font-sans font-bold text-2xl`
+                                            }>
+                                                {item.number}
+                                            </p>
+                                        </div>
+                                    )} 
+                                    <Card className={`max-w-2xl rounded-b-lg  ${index % 2 === 0 && index !== 1 ? "" : "mt-4"}`} key={indexCard} >
+                                        <CardHeader className="rounded-t-lg m-0 bg-recifis-blue text-white flex flex-row items-center gap-4 p-4">
+                                            <CardTitle className="bg-blue-950 text-recifis-orange h-14 rounded-xl opacity-90 p-4">{item.title}</CardTitle>
+                                            <CardDescription className="text-white font-mono text-xl">{item.description}</CardDescription>
+                                        </CardHeader>
+                                        <CardContent className="pt-4">
+                                            <p>{item.content} {index}</p>
+                                            <div className="flex items-center justify-between w-full">
+                                                {item?.image1 && (
+                                                    <Image
+                                                    src={item?.image1}
+                                                    width={200}
+                                                    height={200}
+                                                    alt="Imagem do projeto RECIFIS"
+                                                    className="rounded-lg mt-4 m-auto"
+                                                />
+                                                )}
+                                                {item?.image2 && (
+                                                    <Image
+                                                    src={item?.image2}
+                                                    width={200}
+                                                    height={200}
+                                                    alt="Imagem do projeto RECIFIS"
+                                                    className="rounded-lg mt-4 m-auto"
+                                                />
+                                                )}
+                                            </div>
+                                        </CardContent>
+                                    </Card> 
+                                    {index % 2 !== 0 && (
+                                            <div className="h-8 flex flex-row-reverse text-center justify-center items-center mt-24 mr-2"> 
+                                            {/* <ChevronsLeft className="text-black opacity-25 ml-2 w-10 h-10" />  */}
+                                            <div className="border-t-4 border-slate-300 w-24"> </div>
+                                            <p 
+                                                className={
+                                                    `w-24 h-24 text-white rounded-full border-2 bg-recifis-orange flex 
+                                                    justify-center items-center font-sans font-bold text-2xl`
                                                 }>
-                                                    {item.number}
-                                                </p>
-                                            </div>
-                                        )} 
-                                        <Card className={`max-w-2xl rounded-b-lg  ${index % 2 === 0 ? "" : "mt-24"}`} key={indexCard} >
-                                            <CardHeader className="rounded-t-lg m-0 bg-recifis-blue text-white flex flex-row items-center gap-4 p-4">
-                                                <CardTitle className="bg-blue-950 text-recifis-orange h-14 rounded-xl opacity-90 p-4">{item.title}</CardTitle>
-                                                <CardDescription className="text-white font-mono text-xl">{item.description}</CardDescription>
-                                            </CardHeader>
-                                            <CardContent className="pt-4">
-                                                <p>{item.content}</p>
-                                                <div className="flex items-center justify-between w-full">
-                                                    {item?.image1 && (
-                                                        <Image
-                                                        src={item?.image1}
-                                                        width={250}
-                                                        height={250}
-                                                        alt="Imagem do projeto RECIFIS"
-                                                        className="rounded-lg mt-4 m-auto"
-                                                    />
-                                                    )}
-                                                    {item?.image2 && (
-                                                        <Image
-                                                        src={item?.image2}
-                                                        width={250}
-                                                        height={250}
-                                                        alt="Imagem do projeto RECIFIS"
-                                                        className="rounded-lg mt-4 m-auto"
-                                                    />
-                                                    )}
-                                                </div>
-                                            </CardContent>
-                                        </Card> 
-                                        {index % 2 !== 0 && (
-                                             <div className="h-8 flex flex-row-reverse text-center justify-center items-center mt-24 mr-2"> 
-                                                {/* <ChevronsLeft className="text-black opacity-25 ml-2 w-10 h-10" />  */}
-                                                <div className="border-t-4 border-slate-300 w-24"> </div>
-                                                <p 
-                                                    className={
-                                                        `w-24 h-24 text-white rounded-full border-2 bg-recifis-orange flex 
-                                                        justify-center items-center font-sans font-bold text-2xl`
-                                                    }>
-                                                    {item.number}
-                                                </p>
-                                            </div>
-                                        )} 
-                                    </div>    
-                                ))}
-                            </div>
+                                                {item.number}
+                                            </p>
+                                        </div>
+                                    )} 
+                                </div>    
+                            ))}
                         </div>
+                    </div>
                 ))}
             </section>
             {/* <section className="w-full bg-zinc-950 flex ">

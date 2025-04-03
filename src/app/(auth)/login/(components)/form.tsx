@@ -52,10 +52,10 @@ export function LoginForm() {
           toast.error(response.message);
           return 
         }
-        setLoading(false);
         router.push("/dashboard");
         toast.success(response.message);
-        
+        setTimeout(() => {setLoading(false);}, 1000);
+
     }
 
   return (
