@@ -15,11 +15,11 @@ export default async function Layout({ children }: { children: React.ReactNode }
             <AppSidebar />
             <ThemeProvider
              attribute="class"
-             defaultTheme="system"
+             defaultTheme="light"
              enableSystem
              disableTransitionOnChange
              >
-                <main className="w-full">
+                <main className="w-full dark:bg-zinc-950">
                     {children}
                 </main>
             </ThemeProvider>

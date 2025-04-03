@@ -25,6 +25,9 @@ import {
 } from "@/components/ui/sidebar"
 import { NavMenu } from "./ui/nav-menu"
 import { Home } from "lucide-react"
+import { getCookies } from "@/utils/cookies"
+import { useEffect, useState } from "react"
+import { decrypt } from "@/app/actions/auth"
 
 // This is sample data.
 const data = {
@@ -124,7 +127,30 @@ const data = {
   ]
 }
 
+interface IUser{
+  name: string;
+  email: string;
+  id: string;
+}
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [user, setUser] = useState<IUser>();
+
+  const getUserInformation = async() => {
+    const token = await getCookies("token");
+    const payload = await decrypt(token);
+    const user = {
+      name: payload?.name as string,
+      email: payload?.email as string,
+      id: payload?.id as string,
+    }
+    setUser(user);
+    console.log("payload:::: ", payload);
+  }
+  useEffect(() => {
+    getUserInformation();
+  }, [])
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -136,7 +162,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        {user !== undefined && <NavUser user={user} />}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

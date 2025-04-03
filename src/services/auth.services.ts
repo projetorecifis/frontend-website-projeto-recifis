@@ -2,33 +2,112 @@
 
 import { httpErrorReturn } from '@/utils/htpp';
 import { http } from './http/index';
-import { ILoginUserDataResponse, ILoginUserRequest, ILoginUserResponse } from './interfaces/user.interface';
+import { IUserDataResponse, ILoginUserRequest, ILoginUserResponse, IGetAllUsersResponse } from './interfaces/user.interface';
 import { AxiosError } from 'axios';
+import { getCookies } from '@/utils/cookies';
+import { errorGetUsers, succesUserLoggedInSuccessfully, 
+    errorEmailOrPasswordInvalid, errorLoginWasNotPossible, 
+    errorDeleteUser, successUserWasDeleted,
+    successUsersWereFound 
+} from './messages/auth.messages';
 class AuthServices{
+
+    async getAllUsers(){
+        try{
+            const token = await getCookies("token");
+          
+            const { data } = await http.get<IGetAllUsersResponse>(`${"http://localhost:3003"}/users/getAll`, {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            const response = data?.data as IUserDataResponse[];
+
+            if(data?.status === 200){
+                return {
+                    status: 200,
+                    message: successUsersWereFound,
+                    data: response
+                }           
+            }
+            return httpErrorReturn(
+                500, 
+                errorGetUsers, 
+                undefined
+            );
+        }catch{
+            return httpErrorReturn(
+                500, 
+                errorGetUsers, 
+                undefined
+            );
+        }
+    }
+
     async signInUser(user: ILoginUserRequest): Promise<ILoginUserResponse>{
         try{
             const { data } = await http.post<ILoginUserResponse>(`${"http://localhost:3003"}/users/signin`, user);
-            const response = data?.data as ILoginUserDataResponse;
+            const response = data?.data as IUserDataResponse;
 
             if(data?.status === 200){
                 console.log(data)
                 return {
                     status: 200,
-                    message: "Usuário logado com sucesso!",
+                    message: succesUserLoggedInSuccessfully,
                     data: response
                 }           
             }
             console.log("data", data);
             if(data?.status === 401){
-                return httpErrorReturn(401, "E-mail ou senha inválidos.", undefined);
+                return httpErrorReturn(
+                    401, 
+                    errorEmailOrPasswordInvalid, 
+                    undefined
+                );
             }
-            return httpErrorReturn(500, "Não foi possível fazer o login, por favor, tente novamente.", undefined);
+            return httpErrorReturn(
+                500, 
+                errorLoginWasNotPossible, 
+                undefined
+            );
         }catch(e){
             const error = e as AxiosError;
             if(error?.status === 401){
-                return httpErrorReturn(401, "E-mail ou senha inválidos.", undefined);
+                return httpErrorReturn(401, errorEmailOrPasswordInvalid, undefined);
             }
-            return httpErrorReturn(500, "Não foi possível fazer o login, por favor, tente novamente.", undefined);
+            return httpErrorReturn(500, errorLoginWasNotPossible, undefined);
+        }
+    }
+
+    async deleteUserById(id: string): Promise<ILoginUserResponse>{
+        try{
+            const token = await getCookies("token");
+            
+            const { data } = await http.delete<ILoginUserResponse>(`${"http://localhost:3003"}/users/delete/${id}`, {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            const response = data?.data as IUserDataResponse;
+
+            if(data?.status === 200){
+                return {
+                    status: 200,
+                    message: successUserWasDeleted,
+                    data: response
+                }           
+            }
+            return httpErrorReturn(
+                500, 
+                errorDeleteUser, 
+                undefined
+            );
+        }catch(e){
+            return httpErrorReturn(
+                500, 
+                errorDeleteUser, 
+                undefined
+            );
         }
     }
 }
