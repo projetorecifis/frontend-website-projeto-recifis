@@ -15,6 +15,7 @@ class AuthServices{
     async getAllUsers(){
         try{
             const token = await getCookies("token");
+            console.log(token)
           
             const { data } = await http.get<IGetAllUsersResponse>(`${"http://localhost:3003"}/users/getAll`, {
                 headers:{

@@ -85,13 +85,16 @@ export default function ShowUsersOnDashboard() {
             </div>
           ))}
           {loading && (
-             <div className="flex items-center space-x-4 py-2">
-              <Skeleton className="rounded-full h-12 w-12" />
-              <div className="space-y-2">
-                <Skeleton className="w-44 h-4" />
-                <Skeleton className="w-44 h-4" />
-              </div>
-            </div>
+             <div className="flex items-center justify-between space-x-4">
+                <div className="flex items-center space-x-4 py-2">
+                  <Skeleton className="rounded-full h-12 w-12" />
+                  <div className="space-y-2">
+                    <Skeleton className="w-44 h-4" />
+                    <Skeleton className="w-44 h-4" />
+                  </div>
+                </div>
+              <Skeleton className="rounded-md h-8 w-44" />
+             </div>
           )}
         </div>
       </div>
