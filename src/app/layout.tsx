@@ -33,7 +33,8 @@ export default function RootLayout({
       >
           {children}
           <SpeedInsights />
-          <Toaster />
+          <Toaster
+          />
         {/* <Footer /> */}
       </body>
     </html>

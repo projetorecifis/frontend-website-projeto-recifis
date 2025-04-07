@@ -28,6 +28,7 @@ import { Home } from "lucide-react"
 import { getCookies } from "@/utils/cookies"
 import { useEffect, useState } from "react"
 import { decrypt } from "@/app/actions/auth"
+import { Skeleton } from "./ui/skeleton"
 
 // This is sample data.
 const data = {
@@ -126,25 +127,26 @@ const data = {
     },
   ]
 }
-
 interface IUser{
   name: string;
   email: string;
   id: string;
 }
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [user, setUser] = useState<IUser>();
+  const [user, setUser] = useState<IUser | undefined>(undefined);
 
   const getUserInformation = async() => {
     const token = await getCookies("token");
     const payload = await decrypt(token);
-    const user = {
-      name: payload?.name as string,
-      email: payload?.email as string,
-      id: payload?.id as string,
+
+    if(payload !== undefined){
+      const bodyUser = {
+        name: payload?.name as string,
+        email: payload?.email as string,
+        id: payload?.id as string,
+      }
+      setUser(bodyUser);
     }
-    setUser(user);
     console.log("payload:::: ", payload);
   }
   useEffect(() => {
@@ -163,6 +165,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarFooter>
         {user !== undefined && <NavUser user={user} />}
+        {user === undefined && (
+          <div className="flex items-center justify-between space-x-4 ">
+            <div className="flex items-center space-x-4 py-2">
+                <Skeleton className="rounded-full h-10 w-10" />
+                <div className="space-y-2">
+                  <Skeleton className="w-36 h-4" />
+                  <Skeleton className="w-36 h-4" />
+                </div>
+            </div>
+            <Skeleton className="h-4 w-4 pr-4" />
+          </div>
+        )}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

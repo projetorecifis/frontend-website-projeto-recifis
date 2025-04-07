@@ -10,38 +10,17 @@ const ourStory = {
             title: "Setembro",
             description: "Descrição do projeto RECIFIS",
             image1: "/img/imgHug.png",
-             content: `texto aqui para teste testando o texto para ver como fica 
-            na pagina texto aqui para teste testando o texto para ver como fica na pagina 
-            texto aqui para teste testando o texto para ver como fica na pagina texto aqui 
-            para teste testando o texto para ver como fica na pagina`
-        },
-        {
-            number: "2025",
-            title: "Setembro",
-            description: "O dashboard pode ser utilizado para gerenciar as informações do site do projeto RECIFIS, como as notícias, podcasts e palestras.",
-            image1: "/img/imgHug.png",
             image2: "/img/imgHug.png",
              content: `texto aqui para teste testando o texto para ver como fica 
             na pagina texto aqui para teste testando o texto para ver como fica na pagina 
             texto aqui para teste testando o texto para ver como fica na pagina texto aqui 
             para teste testando o texto para ver como fica na pagina`
-        },
-        {
-            number: 5,
-            title: "Setembro",
-            description: "O dashboard pode ser utilizado para gerenciar as informações do site do projeto RECIFIS, como as notícias, podcasts e palestras.",
-            image1: "/img/imgHug.png",
-            image2: "/img/imgHug.png",
-             content: `texto aqui para teste testando o texto para ver como fica 
-            na pagina texto aqui para teste testando o texto para ver como fica na pagina 
-            texto aqui para teste testando o texto para ver como fica na pagina texto aqui 
-            para teste testando o texto para ver como fica na pagina`
-        },]
+        }]
         ,
         [{
             number: "2024",
             title: "Setembro",
-            description: "O dashboard pode ser utilizado para gerenciar as informações do site do projeto RECIFIS, como as notícias, podcasts e palestras.",
+            description: "Texto aqui",
             image1: "/img/imgHug.png",
             image2: "/img/imgHug.png",
              content: `texto aqui para teste testando o texto para ver como fica 
@@ -49,28 +28,7 @@ const ourStory = {
             texto aqui para teste testando o texto para ver como fica na pagina texto aqui 
             para teste testando o texto para ver como fica na pagina`
         },
-        {
-            number: 4,
-            title: "Setembro",
-            description: "O dashboard pode ser utilizado para gerenciar as informações do site do projeto RECIFIS, como as notícias, podcasts e palestras.",
-            image1: "/img/imgHug.png",
-            image2: "/img/imgHug.png",
-             content: `texto aqui para teste testando o texto para ver como fica 
-            na pagina texto aqui para teste testando o texto para ver como fica na pagina 
-            texto aqui para teste testando o texto para ver como fica na pagina texto aqui 
-            para teste testando o texto para ver como fica na pagina`
-        },
-        {
-            number: 6,
-            title: "Setembro",
-            description: "O dashboard pode ser utilizado para gerenciar as informações do site do projeto RECIFIS, como as notícias, podcasts e palestras.",
-            image1: "/img/imgHug.png",
-            image2: "/img/imgHug.png",
-            content: `texto aqui para teste testando o texto para ver como fica 
-            na pagina texto aqui para teste testando o texto para ver como fica na pagina 
-            texto aqui para teste testando o texto para ver como fica na pagina texto aqui 
-            para teste testando o texto para ver como fica na pagina`
-        },],
+        ],
     ]
 }
 
@@ -79,10 +37,10 @@ const ourStory = {
 export default function OurStoryPage() {
     // const newCards = ourStory.cards.filter((_, index) => index  ourStory.totalCards);
     return (
-        <main className=" w-full bg-slate-100 ">
+        <main className=" w-full bg-slate-100 p-14">
             <Heading 
                 className={
-                    "py-14 uppercase text-recifis-blue font-bold text-center text-2xl drop-shadow-lg shadow-black tabl:text-4xl"
+                    "pb-14 uppercase text-recifis-blue font-bold text-center text-2xl drop-shadow-lg shadow-black tabl:text-4xl"
                 } 
                 variant="h1"
             >
