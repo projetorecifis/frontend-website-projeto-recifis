@@ -1,18 +1,13 @@
 "use client"
-
-import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { set, z } from "zod";
-import { useFieldArray, useForm } from "react-hook-form";
+import { Form, FormField, FormItem } from "@/components/ui/form"
+import { z } from "zod";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
-
 import Image from "next/image";
-import logo from "../../../../../public/img/logo-recifis-fundo-branco.png";
-import AuthServices from "@/services/auth.services"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { signIn } from "@/app/actions/auth"

@@ -103,7 +103,7 @@ class AuthServices{
                 errorDeleteUser, 
                 undefined
             );
-        }catch(e){
+        }catch{
             return httpErrorReturn(
                 500, 
                 errorDeleteUser, 

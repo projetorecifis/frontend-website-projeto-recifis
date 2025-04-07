@@ -3,7 +3,6 @@ import { Separator } from "@/components/ui/separator"
 import {
   Avatar,
   AvatarFallback,
-  AvatarImage,
 } from "@radix-ui/react-avatar"
 import {
   CardContent,
@@ -27,7 +26,7 @@ export default function ShowUsersOnDashboard() {
   const [loading, setLoading] = useState<boolean>(true);
 
   const getAllUsers = async () => {
-    const { data, status, message } = await AuthServices.getAllUsers();
+    const { data } = await AuthServices.getAllUsers();
     setLoading(true);
 
     if(data){
