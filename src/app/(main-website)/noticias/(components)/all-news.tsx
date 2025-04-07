@@ -1,0 +1,64 @@
+"use client"
+
+import TopNews from "./top-news";
+import DefaultContentNews from "./default-news";
+import { useEffect, useState } from "react";
+import { INewsDataResponse, INewsMetaDataResponse } from "../../../../services/interfaces/news.interface";
+import { PaginationWithLinks } from "@/components/created/PaginationWithLinks";
+import { useSearchParams } from "next/navigation";
+import NewsServices from "@/services/news.services";
+
+export default function AllNews() {
+    const searchParams = useSearchParams();
+    const page = searchParams.get('page') || "1";
+    const limit = 10;
+    
+    const [topNews, setTopNews] = useState<INewsDataResponse[] | undefined>([]);
+    const [defaultNews, setDefaultNews] = useState<INewsDataResponse[] | undefined>([]);
+    const [metaData, setMetaData] = useState<INewsMetaDataResponse | undefined>(undefined);
+    
+    const getAllNews = async () => {
+        const response = await NewsServices.getAllNews(page, limit);
+        const newsResponse = response?.data?.news;
+        const metaDataResponse = response?.data?.metaData;
+        
+        setTopNews(newsResponse?.filter((news) => news.type === "top"));
+        setDefaultNews(newsResponse?.filter((news) => news.type === "default"));
+    
+        if(metaDataResponse !== undefined){
+          setMetaData(metaDataResponse[0]);
+        }
+    
+        if(response?.message === "No news were found"){
+            setTopNews([]);
+            setDefaultNews([]);
+        }
+    
+        console.log(response);
+        // setCarouselNews(allNews.filter((news) => news.type === "carousel"));
+        
+    }
+
+    useEffect(() => {
+        getAllNews();
+    }, [])
+    return (
+            <section>
+                <section >
+                    <TopNews news={topNews} />
+                </section>
+                <section>
+                    <DefaultContentNews defaultNews={defaultNews} />
+                </section>
+                <section className="py-4">
+                    {metaData !== undefined && (
+                        <PaginationWithLinks 
+                            page={metaData.page}
+                            pageSize={limit}
+                            totalCount={metaData.totalDocuments}
+                        />
+                    )}
+                </section>
+            </section>
+    );
+}

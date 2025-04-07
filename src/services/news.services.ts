@@ -8,9 +8,11 @@ class NewsServices{
         formData.append("title", request.title);
         formData.append("subtitle", request.subtitle);
         formData.append("text", request.text);
+        formData.append("type", request.type);
         
         if(request?.image) formData.append("image", request.image); 
         if(request?.publicId) formData.append("publicId", request.publicId);
+        if(request?.link) formData.append("link", request.link);
 
         return formData;
     }

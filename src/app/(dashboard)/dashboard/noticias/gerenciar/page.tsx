@@ -89,7 +89,7 @@ export default function ManagerNewsPage() {
 
   useEffect(() => {
     getAllNews();
-  })
+  },[]);
 
   useEffect(() => {
     console.log(metaData);
@@ -113,28 +113,37 @@ export default function ManagerNewsPage() {
             <TableRow>
               <TableHead className="w-20 text-center">Ordem</TableHead>
               <TableHead className="w-60">Título da notícia</TableHead>
-              <TableHead>Subtítulo da notícia</TableHead>
-              <TableHead>Texto da notícia</TableHead>
+              <TableHead className="w-60">Subtítulo da notícia</TableHead>
+              <TableHead className="w-60">Texto da notícia</TableHead>
+              <TableHead className="w-32">Link</TableHead>
+              <TableHead className="w-40">Tipo da notícia</TableHead>
               <TableHead>Editar/Deletar</TableHead>
             </TableRow>
           </TableHeader>
           {allNews !== undefined  && !loading && (
             <TableBody>
                 {allNews?.length >= 0 && allNews?.map((news: INewsDataResponse, index: number) => (
-                  <TableRow key={index}>
+                  <TableRow className="text-justify" key={index}>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{news.title}</TableCell>
                     <TableCell>{news.subtitle.length > 120 ? news.subtitle.substring(0,120) + "..." : news.subtitle}</TableCell>
                     <TableCell>{news.text.length > 120 ? news.text.substring(0,190) + "..." : news.text}</TableCell>
+                    <TableCell className="text-center">{news?.link === undefined ? "Não existe link para essa notícia" : news?.link.substring(0,25) + "..."}</TableCell>
+                    <TableCell>{news.type === "top" ? "Em alta" : "Padrão"}</TableCell>
                     <TableCell >
                       <div className="flex flex-row items-center">
                         <a 
-                          href={"/dashboard/noticias/editar"+ "?id=" + news._id 
-                            + "&title=" + news.title + "&subtitle=" 
-                            + news.subtitle + "&text=" + news.text 
+                          href={"/dashboard/noticias/editar"
+                            + "?id=" + news._id 
+                            + "&title=" + news.title 
+                            + "&subtitle=" + news.subtitle 
+                            + "&text=" + news.text 
                             + "&image=" + news.image.path
                             + "&publicId=" + news.image.publicId
-                          } 
+                            + "&type=" + news.type 
+                            + "&link=" + (news?.link === undefined ? "" : news?.link)
+                              // news?.link === undefined ? "" : "&link=" + news?.link
+                          }
                           className="text-blue-500">
                             Editar
                         </a>
@@ -149,7 +158,7 @@ export default function ManagerNewsPage() {
   
       {!!allNews !== undefined && !!loading && (
         <div className="flex flex-col justify-center items-center space-y-4 py-2">
-          <Skeleton className="h-160 w-full" />
+          <Skeleton className="h-96 w-full" />
           <Skeleton className="text-center h-8 w-112" />
         </div>
       )}
@@ -161,7 +170,6 @@ export default function ManagerNewsPage() {
         />
       )}
     </div>
-
     <AlertDialog open={open} onOpenChange={setOpen} >
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -176,8 +184,6 @@ export default function ManagerNewsPage() {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-
-    
   </SidebarInset>
   );
 }

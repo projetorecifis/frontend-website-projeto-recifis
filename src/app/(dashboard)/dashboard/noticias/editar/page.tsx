@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,6 +23,15 @@ import NewsServices from "@/services/news.services";
 import { useSearchParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Image from "next/image";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const MAX_SIZE = 1000000 //1mb
 
@@ -33,6 +43,8 @@ const formSchema = z.object({
   title: z.string().min(1, message).max(250, messageNomeNoticia),
   subtitle: z.string().min(1, message).max(550, messageNomesubtitle),
   text: z.string().min(1, message),
+  type: z.enum(["default", "top"], { errorMap: () => ({ message: "Campo obrigatório" }) }),
+  link: z.string().optional(),
   image: z
     .instanceof(File, { message } )
     .refine(
@@ -93,20 +105,25 @@ export default function EditNewsPage() {
       title: searchParams.get("title") || "",
       subtitle: searchParams.get("subtitle") || "",
       text: searchParams.get("text") || "",
-      image: undefined
+      image: undefined,
+      type: searchParams.get("type") as "default" | "top" || "default",
+      link: searchParams.get("link") || undefined,
     },
   })
 
 
   const updateNews = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
+    console.log("values",values);
     const response = await NewsServices.updateNews({
       _id: searchParams.get("id") || "",
       title: values?.title,
       subtitle: values?.subtitle,
       text: values?.text,
       image: values?.image ?? undefined,
-      publicId: getPublicId
+      publicId: getPublicId,
+      type: values?.type,
+      link: values?.link,
     });
     
     setTimeout(() => {
@@ -173,6 +190,21 @@ export default function EditNewsPage() {
               />
               <FormField
                 control={form.control}
+                name="link"
+                render={({ field }) => (
+                  <FormItem className="space-y-4">
+                    <div>
+                      <FormLabel>Link da notícia <span className="text-gray-400"> (opcional)</span></FormLabel>
+                      <FormControl>
+                        <Input placeholder="" type="text" {...field}  />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="text"
                 render={({ field }) => (
                   <FormItem className="m-0">
@@ -181,6 +213,36 @@ export default function EditNewsPage() {
                       <FormControl>
                         <Textarea placeholder="" {...field} />
                       </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="type"
+                render={({ field }) => (
+                  <FormItem className="m-0">
+                    <div>
+                      <FormLabel>Tipo da notícia</FormLabel>
+                      <FormControl>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Selecione o tipo da notícia" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>Tipo da notícia</SelectLabel>
+                              <SelectItem value="default">Padrão</SelectItem>
+                              <SelectItem value="top">Em alta</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <div className="py-2">
+                        <FormDescription className="text-xs">Padrão: são as notícias que aparecem no conteúdo da página</FormDescription>
+                        <FormDescription className="text-xs">Em alta: são as notícias que aparecem no topo do conteúdo da página, na sessão de "Notícias em alta"</FormDescription>
+                      </div>
                       <FormMessage />
                     </div>
                   </FormItem>
@@ -212,7 +274,7 @@ export default function EditNewsPage() {
                             /> 
                             {imageWatch && 
                               <Image
-                                width={640}
+                                width={320}
                                 height={320}
                                 src={URL.createObjectURL(imageWatch)} 
                                 alt="Imagem da noticia" 
@@ -221,7 +283,7 @@ export default function EditNewsPage() {
                             }
                             {!imageWatch && getImageFromUrl !== null && 
                               <Image 
-                                width={640}
+                                width={320}
                                 height={320}
                                 src={getImageFromUrl} 
                                 alt="Imagem da noticia"
