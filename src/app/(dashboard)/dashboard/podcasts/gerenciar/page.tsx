@@ -151,7 +151,7 @@ export default function ManagerPodcastsPage() {
             )}
       </Table>
   
-      {!!allPodcasts !== undefined && !!loading && (
+      {!!allPodcasts !== undefined && allPodcasts?.length !== 0 && !!loading && (
         <div className="flex flex-col justify-center items-center space-y-4 py-2">
           <Skeleton className="h-144 w-full" />
           <Skeleton className="text-center h-8 w-112" />

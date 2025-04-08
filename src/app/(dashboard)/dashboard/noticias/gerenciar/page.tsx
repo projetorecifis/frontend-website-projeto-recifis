@@ -129,7 +129,7 @@ export default function ManagerNewsPage() {
                     <TableCell>{news.subtitle.length > 120 ? news.subtitle.substring(0,120) + "..." : news.subtitle}</TableCell>
                     <TableCell>{news.text.length > 120 ? news.text.substring(0,190) + "..." : news.text}</TableCell>
                     <TableCell className="text-center">{news?.link === undefined ? "Não existe link para essa notícia" : news?.link.substring(0,25) + "..."}</TableCell>
-                    <TableCell>{news.type === "top" ? "Em alta" : "Padrão"}</TableCell>
+                    <TableCell>{news.isInTop === "true" ? "Em alta" : "Padrão"}</TableCell>
                     <TableCell >
                       <div className="flex flex-row items-center">
                         <a 
@@ -140,7 +140,7 @@ export default function ManagerNewsPage() {
                             + "&text=" + news.text 
                             + "&image=" + news.image.path
                             + "&publicId=" + news.image.publicId
-                            + "&type=" + news.type 
+                            + "&isInTop=" + news.isInTop
                             + "&link=" + (news?.link === undefined ? "" : news?.link)
                               // news?.link === undefined ? "" : "&link=" + news?.link
                           }
@@ -156,7 +156,7 @@ export default function ManagerNewsPage() {
             )}
       </Table>
   
-      {!!allNews !== undefined && !!loading && (
+      {!!allNews !== undefined && allNews?.length !== 0 && !!loading && (
         <div className="flex flex-col justify-center items-center space-y-4 py-2">
           <Skeleton className="h-96 w-full" />
           <Skeleton className="text-center h-8 w-112" />

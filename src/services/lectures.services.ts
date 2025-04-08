@@ -13,6 +13,7 @@ class LecturesServices{
         formData.append("description", request.description);
         formData.append("speakers", JSON.stringify(speakers));
         formData.append("link", request.link);
+        formData.append("isInCarousel", request.isInCarousel.toString());
         
         if(request?.image) formData.append("image", request.image); 
         if(request?.publicId) formData.append("publicId", request.publicId);

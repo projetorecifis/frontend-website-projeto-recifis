@@ -32,6 +32,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Checkbox } from "@/components/ui/checkbox";
 
 const MAX_SIZE = 1000000 //1mb
 
@@ -43,7 +44,7 @@ const formSchema = z.object({
   title: z.string().min(1, message).max(250, messageNomeNoticia),
   subtitle: z.string().min(1, message).max(550, messageNomesubtitle),
   text: z.string().min(1, message),
-  type: z.enum(["default", "top"], { errorMap: () => ({ message: "Campo obrigatório" }) }),
+  isInTop: z.boolean().default(false),
   link: z.string().optional(),
   image: z
     .instanceof(File, { message } )
@@ -106,7 +107,7 @@ export default function EditNewsPage() {
       subtitle: searchParams.get("subtitle") || "",
       text: searchParams.get("text") || "",
       image: undefined,
-      type: searchParams.get("type") as "default" | "top" || "default",
+      isInTop: searchParams.get("isInTop") === "true" ? true : false,
       link: searchParams.get("link") || undefined,
     },
   })
@@ -122,7 +123,7 @@ export default function EditNewsPage() {
       text: values?.text,
       image: values?.image ?? undefined,
       publicId: getPublicId,
-      type: values?.type,
+      isInTop: values?.isInTop,
       link: values?.link,
     });
     
@@ -220,32 +221,25 @@ export default function EditNewsPage() {
               />
               <FormField
                 control={form.control}
-                name="type"
+                name="isInTop"
                 render={({ field }) => (
-                  <FormItem className="m-0">
-                    <div>
-                      <FormLabel>Tipo da notícia</FormLabel>
-                      <FormControl>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Selecione o tipo da notícia" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Tipo da notícia</SelectLabel>
-                              <SelectItem value="default">Padrão</SelectItem>
-                              <SelectItem value="top">Em alta</SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <div className="py-2">
-                        <FormDescription className="text-xs">Padrão: são as notícias que aparecem no conteúdo da página</FormDescription>
-                        <FormDescription className="text-xs">Em alta: são as notícias que aparecem no topo do conteúdo da página, na sessão de "Notícias em alta"</FormDescription>
-                      </div>
-                      <FormMessage />
-                    </div>
-                  </FormItem>
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>
+                      Adicionar notícia no campo "Notícias em alta"
+                    </FormLabel>
+                    <FormDescription>
+                      Se ativado, a notícia será exibida na seção "Notícias em alta" na página inicial.
+                    </FormDescription>
+                  </div>
+                </FormItem>
+          
                 )}
               />
               <FormField

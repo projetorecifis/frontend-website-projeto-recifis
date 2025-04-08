@@ -22,8 +22,8 @@ export default function AllNews() {
         const newsResponse = response?.data?.news;
         const metaDataResponse = response?.data?.metaData;
         
-        setTopNews(newsResponse?.filter((news) => news.type === "top"));
-        setDefaultNews(newsResponse?.filter((news) => news.type === "default"));
+        setTopNews(newsResponse?.filter((news) => news.isInTop === "true"));
+        setDefaultNews(newsResponse?.filter((news) => news.isInTop === "false"));
     
         if(metaDataResponse !== undefined){
           setMetaData(metaDataResponse[0]);

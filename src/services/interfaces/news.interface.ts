@@ -1,4 +1,3 @@
-export type NewsType = "top" | "default";
 
 export interface INewsRequest{
     _id?: string,
@@ -8,7 +7,7 @@ export interface INewsRequest{
     image?: File
     publicId?: string,
     link?: string,
-    type: NewsType
+    isInTop: boolean,
 }
 
 export interface INewsImage{
@@ -27,7 +26,7 @@ export interface INewsDataResponse{
     title: string,
     subtitle: string,
     text: string,
-    type: string,
+    isInTop: string,
     link?: string,
     image: INewsImage,
     createdAt: string,

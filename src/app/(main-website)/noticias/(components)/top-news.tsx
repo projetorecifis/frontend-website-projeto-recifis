@@ -12,8 +12,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { Separator } from "@/components/ui/separator";
-import { useState } from "react";
-import { INews, INewsDataResponse } from "@/services/interfaces/news.interface";
+import { useEffect, useState } from "react";
+import { INewsDataResponse } from "@/services/interfaces/news.interface";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const homePageStyles = tv({
@@ -62,44 +62,42 @@ const {
 
 
 export default function TopNews({ news } :{ news: INewsDataResponse[] | undefined }) {
-
-  return (
+    useEffect(() => {
+        console.log("news",news);
+    },[news])
+    return (
             <div className="flex gap-16 justify-center w-full">
                  <Carousel className="w-full pb-8 max-w-72 phonlg:max-w-xl tabl:max-w-2xl desk:max-w-2xl">
+                        {news === undefined || news?.length === 0 && (
+                            <div className="flex flex-col items-center justify-between gap-2  mt-0 m-auto">
+                                <Skeleton className="text-center w-192 h-12" />
+                                <Separator className="my-4" />
+                                <Skeleton className="text-center w-192 h-12" />
+                                <Skeleton className="py-12 my-10 text-center w-192 h-112" />
+                            </div>
+                        )}
                         <CarouselContent>
                             {news?.map((item, index) => (
-                            <CarouselItem key={index}>
-                                <div>
-                                    <Card className="bg-transparent border-none">
-                                        <CardHeader className="bg-transparent flex flex-col items-center justify-center p-0">
-                                            <CardTitle className="text-recifis-blue text-center font-mono py-2 uppercase">{item?.title}</CardTitle>
-                                            <Separator className="w-full" />
-                                        </CardHeader>
-                                        <CardDescription className="text-recifis-blue text-sm text-center pt-2">{item?.subtitle}</CardDescription>
-                                        <CardContent className="bg-transparent flex aspect-square items-center justify-center w-full h-144">
-                                            <Image
-                                                src={item?.image?.path}
-                                                width={880}
-                                                height={800}
-                                                alt="Imagem de pessoas sorrindo"
-                                                className="rounded-xl"
-                                            /> 
-                                        </CardContent> 
-                                    </Card>
-                                </div>
-                            </CarouselItem>
+                                <CarouselItem key={index}>
+                                        <Card className="bg-transparent border-none">
+                                            <CardHeader className="bg-transparent flex flex-col items-center justify-center p-0">
+                                                <CardTitle className="text-recifis-blue text-center font-mono py-2 uppercase">{item?.title}</CardTitle>
+                                                <Separator className="w-full" />
+                                            </CardHeader>
+                                            <CardDescription className="text-recifis-blue text-sm text-center pt-2">{item?.subtitle}</CardDescription>
+                                            <CardContent className="bg-transparent flex aspect-square items-center justify-center w-full h-144">
+                                                <Image
+                                                    src={item?.image?.path}
+                                                    width={880}
+                                                    height={800}
+                                                    alt="Imagem de pessoas sorrindo"
+                                                    className="rounded-xl"
+                                                /> 
+                                            </CardContent> 
+                                        </Card>
+                                </CarouselItem>
                             ))}
                         </CarouselContent>
-                        {news === undefined || news?.length === 0 && (
-                            <CarouselContent>
-                                <div className="flex flex-col items-center justify-between gap-2  mt-0 m-auto">
-                                    <Skeleton className="text-center w-192 h-12" />
-                                    <Separator className="my-4" />
-                                    <Skeleton className="text-center w-192 h-12" />
-                                    <Skeleton className="py-12 my-10 text-center w-192 h-112" />
-                                </div>
-                            </CarouselContent>
-                        )}
                         <CarouselPrevious />
                         <CarouselNext />
                     </Carousel>

@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,6 +24,7 @@ import LecturesServices from "@/services/lectures.services";
 import { useSearchParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Image from "next/image";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const MAX_SIZE = 1000000 //1mb
 
@@ -37,6 +39,7 @@ const formSchema = z.object({
   mainSpeaker: z.string().min(4, message).max(50, messageNomeParticipante),
   listSpeakers: z.array(z.string().min(4, messageNomeParticipante).max(50, messageNomeParticipante)).nullable(),
   link: z.string().min(1, message),
+  isInCarousel: z.boolean().default(false),
   image: z
     .instanceof(File, { message } )
     .refine(
@@ -104,7 +107,8 @@ export default function EditLecturesPage() {
       mainSpeaker: mainSpeaker,
       listSpeakers: listSpeakers,
       link: searchParams.get("link") || "",
-      image: undefined
+      image: undefined,
+      isInCarousel: searchParams.get("isInCarousel") === "true" ? true : false,
     },
   })
 
@@ -119,9 +123,10 @@ export default function EditLecturesPage() {
       listSpeakers: values?.listSpeakers,
       link: values?.link,
       image: values?.image ?? undefined,
-      publicId: getPublicId
+      publicId: getPublicId,
+      isInCarousel: values?.isInCarousel,
     });
-    
+    console.log("response", response);
     setTimeout(() => {
       setLoading(false);
     }, 1000);
@@ -200,6 +205,28 @@ export default function EditLecturesPage() {
                     </FormItem> 
                   )}
                 />
+                 <FormField
+                    control={form.control}
+                    name="isInCarousel"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel>
+                          Adicionar palestra no carrossel
+                        </FormLabel>
+                        <FormDescription>
+                          Se ativado, a palestra será exibida no Carrossel na página inicial.
+                        </FormDescription>
+                      </div>
+                    </FormItem>
+                    )}
+                  />
               <FormField 
                 control={form.control}
                 name={"mainSpeaker"}

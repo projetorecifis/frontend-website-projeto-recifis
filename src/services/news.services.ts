@@ -8,7 +8,7 @@ class NewsServices{
         formData.append("title", request.title);
         formData.append("subtitle", request.subtitle);
         formData.append("text", request.text);
-        formData.append("type", request.type);
+        formData.append("isInTop", request.isInTop.toString());
         
         if(request?.image) formData.append("image", request.image); 
         if(request?.publicId) formData.append("publicId", request.publicId);

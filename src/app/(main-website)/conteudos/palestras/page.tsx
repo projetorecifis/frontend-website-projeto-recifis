@@ -33,7 +33,8 @@ const {
   sectionRecifisProject, h1, divRecifisProject
 } = homePageStyles()
 
-export default function Speechs() {
+export default async function Speechs() {
+  // const response = await speechServi
   return (
       <main className="bg-recifis-salmonLight">
         <section className={sectionRecifisProject()}>

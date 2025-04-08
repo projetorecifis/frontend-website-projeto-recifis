@@ -89,7 +89,7 @@ export default function ManagerLecturesPage() {
 
   useEffect(() => {
     getAllLectures();
-  })
+  },[])
 
   useEffect(() => {
     console.log(allLectures);
@@ -115,6 +115,7 @@ export default function ManagerLecturesPage() {
               <TableHead >Título da palestra</TableHead>
               <TableHead>Descrição da palestra</TableHead>
               <TableHead>Link da palestra</TableHead>
+              <TableHead className="w-20">Está no carrossel</TableHead>
               <TableHead className="w-72">Palestrantes</TableHead>
               <TableHead>Editar/Deletar</TableHead>
             </TableRow>
@@ -127,6 +128,7 @@ export default function ManagerLecturesPage() {
                   <TableCell>{lectures?.title}</TableCell>
                   <TableCell>{lectures?.description?.length > 120 ? lectures.description.substring(0,120) + "..." : lectures?.description}</TableCell>
                   <TableCell>{lectures?.link?.length > 120 ? lectures?.link?.substring(0,120) + "..." : lectures?.link}</TableCell>
+                  <TableCell>{lectures?.isInCarousel === "true" ? "Sim" : "Não"}</TableCell>
                   <TableCell>
                     {JSON.parse(lectures?.speakers).map((speaker: string, indexSpeaker: number) => (
                       <ul key={indexSpeaker}>
@@ -145,6 +147,7 @@ export default function ManagerLecturesPage() {
                           + "&speakers=" + lectures?.speakers 
                           + "&image=" + lectures?.image?.path 
                           + "&publicId=" + lectures?.image?.publicId
+                          + "&isInCarousel=" + lectures?.isInCarousel
                         }  
                         className="text-blue-500">
                           Editar
@@ -157,9 +160,9 @@ export default function ManagerLecturesPage() {
             </TableBody>
           )}
       </Table>
-      {!!allLectures !== undefined && !!loading && (
+      {!!allLectures !== undefined && allLectures?.length !== 0 && !!loading && (
         <div className="flex flex-col justify-center items-center space-y-4 py-2">
-          <Skeleton className="h-160 w-full" />
+          <Skeleton className="h-112 w-full" />
           <Skeleton className="text-center h-8 w-112" />
         </div>
       )}
