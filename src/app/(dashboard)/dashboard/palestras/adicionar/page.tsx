@@ -25,7 +25,7 @@ import lecturesServices from "@/services/lectures.services";
 import Image from "next/image";
 import { Checkbox } from "@/components/ui/checkbox";
 
-const MAX_SIZE = 1000000 //1mb
+const MAX_SIZE = 1500000 //1.50mb
 
 const messageNomeParticipante = "O nome do participante deve ter no mínimo 4 caracteres e no máximo 50 caracteres"
 const messageNomeNoticia = "O nome da palestra deve ter no máximo 250 caracteres"
@@ -184,7 +184,7 @@ export default function AddLecturesPage() {
                 render={({ field }) => (
                   <FormItem className="space-y-4">
                     <div>
-                      <FormLabel>Link da palestra</FormLabel>
+                      <FormLabel>Link do vídeo da palestra</FormLabel>
                       <FormControl>
                         <Input placeholder="" type="text" {...field}  />
                       </FormControl>
@@ -209,7 +209,7 @@ export default function AddLecturesPage() {
                       Adicionar palestra no carrossel
                     </FormLabel>
                     <FormDescription>
-                      Se ativado, a palestra será exibida no Carrossel na página inicial.
+                      Se ativado, a palestra será exibida no Carrossel na página de palestras.
                     </FormDescription>
                   </div>
                 </FormItem>
@@ -292,8 +292,8 @@ export default function AddLecturesPage() {
                                 /> 
                                 {imageWatch &&
                                   <Image
-                                    width={320}
-                                    height={320}
+                                    width={520}
+                                    height={520}
                                     src={URL.createObjectURL(imageWatch)} 
                                     alt="Imagem da palestra" 
                                     className="object-cover rounded-lg" 

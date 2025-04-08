@@ -112,8 +112,11 @@ export default function DefaultContentNews({ defaultNews } :{ defaultNews: INews
                   </CardContent>
               </Card>
           ))}
-          {defaultNews === undefined || defaultNews?.length === 0 && (
+          {defaultNews === undefined && (
               <Skeleton className="h-52 w-full" />
+          )}
+          {defaultNews !== undefined && defaultNews?.length === 0 && (
+            <p className="text-center">Não há notícias por enquanto</p>
           )}
         </div>
 

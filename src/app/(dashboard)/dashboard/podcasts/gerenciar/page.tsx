@@ -29,6 +29,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { toast } from "sonner";
+import { Link } from "lucide-react";
 
 export default function ManagerPodcastsPage() {
 
@@ -102,6 +103,10 @@ export default function ManagerPodcastsPage() {
     <div className="px-8">
       <h1 className="text-2xl font-bold">Gerenciar Podcasts</h1>
       <p className="text-gray-400">Aqui você pode gerenciar os podcasts do projeto recifis. Editar, remover e visualizá-las.</p>
+      <a className="pt-4 flex gap-2 items-center hover:underline" href="/conteudos/podcasts">
+        <Link size={12} /> 
+        <p>Ir para a página de podcasts</p>
+      </a>
     </div>
     <div className="p-8">
     <Separator className="mb-8" />

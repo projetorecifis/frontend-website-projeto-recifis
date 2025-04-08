@@ -13,8 +13,8 @@ export default function AllNews() {
     const page = searchParams.get('page') || "1";
     const limit = 10;
     
-    const [topNews, setTopNews] = useState<INewsDataResponse[] | undefined>([]);
-    const [defaultNews, setDefaultNews] = useState<INewsDataResponse[] | undefined>([]);
+    const [topNews, setTopNews] = useState<INewsDataResponse[] | undefined>(undefined);
+    const [defaultNews, setDefaultNews] = useState<INewsDataResponse[] | undefined>(undefined);
     const [metaData, setMetaData] = useState<INewsMetaDataResponse | undefined>(undefined);
     
     const getAllNews = async () => {
@@ -29,6 +29,7 @@ export default function AllNews() {
           setMetaData(metaDataResponse[0]);
         }
     
+        console.log(response.message)
         if(response?.message === "No news were found"){
             setTopNews([]);
             setDefaultNews([]);

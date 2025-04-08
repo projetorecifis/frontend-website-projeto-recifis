@@ -29,7 +29,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { toast } from "sonner";
-
+import { Link } from "lucide-react"
 export default function ManagerLecturesPage() {
 
   const searchParams = useSearchParams();
@@ -44,10 +44,10 @@ export default function ManagerLecturesPage() {
 
   const getAllLectures = async() => {
     const response = await LecturesServices.getAllLectures(page, limit);
-    const LecturesResponse = response?.data?.lectures;
+    const lecturesResponse = response?.data?.lectures;
     const metaDataResponse = response?.data?.metaData;
 
-    setAllLectures(LecturesResponse);
+    setAllLectures(lecturesResponse);
 
     if(metaDataResponse !== undefined){
       setMetaData(metaDataResponse[0]);
@@ -101,8 +101,12 @@ export default function ManagerLecturesPage() {
     <div className="px-8">
       <h1 className="text-2xl font-bold">Gerenciar Palestras</h1>
       <p className="text-gray-400">Aqui você pode gerenciar as palestras do projeto recifis. Editar, remover e visualizá-las.</p>
+      <a className="pt-4 flex gap-2 items-center hover:underline" href="/conteudos/palestras">
+        <Link size={12} /> 
+        <p>Ir para a página de palestras</p>
+      </a>
     </div>
-    <div className="p-8">
+    <div className="p-8 pt-2">
     <Separator className="mb-8" />
         <Table>
           {allLectures?.length === 0 || allLectures === undefined && (
@@ -112,9 +116,9 @@ export default function ManagerLecturesPage() {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">Ordem</TableHead>
-              <TableHead >Título da palestra</TableHead>
-              <TableHead>Descrição da palestra</TableHead>
-              <TableHead>Link da palestra</TableHead>
+              <TableHead className="w-72" >Título da palestra</TableHead>
+              <TableHead className="w-72">Descrição da palestra</TableHead>
+              <TableHead className="w-20">Link da palestra</TableHead>
               <TableHead className="w-20">Está no carrossel</TableHead>
               <TableHead className="w-72">Palestrantes</TableHead>
               <TableHead>Editar/Deletar</TableHead>
@@ -127,7 +131,7 @@ export default function ManagerLecturesPage() {
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{lectures?.title}</TableCell>
                   <TableCell>{lectures?.description?.length > 120 ? lectures.description.substring(0,120) + "..." : lectures?.description}</TableCell>
-                  <TableCell>{lectures?.link?.length > 120 ? lectures?.link?.substring(0,120) + "..." : lectures?.link}</TableCell>
+                  <TableCell>{lectures?.link?.length > 20 ? lectures?.link?.substring(0,20) + "..." : lectures?.link}</TableCell>
                   <TableCell>{lectures?.isInCarousel === "true" ? "Sim" : "Não"}</TableCell>
                   <TableCell>
                     {JSON.parse(lectures?.speakers).map((speaker: string, indexSpeaker: number) => (

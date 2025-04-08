@@ -26,7 +26,7 @@ import { toast } from "sonner";
 import Image from "next/image";
 import { Checkbox } from "@/components/ui/checkbox";
 
-const MAX_SIZE = 1000000 //1mb
+const MAX_SIZE = 1500000 //1.50mb
 
 const messageNomeParticipante = "O nome do participante deve ter no mínimo 4 caracteres e no máximo 50 caracteres"
 const messageNomeNoticia = "O nome da palestra deve ter no máximo 250 caracteres"
@@ -196,7 +196,7 @@ export default function EditLecturesPage() {
                   render={({ field }) => (
                     <FormItem className="space-y-4">
                       <div>
-                        <FormLabel>Link da palestra</FormLabel>
+                        <FormLabel>Link do vídeo da palestra</FormLabel>
                         <FormControl>
                           <Input placeholder="" type="text" {...field}  />
                         </FormControl>
@@ -221,7 +221,7 @@ export default function EditLecturesPage() {
                           Adicionar palestra no carrossel
                         </FormLabel>
                         <FormDescription>
-                          Se ativado, a palestra será exibida no Carrossel na página inicial.
+                          Se ativado, a palestra será exibida no Carrossel na página de palestras.
                         </FormDescription>
                       </div>
                     </FormItem>
@@ -302,8 +302,8 @@ export default function EditLecturesPage() {
                             /> 
                             {imageWatch && 
                               <Image
-                                width={640}
-                                height={320}
+                                width={520}
+                                height={520}
                                 src={URL.createObjectURL(imageWatch)} 
                                 alt="Imagem da palestra" 
                                 className="w-200 h-80  object-cover rounded-lg" 
@@ -311,8 +311,8 @@ export default function EditLecturesPage() {
                             }
                             {!imageWatch && getImageFromUrl !== null && 
                               <Image 
-                                width={640}
-                                height={320}
+                                width={520}
+                                height={520}
                                 src={getImageFromUrl} 
                                 alt="Imagem da palestra"
                                 className="w-200 h-80 object-cover rounded-lg" 

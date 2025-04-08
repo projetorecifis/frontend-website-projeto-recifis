@@ -1,7 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Carousel,
   CarouselContent,
@@ -14,13 +14,14 @@ import { useSearchParams } from "next/navigation";
 import { ILecturesDataResponse, ILecturesMetaDataResponse } from "@/services/interfaces/lectures.interface";
 import { PaginationWithLinks } from "@/components/created/PaginationWithLinks";
 import LecturesServices from "@/services/lectures.services";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ShowLectures() {
     const searchParams = useSearchParams();
     const page = searchParams.get('page') || "1";
     const limit = 10;
     
-    const [lectures, setLectures] = useState<ILecturesDataResponse[] | undefined>([]);
+    const [lectures, setLectures] = useState<ILecturesDataResponse[] | undefined>(undefined);
     const [metaData, setMetaData] = useState<ILecturesMetaDataResponse | undefined>(undefined);
     
 
@@ -43,7 +44,7 @@ export default function ShowLectures() {
     }
 
     useEffect(() => {
-
+        getLecturesByPage();
     }, [])
     return (
         <section >
@@ -78,31 +79,58 @@ export default function ShowLectures() {
                 <CarouselNext />
             </Carousel>
     
-            <Card className="w-full flex flex-col justify-center pt-4 items-center tabl:items-start tabl:flex-row">
-                <CardContent>
-                    <Image 
-                        src="/img/conteudo/palestras/palestra_img.png"
-                        width={500}
-                        height={500}
-                        alt="Imagem de pessoas sorrindo"
-                        // className={imgPeopleSmiling}
-                    />
-                </CardContent>
-                <CardHeader className="w-full flex flex-col gap-8 items-center justify-between tabl:items-start desk:w-1/2">
-                    <div className="space-y-2">
-                        <CardTitle>7° Congresso Luso-Brasileiro de Auditores Fiscais - Dia 2 </CardTitle>
-                        <p>Palestrantes: Nome dos palestrantes</p>
-                        <CardDescription className="text-justify">
-                        Aqui você encontra palestras. Esse é um texto de teste, apenas para ver como vai ficar na página. É necessário trocar esse texto.
-                        </CardDescription>
-                    </div>
-                    <div>
-                        <Button className="bg-recifis-blue hover:bg-recifis-orange font-bold uppercase">
-                            <a href="/quem-somos">Assistir palestra</a>
-                        </Button>
-                    </div>
-                </CardHeader>
-            </Card>
+           <section>
+                 <div className="py-4">
+                 {lectures !== undefined && lectures?.length > 0 && lectures.map((lecture, index) => (
+                     <Card className="w-full bg-orange-50 flex flex-col justify-center pt-4 items-center tabl:items-start tabl:flex-row-reverse">
+                         <CardHeader className="w-full flex flex-col gap-8 items-center justify-between tabl:items-start desk:w-1/2">
+                             <div className="space-y-2">
+                                <CardTitle>{lecture.title}</CardTitle>
+                                
+                                <ul className="" >
+                                    <li>
+                                        Palestrantes: {" "}
+                                        {JSON.parse(lecture?.speakers).map((speaker: string, indexSpeaker: number) => (
+                                            JSON.parse(lecture?.speakers).length === indexSpeaker + 1 ? `${speaker}` : `${speaker}, `
+                                        ))}
+                                    </li>
+                                   
+                                    {/* {JSON.parse(lecture?.speakers).map((speaker: string, indexSpeaker: number) => (
+                                        <li key={indexSpeaker}>{speaker}{JSON.parse(lecture?.speakers).length === indexSpeaker + 1 ? "" : ", "} </li>
+                                    ))} */}
+                                 </ul>
+                                <CardDescription className="text-justify">
+                                   {lecture.description}
+                                </CardDescription>
+                             </div>
+                             <div>
+                                {lecture?.link !== undefined && (
+                                <a href={lecture?.link} target="_blank" 
+                                    className="bg-recifis-blue text-white text-sm p-3 rounded-md hover:bg-recifis-orange font-bold uppercase">
+                                    Acessar notícia
+                                </a>
+                                )}
+                             </div>
+                         </CardHeader>
+                         <CardContent>
+                             <Image 
+                                 src={lecture.image.path}
+                                 width={500}
+                                 height={500}
+                                 alt="Imagem de pessoas sorrindo"
+                                 className={"rounded-lg"}
+                             />
+                         </CardContent>
+                     </Card>
+                 ))}
+                 {lectures === undefined && (
+                     <Skeleton className="h-52 w-full" />
+                 )}
+                 {lectures !== undefined && lectures?.length === 0 && (
+                   <p className="text-center">Não há palstras por enquanto</p>
+                 )}
+               </div>
+           </section>
             <section className="py-4">
                 {metaData !== undefined && (
                     <PaginationWithLinks 

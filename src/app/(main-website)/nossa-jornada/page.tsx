@@ -3,32 +3,37 @@ import { Heading } from "@/components/created/Heading";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 
+const leftCards =  [
+    {
+        number: "2023",
+        title: "Janeiro",
+        description: "Surgimento do projeto RECIFIS ",
+        image1: "/img/initial-projeto-recifis.png",
+        image2: undefined,
+        content: `O projeto contempla atividades de ensino, pesquisa e extensão
+        e pretende desenvolver atividades que vão desde a apresentação de palestras
+        em escolas públicas da região, produção de podcasts, desenvolvimento de plataformas
+        digitais, desenvolvimento de jogos digitais, produção de peças teatrais e cartilhas educativas`
+    }
+]
+
+const rightCards = [
+    {
+        number: "2024",
+        title: "Setembro",
+        description: "Texto aqui",
+        image1: "/img/imgHug.png",
+        image2: "/img/imgHug.png",
+        content: `texto aqui para teste testando o texto para ver como fica 
+        na pagina texto aqui para teste testando o texto para ver como fica na pagina 
+        texto aqui para teste testando o texto para ver como fica na pagina texto aqui 
+        para teste testando o texto para ver como fica na pagina`
+    }
+]
+
 const ourStory = {
     cards: [
-        [{
-            number: "2023",
-            title: "Setembro",
-            description: "Descrição do projeto RECIFIS",
-            image1: "/img/imgHug.png",
-            image2: "/img/imgHug.png",
-             content: `texto aqui para teste testando o texto para ver como fica 
-            na pagina texto aqui para teste testando o texto para ver como fica na pagina 
-            texto aqui para teste testando o texto para ver como fica na pagina texto aqui 
-            para teste testando o texto para ver como fica na pagina`
-        }]
-        ,
-        [{
-            number: "2024",
-            title: "Setembro",
-            description: "Texto aqui",
-            image1: "/img/imgHug.png",
-            image2: "/img/imgHug.png",
-             content: `texto aqui para teste testando o texto para ver como fica 
-            na pagina texto aqui para teste testando o texto para ver como fica na pagina 
-            texto aqui para teste testando o texto para ver como fica na pagina texto aqui 
-            para teste testando o texto para ver como fica na pagina`
-        },
-        ],
+        leftCards
     ]
 }
 
@@ -70,7 +75,7 @@ export default function OurStoryPage() {
                                             <CardDescription className="text-white font-mono text-xl">{item.description}</CardDescription>
                                         </CardHeader>
                                         <CardContent className="pt-4">
-                                            <p>{item.content} {index}</p>
+                                            <p>{item.content}</p>
                                             <div className="flex items-center justify-between w-full">
                                                 {item?.image1 && (
                                                     <Image
@@ -81,7 +86,7 @@ export default function OurStoryPage() {
                                                     className="rounded-lg mt-4 m-auto"
                                                 />
                                                 )}
-                                                {item?.image2 && (
+                                                {item?.image2 !== undefined && item?.image2 && (
                                                     <Image
                                                     src={item?.image2}
                                                     width={200}

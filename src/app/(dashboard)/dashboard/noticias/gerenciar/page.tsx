@@ -29,6 +29,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { toast } from "sonner";
+import { Link } from "lucide-react";
 
 export default function ManagerNewsPage() {
 
@@ -101,6 +102,10 @@ export default function ManagerNewsPage() {
     <div className="px-8">
       <h1 className="text-2xl font-bold">Gerenciar Notícias</h1>
       <p className="text-gray-400">Aqui você pode gerenciar as notícias do projeto recifis. Editar, remover e visualizá-las.</p>
+      <a className="pt-4 flex gap-2 items-center hover:underline" href="/noticias">
+        <Link size={12} /> 
+        <p>Ir para a página de notícias</p>
+      </a>
     </div>
     <div className="p-8">
     <Separator className="mb-8" />
