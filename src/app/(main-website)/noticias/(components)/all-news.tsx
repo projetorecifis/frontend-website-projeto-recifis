@@ -47,8 +47,7 @@ export default function AllNews() {
             <section>
                 <section >
                     <TopNews news={topNews} />
-                </section>
-                <section>
+               
                     <DefaultContentNews defaultNews={defaultNews} />
                 </section>
                 <section className="py-4">

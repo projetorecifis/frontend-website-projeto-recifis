@@ -33,7 +33,8 @@ const rightCards = [
 
 const ourStory = {
     cards: [
-        leftCards
+        leftCards,
+        rightCards
     ]
 }
 
@@ -51,7 +52,7 @@ export default function OurStoryPage() {
             >
                 ★ Um pouco sobre nós ... ★
             </Heading>
-            <section className="w-full flex mb-2  justify-center items-center ">
+            <section className="w-full flex flex-col mb-2 justify-center items-center desk:flex-row">
                 {ourStory?.cards.map((card, index) => (
                     <div key={index} className={`mt-8 mx-0 m-auto ${index % 2 === 0 ? "" : "mt-40"} `}> 
                         <div  className="px-2 space-y-28 mt-0 m-auto  ">     
@@ -76,7 +77,7 @@ export default function OurStoryPage() {
                                         </CardHeader>
                                         <CardContent className="pt-4">
                                             <p>{item.content}</p>
-                                            <div className="flex items-center justify-between w-full">
+                                            <div className="flex flex-col items-center justify-between w-full phonlg:flex-row">
                                                 {item?.image1 && (
                                                     <Image
                                                     src={item?.image1}

@@ -1,68 +1,31 @@
-import { Heading } from "@/components/created/Heading";
 import { Button } from "@/components/ui/button";
-import { tv } from "tailwind-variants";
 import Image from "next/image";
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
-import { Separator } from "@/components/ui/separator";
-import { useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { INewsDataResponse } from "@/services/interfaces/news.interface";
 import { Skeleton } from "@/components/ui/skeleton";
-import { setCookies } from "@/utils/cookies";
-import { useRouter, useSearchParams } from "next/navigation";
-import { setNewsAtCookies } from "@/app/actions/news";
+import { useRouter } from "next/navigation";
 
 
-const homePageStyles = tv({
-  slots: {
-    sectionRecifisProject: "flex flex-col justify-center items-center w-full p-4 tabl:flex-row",
-    imgRecifis: " duration-300 hover:scale-110",
-    imgHug: "duration-300 hover:scale-110 p-4 desk:ml-4 ",
-    imgTreeWords: "h-text-center duration-300 hover:scale-110",
-    imgPeopleSmiling: "w-full opacity-55 h-auto",
-    h1KnowMoreAboutOurProject: "text-recifis-blue text-4xl",
-    divRecifisProject: "flex flex-col items-center gap-4 p-4",
-    h1: "uppercase text-recifis-blue font-bold text-center text-2xl drop-shadow-lg shadow-black tabl:text-4xl",
-    sectionKnowMoreAboutOurProject: "flex flex-col justify-center items-center w-full pt-10 tabl:flex-row",
-    h1Recifis: "uppercase text-slate-950",
-    divKnowMoreAboutOurProject: " flex flex-col items-start gap-6 p-6 desk:p-0 desk:w-1/3",
+// const allNews = [
+//     {
+//         title: text,
+//         description: "Oi",
+//         image: "/img/conteudo/palestras/palestra_img.png",
+//         href: "/quem-somos",
+//         date: "2023-10-01",
+//         type: "carousel" as NewsType,
+//     },
+//     {
+//         title: text,
+//         description: "Oi",
+//         image: "/img/conteudo/palestras/palestra_img.png",
+//         href: "/quem-somos",
+//         date: "2023-10-01",
+//         type: "top" as NewsType,
+//     },
 
-  },
-})
-
-const text = "'Mil vezes melhor que celular': por que as câmeras Cyber-shot estão saindo da gaveta direto para o rolê dos jovens"
-type NewsType = "carousel" | "top" | "default";
-const allNews = [
-    {
-        title: text,
-        description: "Oi",
-        image: "/img/conteudo/palestras/palestra_img.png",
-        href: "/quem-somos",
-        date: "2023-10-01",
-        type: "carousel" as NewsType,
-    },
-    {
-        title: text,
-        description: "Oi",
-        image: "/img/conteudo/palestras/palestra_img.png",
-        href: "/quem-somos",
-        date: "2023-10-01",
-        type: "top" as NewsType,
-    },
-
-]
-
-
-const {
-  sectionRecifisProject, h1, divRecifisProject
-} = homePageStyles()
+// ]
 
 
 export default function DefaultContentNews({ defaultNews } :{ defaultNews: INewsDataResponse[] | undefined }) {
@@ -75,7 +38,7 @@ export default function DefaultContentNews({ defaultNews } :{ defaultNews: INews
   return (
         <div className="py-4">
           {defaultNews !== undefined && defaultNews?.length > 0 && defaultNews.map((news, index) => (
-              <Card className="w-full bg-orange-50 flex flex-col justify-center pt-4 items-center tabl:items-start tabl:flex-row-reverse">
+              <Card key={index} className="w-full bg-orange-50 flex flex-col justify-center pt-4 items-center tabl:items-start tabl:flex-row-reverse">
                   <CardHeader className="w-full flex flex-col gap-8 items-center justify-between tabl:items-start desk:w-1/2">
                       <div className="space-y-2">
                           <CardTitle>{news.title}</CardTitle>

@@ -1,7 +1,6 @@
 "use client"
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Carousel,
   CarouselContent,
@@ -82,7 +81,7 @@ export default function ShowLectures() {
            <section>
                  <div className="py-4">
                  {lectures !== undefined && lectures?.length > 0 && lectures.map((lecture, index) => (
-                     <Card className="w-full bg-orange-50 flex flex-col justify-center pt-4 items-center tabl:items-start tabl:flex-row-reverse">
+                     <Card key={index} className="w-full bg-orange-50 flex flex-col justify-center pt-4 items-center tabl:items-start tabl:flex-row-reverse">
                          <CardHeader className="w-full flex flex-col gap-8 items-center justify-between tabl:items-start desk:w-1/2">
                              <div className="space-y-2">
                                 <CardTitle>{lecture.title}</CardTitle>

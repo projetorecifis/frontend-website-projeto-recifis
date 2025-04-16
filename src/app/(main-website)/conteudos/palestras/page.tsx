@@ -1,17 +1,7 @@
 import { Heading } from "@/components/created/Heading";
-import { Button } from "@/components/ui/button";
 import { tv } from "tailwind-variants";
-import Image from "next/image";
-
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
 import ShowLectures from "./(components)/show-lectures";
+import { Suspense } from "react";
 
 const homePageStyles = tv({
   slots: {
@@ -43,7 +33,9 @@ export default async function Speechs() {
             <Heading className={h1()} variant="h1">★ Palestras ★</Heading>
           </div>
         </section>
-        <ShowLectures />
+        <Suspense>
+          <ShowLectures />
+        </ Suspense>
       </main>
 
   );

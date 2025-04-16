@@ -1,8 +1,7 @@
 import { Heading } from "@/components/created/Heading";
-import { Button } from "@/components/ui/button";
 import { tv } from "tailwind-variants";
-import Image from "next/image";
 import AllNews from "./(components)/all-news";
+import { Suspense } from "react";
 
 const homePageStyles = tv({
   slots: {
@@ -21,9 +20,6 @@ const homePageStyles = tv({
   },
 })
 
-const text = "'Mil vezes melhor que celular': por que as câmeras Cyber-shot estão saindo da gaveta direto para o rolê dos jovens"
-type NewsType = "carousel" | "top" | "default";
-
 
 const {
   sectionRecifisProject, h1, divRecifisProject
@@ -39,7 +35,9 @@ export default function NewsPage() {
             <Heading className={h1()} variant="h1">★ Notícias ★</Heading>
           </div>
         </section>
-        <AllNews />
+        <Suspense>
+          <AllNews />
+        </Suspense>
       </main>
 
   );

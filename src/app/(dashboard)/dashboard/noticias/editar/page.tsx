@@ -23,15 +23,6 @@ import NewsServices from "@/services/news.services";
 import { useSearchParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Image from "next/image";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox";
 
 const MAX_SIZE = 1000000 //1mb
@@ -232,10 +223,10 @@ export default function EditNewsPage() {
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel>
-                      Adicionar notícia no campo "Notícias em alta"
+                      Adicionar notícia no campo {"Notícias em alta"}
                     </FormLabel>
                     <FormDescription>
-                      Se ativado, a notícia será exibida na seção "Notícias em alta" na página inicial.
+                      Se ativado, a notícia será exibida na seção {"Notícias em alta"} na página inicial.
                     </FormDescription>
                   </div>
                 </FormItem>

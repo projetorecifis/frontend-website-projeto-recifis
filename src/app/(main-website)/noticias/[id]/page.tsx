@@ -1,7 +1,4 @@
 "use client"
-import { Heading } from "@/components/created/Heading";
-import { Button } from "@/components/ui/button";
-import { tv } from "tailwind-variants";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { INewsDataResponse } from "@/services/interfaces/news.interface";

@@ -1,19 +1,16 @@
 "use client"
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import { Play, CirclePlay, Mic, Podcast } from "lucide-react";
-import { BaselinePlayCircle, PlaySkipBackSharp, PlaySkipForwardSharp } from "./icon";
+import { Play, Mic, Podcast } from "lucide-react";
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
   } from "@/components/ui/accordion"
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useState } from "react";
-import { Separator } from "@/components/ui/separator";
 import { ChangeTheme } from "@/components/created/ChangeTheme";
 
 

@@ -14,6 +14,8 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
+import { ArrowBigDownDash } from "lucide-react"
+import { useState } from "react"
  
 const components: { title: string; href: string; description?: string }[] = [
   {
@@ -31,54 +33,63 @@ const components: { title: string; href: string; description?: string }[] = [
 
 const headerStyles = tv({
   slots: {
-    container: 'flex flex-col gap-4 justify-evenly items-center w-full p-4 bg-recifis-blue text-white tabl:flex-row tabl:h-16',
+    container: 'flex flex-col items-center w-full p-4 bg-recifis-blue text-white gap-2 tabl:justify-evenly tabl:gap-4 tabl:flex-row tabl:h-16',
     span: "uppercase",
     firstDiv: "flex items-center gap-4 font-bold",
-    secondDiv: "flex justify-between gap-4 font-bold items-center desk:gap-16",
-    link: "duration-150 hover:scale-110 hover:text-recifis-orange text-center uppercase",
+    link: "duration-150 hover:scale-110 hover:text-recifis-orange text-center uppercase text-sm tabl:text-base",
   },
 })
 
-const { container, span, firstDiv, secondDiv, link } = headerStyles()
+const { container, span, firstDiv, link } = headerStyles()
 
 export function Header() {
+  const [isOpened, setIsOpened] = useState(false);
+  const openHeader = () => {
+    setIsOpened(!isOpened)
+  }
   return (
     <section className={container()}>
-      <div className={firstDiv()}>
+      <div className={cn(firstDiv(), "mb-2")}>
         <Image
           src='/img/handRecifis.png'
           width={48}
           height={48}
           alt={"Imagem que representa a logo do projeto RECIFIS"}
         />
-        <a className={link()} href="/">Projeto <span className={span()}>recifis</span></a>
+        <a className={cn(link())} href="/">Projeto <span className={span()}>recifis</span></a>
       </div>
-      <div className={secondDiv()}>
-        <Link className={link()} href="/quem-somos">Quem somos</Link>
-        <Link className={link()} href="/nossa-jornada">História do projeto</Link>
-        {/* <p className=" h-8 w-1 "></p> */}
-        <NavigationMenu>
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className={link()}>Conteúdos</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid gap-3 tabl:grid-cols-2 tabl:w-112 bg-recifis-blue p-4 align-center justify-items-center ">
-                  {components.map((component, index) => (
-                    <ListItem
-                      key={index}
-                      title={component.title}
-                      href={component.href}
-                    >
-                      {component.description}
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
-        <p className=" h-8 w-1 "></p>
+      <div className={`${isOpened === true ? "flex" : "hidden"} flex-col items-center gap-4 font-bold  tabl:flex tabl:flex-row tabl:items-center tabl:gap-8 `}>
+        <div className="flex items-center gap-8">
+          <Link className={link()} href="/quem-somos">Quem somos</Link>
+          <Link className={link()} href="/nossa-jornada">História do projeto</Link>
+        </div>
+       <div className="flex items-center justify-center gap-8">
         <Link className={link()} href="/noticias">Notícias</Link>
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className={cn(link(), "p-0")}>Conteúdos</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid gap-3 w-40 tabl:grid-cols-2 tabl:w-96 bg-recifis-blue align-center justify-items-center p-0 tabl:p-4">
+                    {components.map((component, index) => (
+                      <ListItem
+                        key={index}
+                        title={component.title}
+                        href={component.href}
+                        className="text-sm"
+                      >
+                        {component.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+       </div>
+      </div>
+      <div onClick={() => openHeader()} className="block cursor-pointer tabl:hidden">
+        <ArrowBigDownDash className={`${isOpened === true ? "rotate-180 duration-300" : "duration-300"} block tabl:hidden`}/>
       </div>
     </section>
   )
@@ -100,7 +111,7 @@ const ListItem = React.forwardRef<
           )}
           {...props}
         >
-          <h1 className={`text-lg leading-none font-bold text-white uppercase hover:text-recifis-orange`}>{title}</h1>
+          <h1 className={`text-md leading-none font-bold text-white uppercase tabl:text-lg hover:text-recifis-orange`}>{title}</h1>
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground text-slate-300">
             {children}
           </p>
