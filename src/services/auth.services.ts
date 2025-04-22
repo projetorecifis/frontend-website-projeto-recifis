@@ -74,6 +74,7 @@ class AuthServices{
         }catch(e){
             console.log("error auth::", e);
             const error = e as AxiosError;
+            
             if(error?.status === 401){
                 return httpErrorReturn(401, errorEmailOrPasswordInvalid, undefined);
             }
