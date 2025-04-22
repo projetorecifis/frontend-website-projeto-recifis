@@ -19,6 +19,7 @@ import AuthServices from "@/services/auth.services"
 import { IUserDataResponse } from "@/services/interfaces/user.interface"
 import { onlyCapitalLetters } from "@/utils/regex"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Button } from "@/components/ui/button"
 
 export default function ShowUsersOnDashboard() {
 
@@ -43,7 +44,8 @@ export default function ShowUsersOnDashboard() {
     <CardContent>
       <Separator className="my-4" />
       <div className="space-y-4">
-        <div className="text-lg ">Pessoas cadastradas:</div>
+        
+        <p className="text-lg ">Pessoas cadastradas:</p>
         <div className="grid gap-6">
           {allUsers?.length > 0 && allUsers.map((user, index) => (
             <div key={index} className="flex items-center justify-between space-x-4">
@@ -95,6 +97,9 @@ export default function ShowUsersOnDashboard() {
               <Skeleton className="rounded-md h-8 w-44" />
              </div>
           )}
+        </div>
+        <div className="pt-8">
+          <Button variant="primary">Cadastrar novo usuário</Button>
         </div>
       </div>
     </CardContent>

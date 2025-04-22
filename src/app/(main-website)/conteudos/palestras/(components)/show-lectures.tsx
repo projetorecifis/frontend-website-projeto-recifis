@@ -23,7 +23,6 @@ export default function ShowLectures() {
     const [lectures, setLectures] = useState<ILecturesDataResponse[] | undefined>(undefined);
     const [metaData, setMetaData] = useState<ILecturesMetaDataResponse | undefined>(undefined);
     
-
     const getLecturesByPage = async () => {
         const response = await LecturesServices.getAllLectures(page, limit);
         const lecturesResponse = response?.data?.lectures;

@@ -120,7 +120,8 @@ export default function ManagerPodcastsPage() {
               <TableHead className="w-20">Ordem</TableHead>
               <TableHead >Título do Podcast</TableHead>
               <TableHead >Descrição do Podcast</TableHead>
-              <TableHead className="w-80">Link do Podcast</TableHead>
+              <TableHead className="w-72">Participantes</TableHead>
+              <TableHead>Link do Podcast</TableHead>
               <TableHead>Editar/Deletar</TableHead>
             </TableRow>
           </TableHeader>
@@ -130,8 +131,15 @@ export default function ManagerPodcastsPage() {
                   <TableRow key={index}>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{podcasts.title}</TableCell>
-                    <TableCell>{podcasts?.link?.length > 120 ? podcasts.link.substring(0,120) + "..." : podcasts.link}</TableCell>
-                    <TableCell>{podcasts.description.length > 120 ? podcasts.description.substring(0,120) + "..." : podcasts.description}</TableCell>
+                    <TableCell>{podcasts.description.length > 150 ? podcasts.description.substring(0,150) + "..." : podcasts.description}</TableCell>
+                    <TableCell>
+                      {JSON.parse(podcasts?.speakers).map((speaker: string, indexSpeaker: number) => (
+                        <ul key={indexSpeaker}>
+                          <li className="py-1" key={indexSpeaker}>{speaker}</li>
+                        </ul>
+                      ))}
+                    </TableCell>
+                    <TableCell>{podcasts?.link?.length > 30 ? podcasts.link.substring(0,30) + "..." : podcasts.link}</TableCell>
                     <TableCell >
                       <div className="flex flex-row items-center">
                         <a 
@@ -143,6 +151,7 @@ export default function ManagerPodcastsPage() {
                             + "&link="+ podcasts.link
                             + "&image=" + podcasts.image.path
                             + "&publicId=" + podcasts.image.publicId
+                            + "&speakers=" + podcasts.speakers
                           } 
                           className="text-blue-500">
                             Editar

@@ -9,6 +9,7 @@ class PodcastsServices{
         formData.append("title", request.title);
         formData.append("description", request.description);
         formData.append("link", request.link);
+        formData.append("speakers", JSON.stringify(request.speakers));
         
         if(request?.image) formData.append("image", request.image); 
         if(request?.publicId) formData.append("publicId", request.publicId);
@@ -38,6 +39,7 @@ class PodcastsServices{
     }
     async createPodcasts(request: IPodcastsRequest){
         try{
+            console.log('rteste =>', request);
             const formData = this.createFormData(request);   
             
             const response = await httpMultFormData.post<IPodcastsDataResponse | undefined>(`${"http://localhost:3003"}/podcasts/create`, formData);
