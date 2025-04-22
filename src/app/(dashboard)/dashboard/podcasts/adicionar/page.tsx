@@ -4,7 +4,7 @@ import { SidebarInset } from "@/components/ui/sidebar"
 import { z } from "zod";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -21,6 +21,8 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import PodcastsServices from "@/services/podcasts.services";
 import { toast } from "sonner";
 import Image from "next/image";
+import { Mic, Play, Plus, Trash } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const MAX_SIZE = 1000000 //1mb
 
@@ -30,6 +32,8 @@ const message = "Campo obrigatório"
 
 const formSchema = z.object({
   title: z.string().min(1, message).max(250, messageNomeNoticia),
+  mainSpeaker: z.string().min(1, message),
+  listSpeakers: z.array(z.string().min(1, message)).nullable(),
   description: z.string().min(1, message).max(550, messageNomeDescription),
   link: z.string().min(1, message),
   image: z
@@ -84,6 +88,8 @@ export default function AddPodcastsPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
+      mainSpeaker: undefined,
+      listSpeakers: [],
       description: "",
       link: "",
       image: undefined
@@ -93,8 +99,13 @@ export default function AddPodcastsPage() {
   const createPodcasts = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
 
+    const speakers = values?.listSpeakers !== null 
+    ? [values.mainSpeaker, ...values?.listSpeakers] 
+    : [values.mainSpeaker];
+
     const response = await PodcastsServices.createPodcasts({
       title: values.title,
+      speakers: speakers,
       description: values.description,
       link: values.link,
       image: values.image
@@ -115,9 +126,17 @@ export default function AddPodcastsPage() {
     console.log("values =>", values);
     createPodcasts(values);
   }
- 
+
+  const { fields, append, remove } = useFieldArray({ name: "listSpeakers" as never, control: form.control });
+
+  const mainSpeaker = form.watch("mainSpeaker") || undefined;
+  const speakersWatch = form.watch("listSpeakers") || [];
   const imageWatch = form.watch("image") || undefined;
   const { errors } = form.formState;
+
+  const titleWatch = form.watch("title") || "";
+  const descriptionWatch = form.watch("description") || "";
+  const linkWatch = form.watch("link") || "";
 
   return (
     <SidebarInset>
@@ -147,6 +166,57 @@ export default function AddPodcastsPage() {
                   </FormItem> 
                 )}
               />
+
+              <FormField 
+                control={form.control}
+                name={"mainSpeaker"}
+                render={({ field }) => (
+                  <FormItem className="m-0">
+                    <div>
+                      <FormLabel>Nome dos participantes do podcast</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Nome do primeiro participante" type="text" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              
+              />
+              {fields.map((field, index) => (
+                <FormField
+                  control={form.control}
+                  key={field.id}
+                  name={`listSpeakers.${index}`}
+                  render={({  }) => (
+                    <div>
+                        <FormItem>
+                        <div>
+                          <FormControl>
+                            <Input placeholder={`Nome do participante ${index + 2}`} type="text" {...form.register(`listSpeakers.${index}`)} />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    </div>
+                  )}
+                />
+              ))}
+              <div className="flex gap-2">
+                <Button variant={"primary"} onClick={() => append(undefined)} type="button" className="my-2 flex text-center justify-center items-center space-x-2">
+                  <Plus className="size-4" />
+                  <p>Adicionar participante</p>
+                </Button>
+                <Button variant={"destructive"} onClick={() => {
+                  if(speakersWatch !== undefined) {
+                    remove(speakersWatch?.length-1)
+                  }
+                }} type="button" className="my-2 flex text-center justify-center items-center space-x-2">
+                  <Trash className="size-4" />
+                  <p>Remover participante</p>
+                </Button>
+              </div>
+
               <FormField
                 control={form.control}
                 name="description"
@@ -203,15 +273,63 @@ export default function AddPodcastsPage() {
                                     onChange(event.target.files && event.target.files[0])
                                   }}
                                 /> 
-                               {imageWatch &&
-                                  <Image
-                                    width={640}
-                                    height={320}
-                                    src={URL.createObjectURL(imageWatch)} 
-                                    alt="Imagem do podcast" 
-                                    className="object-cover rounded-lg" 
-                                  />
-                                }
+
+                                  <p className="self-start text-sm">Veja como ficará na página de podcasts:</p>
+                                  <Accordion type="single" collapsible className="w-full border-2 rounded-lg dark:text-slate-300 dark:border-none max-h-112  ">                                      
+                                    <AccordionItem value={`item-1`} className=" rounded-md border-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 dark:border-slate-600">
+                                        <AccordionTrigger 
+                                            className="justify-start gap-4 no-underline px-4"
+                                            // chevronDownClassName="hidden"
+                                        >
+                                        {imageWatch &&
+                                            <Image
+                                              width={80}
+                                              height={80}
+                                              src={URL.createObjectURL(imageWatch)} 
+                                              alt="Imagem do podcast" 
+                                              className="object-cover rounded-lg" 
+                                            />
+                                          }
+                                          {!imageWatch && (
+                                            <Mic className="text-center text-slate-500 rotate-0" size={80} />
+                                          )}
+
+                                        <div className="text-start space-y-1">
+                                            <h1 className="font-bold text-md tabl:text-xl dark:text-slate-300">{titleWatch || "Título aqui"}</h1>
+                                            <ul>
+                                              {speakersWatch.length === 0 && (
+                                                <li>{mainSpeaker || "Nome do participante"}</li>
+                                              )}
+                                             {speakersWatch.length !== 0 && (
+                                               <li className="text-sm">
+                                                  {mainSpeaker}, {" "}
+                                                  {speakersWatch.map((speaker: string, indexSpeaker: number) => (
+                                                      speakersWatch.length === indexSpeaker + 1 ? `${speaker}` : `${speaker}, `
+                                                  ))}
+                                              </li>
+                                             )}
+                                            </ul>
+                                        </div>
+                                        </AccordionTrigger>
+                                          <AccordionContent className="px-4 flex flex-col">
+                                              <p className="py-1 px-8">{descriptionWatch || "Descrição aqui"}</p>
+                                              <a 
+                                                  href={linkWatch}
+                                                  className="flex items-center justify-center gap-2 my-1 rounded-lg bg-slate-50  hover:cursor-pointer dark:hover:bg-slate-600 dark:bg-slate-700 ">
+                                                  <Play className="w-4 h-4" />
+                                                  {"Ouvir podcast"}
+                                                  <Image 
+                                                      src={"/img/spotify-button.png"}
+                                                      alt="Logo do Recifis"
+                                                      width={80}
+                                                      height={80}
+                                                      className="rounded-lg"
+                                                  />
+                                              </a>
+                                          </AccordionContent>
+                                      </AccordionItem>
+                                    </Accordion>
+                          
                               </CardContent>
                             </Card>
                           </FormControl>

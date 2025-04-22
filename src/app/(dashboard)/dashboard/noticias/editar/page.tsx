@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,6 +23,7 @@ import NewsServices from "@/services/news.services";
 import { useSearchParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Image from "next/image";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const MAX_SIZE = 1000000 //1mb
 
@@ -33,6 +35,8 @@ const formSchema = z.object({
   title: z.string().min(1, message).max(250, messageNomeNoticia),
   subtitle: z.string().min(1, message).max(550, messageNomesubtitle),
   text: z.string().min(1, message),
+  isInTop: z.boolean().default(false),
+  link: z.string().optional(),
   image: z
     .instanceof(File, { message } )
     .refine(
@@ -93,20 +97,25 @@ export default function EditNewsPage() {
       title: searchParams.get("title") || "",
       subtitle: searchParams.get("subtitle") || "",
       text: searchParams.get("text") || "",
-      image: undefined
+      image: undefined,
+      isInTop: searchParams.get("isInTop") === "true" ? true : false,
+      link: searchParams.get("link") || undefined,
     },
   })
 
 
   const updateNews = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
+    console.log("values",values);
     const response = await NewsServices.updateNews({
       _id: searchParams.get("id") || "",
       title: values?.title,
       subtitle: values?.subtitle,
       text: values?.text,
       image: values?.image ?? undefined,
-      publicId: getPublicId
+      publicId: getPublicId,
+      isInTop: values?.isInTop,
+      link: values?.link,
     });
     
     setTimeout(() => {
@@ -173,6 +182,21 @@ export default function EditNewsPage() {
               />
               <FormField
                 control={form.control}
+                name="link"
+                render={({ field }) => (
+                  <FormItem className="space-y-4">
+                    <div>
+                      <FormLabel>Link da notícia <span className="text-gray-400"> (opcional)</span></FormLabel>
+                      <FormControl>
+                        <Input placeholder="" type="text" {...field}  />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="text"
                 render={({ field }) => (
                   <FormItem className="m-0">
@@ -184,6 +208,29 @@ export default function EditNewsPage() {
                       <FormMessage />
                     </div>
                   </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="isInTop"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>
+                      Adicionar notícia no campo {"Notícias em alta"}
+                    </FormLabel>
+                    <FormDescription>
+                      Se ativado, a notícia será exibida na seção {"Notícias em alta"} na página inicial.
+                    </FormDescription>
+                  </div>
+                </FormItem>
+          
                 )}
               />
               <FormField
@@ -212,7 +259,7 @@ export default function EditNewsPage() {
                             /> 
                             {imageWatch && 
                               <Image
-                                width={640}
+                                width={320}
                                 height={320}
                                 src={URL.createObjectURL(imageWatch)} 
                                 alt="Imagem da noticia" 
@@ -221,7 +268,7 @@ export default function EditNewsPage() {
                             }
                             {!imageWatch && getImageFromUrl !== null && 
                               <Image 
-                                width={640}
+                                width={320}
                                 height={320}
                                 src={getImageFromUrl} 
                                 alt="Imagem da noticia"

@@ -5,8 +5,9 @@ export interface ILecturesRequest{
     listSpeakers: string[] | null,
     mainSpeaker: string,
     link: string,
-    image?: File
-    publicId?: string
+    image?: File,
+    publicId?: string,
+    isInCarousel: boolean,
 }
 
 export interface ILecturesImage{
@@ -28,6 +29,7 @@ export interface ILecturesDataResponse{
     link: string,
     createdAt: string,
     _id: string
+    isInCarousel: string,
 }
 
 export interface ILecturesMetaDataResponse{

@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -21,6 +22,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import NewsServices from "@/services/news.services";
 import { toast } from "sonner";
 import Image from "next/image";
+import { Checkbox } from "@/components/ui/checkbox"
 
 const MAX_SIZE = 1000000 //1mb
 
@@ -32,6 +34,8 @@ const formSchema = z.object({
   title: z.string().min(1, message).max(250, messageNomeNoticia),
   subtitle: z.string().min(1, message).max(550, messageNomeSubtitle),
   text: z.string().min(1, message),
+  isInTop: z.boolean().default(false),
+  link: z.string().optional(),
   image: z
     .instanceof(File, { message } )
     .refine(
@@ -86,18 +90,24 @@ export default function AddNewsPage() {
       title: "",
       subtitle: "",
       text: "",
-      image: undefined
+      image: undefined,
+      isInTop: false,
+      link: ""
     },
   })
 
   const createNews = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
 
+    console.log(values)
+
     const response = await NewsServices.createNews({
       title: values.title,
       subtitle: values.subtitle,
       text: values.text,
-      image: values.image
+      image: values.image,
+      link: values?.link ?? undefined,
+      isInTop: values.isInTop,
     });
 
     setTimeout(() => {
@@ -164,6 +174,21 @@ export default function AddNewsPage() {
               />
               <FormField
                 control={form.control}
+                name="link"
+                render={({ field }) => (
+                  <FormItem className="space-y-4">
+                    <div>
+                      <FormLabel>Link da notícia <span className="text-gray-400"> (opcional)</span></FormLabel>
+                      <FormControl>
+                        <Input placeholder="" type="text" {...field}  />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem> 
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="text"
                 render={({ field }) => (
                   <FormItem className="m-0">
@@ -175,6 +200,28 @@ export default function AddNewsPage() {
                       <FormMessage />
                     </div>
                   </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="isInTop"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>
+                      Adicionar notícia no campo Notícias em alta
+                    </FormLabel>
+                    <FormDescription>
+                      Se ativado, a notícia será exibida na seção Notícias em alta na página inicial.
+                    </FormDescription>
+                  </div>
+                </FormItem>
                 )}
               />
                 <div className="flex w-full gap-2">
@@ -205,7 +252,7 @@ export default function AddNewsPage() {
                                 /> 
                                 {imageWatch &&
                                   <Image
-                                    width={640}
+                                    width={320}
                                     height={320}
                                     src={URL.createObjectURL(imageWatch)} 
                                     alt="Imagem da noticia" 

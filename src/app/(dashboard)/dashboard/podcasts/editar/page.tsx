@@ -4,7 +4,7 @@ import { SidebarInset } from "@/components/ui/sidebar"
 import { z } from "zod";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -22,6 +22,8 @@ import PodcastsServices from "@/services/podcasts.services";
 import { useSearchParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Image from "next/image";
+import { Play, Plus, Trash } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const MAX_SIZE = 1000000 //1mb
 
@@ -31,6 +33,8 @@ const message = "Campo obrigatório"
 
 const formSchema = z.object({
   title: z.string().min(1, message).max(250, messageNomeNoticia),
+   mainSpeaker: z.string().min(1, message),
+  listSpeakers: z.array(z.string().min(1, message)).nullable(),
   description: z.string().min(1, message).max(550, messageNomeDescription),
   link: z.string().min(1, message),
   image: z
@@ -98,20 +102,28 @@ export default function EditPodcastsPage() {
       title: searchParams.get("title") || "",
       description: searchParams.get("description") || "",
       link: searchParams.get("link") || "",
-      image: undefined
+      image: undefined,
+      mainSpeaker: mainSpeaker,
+      listSpeakers: listSpeakers
     },
   })
 
 
   const updatePodcasts = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
+
+    const speakers = values?.listSpeakers !== null 
+    ? [values.mainSpeaker, ...values?.listSpeakers] 
+    : [values.mainSpeaker];
+
     const response = await PodcastsServices.updatePodcasts({
       _id: searchParams.get("id") || "",
       title: values?.title,
       description: values?.description,
       link: values?.link,
       image: values?.image ?? undefined,
-      publicId: getPublicId
+      publicId: getPublicId,
+      speakers: speakers
     });
     
     setTimeout(() => {
@@ -131,7 +143,13 @@ export default function EditPodcastsPage() {
   }
 
   const imageWatch = form.watch("image") || undefined;
+  const speakersWatch = form.watch("listSpeakers") || undefined;
+  const { fields, append, remove } = useFieldArray({ name: "listSpeakers" as never, control: form.control });
   const { errors } = form.formState;
+
+  const titleWatch = form.watch("title") || "";
+  const descriptionWatch = form.watch("description") || "";
+  const linkWatch = form.watch("link") || "";
 
   return (
     <SidebarInset>
@@ -160,6 +178,55 @@ export default function EditPodcastsPage() {
                   </FormItem> 
                 )}
               />
+               <FormField 
+                control={form.control}
+                name={"mainSpeaker"}
+                render={({ field }) => (
+                  <FormItem className="m-0">
+                    <div>
+                      <FormLabel>Nome dos palestrantes</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Nome do primeiro palestrante" type="text" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              
+              />
+              {fields.map((field, index) => (
+                <FormField
+                  control={form.control}
+                  key={field.id}
+                  name={`listSpeakers.${index}`}
+                  render={({ }) => (
+                    <div>
+                        <FormItem>
+                        <div>
+                          <FormControl>
+                            <Input placeholder={`Nome do palestrante ${index + 2}`} type="text" {...form.register(`listSpeakers.${index}`)} />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    </div>
+                  )}
+                />
+              ))}
+              <div className="flex gap-2">
+                <Button variant={"primary"} onClick={() => append(undefined)} type="button" className="my-2 flex text-center justify-center items-center space-x-2">
+                  <Plus className="size-4" />
+                  <p>Editar palestrante</p>
+                </Button>
+                <Button variant={"destructive"} onClick={() => {
+                  if(speakersWatch !== undefined) {
+                    remove(speakersWatch?.length-1)
+                  }
+                }} type="button" className="my-2 flex text-center justify-center items-center space-x-2">
+                  <Trash className="size-4" />
+                  <p>Remover palestrante</p>
+                </Button>
+              </div>
               <FormField
                 control={form.control}
                 name="description"
@@ -214,23 +281,63 @@ export default function EditPodcastsPage() {
                                 onChange(event.target.files && event.target.files[0])
                               }}
                             /> 
-                            {imageWatch && <Image
-                                width={640}
-                                height={320}
-                                src={URL.createObjectURL(imageWatch)} 
-                                alt="Imagem da noticia" 
-                                className="w-200 h-80  object-cover rounded-lg" 
-                              />
-                            }
-                            {!imageWatch && getImageFromUrl !== null && 
-                              <Image 
-                                width={640}
-                                height={320}
-                                src={getImageFromUrl} 
-                                alt="Imagem da noticia"
-                                className="w-200 h-80 object-cover rounded-lg" 
-                              />
-                            }
+                            <Accordion type="single" collapsible className="w-full border-2 rounded-lg dark:text-slate-300 dark:border-none max-h-112  ">
+                                                
+                                <AccordionItem value={`item-1`} className=" rounded-md border-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 dark:border-slate-600">
+                                    <AccordionTrigger 
+                                        className="justify-start gap-4 no-underline px-4"
+                                        // chevronDownClassName="hidden"
+                                    >
+                                        {imageWatch && <Image
+                                            width={80}
+                                            height={80}
+                                            src={URL.createObjectURL(imageWatch)} 
+                                            alt="Imagem da noticia" 
+                                            className="object-cover rounded-lg" 
+                                          />
+                                        }
+                                        {!imageWatch && getImageFromUrl !== null && 
+                                          <Image 
+                                            width={80}
+                                            height={80}
+                                            src={getImageFromUrl} 
+                                            alt="Imagem da noticia"
+                                            className="object-cover rounded-lg" 
+                                          />
+                                        }
+                                        <div className="text-start space-y-1">
+                                            <h1 className="font-bold text-md tabl:text-xl dark:text-slate-300">{titleWatch}</h1>
+                                            {speakers !== null && (
+                                                <ul>
+                                                    <li className="text-sm">
+                                                        {JSON.parse(speakers).map((speaker: string, indexSpeaker: number) => (
+                                                            JSON.parse(speakers).length === indexSpeaker + 1 ? `${speaker}` : `${speaker}, `
+                                                        ))}
+                                                    </li>
+                                                </ul>
+                                            )}
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="px-4 flex flex-col">
+                                        <p className="py-1 px-8">{descriptionWatch}</p>
+                                        <a 
+                                            href={linkWatch}
+                                            className="flex items-center justify-center gap-2 my-1 rounded-lg bg-slate-50  hover:cursor-pointer dark:hover:bg-slate-600 dark:bg-slate-700 ">
+                                            <Play className="w-4 h-4" />
+                                            {"Ouvir podcast"}
+                                            <Image 
+                                                src={"/img/spotify-button.png"}
+                                                alt="Logo do Recifis"
+                                                width={80}
+                                                height={80}
+                                                className="rounded-lg"
+                                            />
+                                        </a>
+                                    </AccordionContent>
+                                </AccordionItem>
+                      
+                            </Accordion>
+                            
                           </CardContent>
                         </Card>
                       </FormControl>

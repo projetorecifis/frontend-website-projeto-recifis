@@ -1,6 +1,7 @@
 export interface IPodcastsRequest{
     _id?: string,
     title: string,
+    speakers: string[],
     description: string,
     link: string,
     image?: File
@@ -22,6 +23,7 @@ export interface IPodcastsDataResponse{
     title: string,
     description: string,
     image: IPodcastsImage,
+    speakers: string,
     link: string,
     createdAt: string,
     _id: string

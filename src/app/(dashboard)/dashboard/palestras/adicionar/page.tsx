@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,8 +23,9 @@ import { Plus, Trash } from "lucide-react";
 import { toast } from "sonner";
 import lecturesServices from "@/services/lectures.services";
 import Image from "next/image";
+import { Checkbox } from "@/components/ui/checkbox";
 
-const MAX_SIZE = 1000000 //1mb
+const MAX_SIZE = 1500000 //1.50mb
 
 const messageNomeParticipante = "O nome do participante deve ter no mínimo 4 caracteres e no máximo 50 caracteres"
 const messageNomeNoticia = "O nome da palestra deve ter no máximo 250 caracteres"
@@ -36,6 +38,7 @@ const formSchema = z.object({
   mainSpeaker: z.string().min(4, message).max(50, messageNomeParticipante),
   listSpeakers: z.array(z.string().min(4, messageNomeParticipante).max(50, messageNomeParticipante)).nullable(),
   link: z.string().min(1, message),
+  isInCarousel: z.boolean().default(false),
   image: z
     .instanceof(File, { message } )
     .refine(
@@ -92,7 +95,8 @@ export default function AddLecturesPage() {
       mainSpeaker: "",
       listSpeakers: undefined,
       link: "",
-      image: undefined
+      image: undefined,
+      isInCarousel: false,
     },
   })
 
@@ -105,7 +109,8 @@ export default function AddLecturesPage() {
       mainSpeaker: values.mainSpeaker,
       listSpeakers: values?.listSpeakers,
       link: values?.link,
-      image: values.image
+      image: values.image,
+      isInCarousel: values.isInCarousel
     });
 
     setTimeout(() => {
@@ -179,13 +184,35 @@ export default function AddLecturesPage() {
                 render={({ field }) => (
                   <FormItem className="space-y-4">
                     <div>
-                      <FormLabel>Link da palestra</FormLabel>
+                      <FormLabel>Link do vídeo da palestra</FormLabel>
                       <FormControl>
                         <Input placeholder="" type="text" {...field}  />
                       </FormControl>
                       <FormMessage />
                     </div>
                   </FormItem> 
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="isInCarousel"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>
+                      Adicionar palestra no carrossel
+                    </FormLabel>
+                    <FormDescription>
+                      Se ativado, a palestra será exibida no Carrossel na página de palestras.
+                    </FormDescription>
+                  </div>
+                </FormItem>
                 )}
               />
               <FormField 
@@ -265,8 +292,8 @@ export default function AddLecturesPage() {
                                 /> 
                                 {imageWatch &&
                                   <Image
-                                    width={640}
-                                    height={320}
+                                    width={520}
+                                    height={520}
                                     src={URL.createObjectURL(imageWatch)} 
                                     alt="Imagem da palestra" 
                                     className="object-cover rounded-lg" 

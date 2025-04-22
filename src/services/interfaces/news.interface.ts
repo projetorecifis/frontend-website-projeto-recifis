@@ -1,10 +1,13 @@
+
 export interface INewsRequest{
     _id?: string,
     title: string,
     subtitle: string,
     text: string,
     image?: File
-    publicId?: string
+    publicId?: string,
+    link?: string,
+    isInTop: boolean,
 }
 
 export interface INewsImage{
@@ -19,12 +22,15 @@ export interface INewsImage{
 }
 
 export interface INewsDataResponse{
+    _id: string
     title: string,
     subtitle: string,
     text: string,
+    isInTop: string,
+    link?: string,
     image: INewsImage,
     createdAt: string,
-    _id: string
+    updatedAt: string,
 }
 
 export interface INewsMetaDataResponse{

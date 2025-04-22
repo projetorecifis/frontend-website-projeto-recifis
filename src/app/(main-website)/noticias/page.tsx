@@ -1,6 +1,6 @@
 import { Heading } from "@/components/created/Heading";
 import { tv } from "tailwind-variants";
-import ShowLectures from "./(components)/show-lectures";
+import AllNews from "./(components)/all-news";
 import { Suspense } from "react";
 
 const homePageStyles = tv({
@@ -20,22 +20,24 @@ const homePageStyles = tv({
   },
 })
 
+
 const {
   sectionRecifisProject, h1, divRecifisProject
 } = homePageStyles()
 
-export default async function Speechs() {
-  // const response = await speechServi
+
+export default function NewsPage() {
+
   return (
       <main className="bg-recifis-salmonLight">
         <section className={sectionRecifisProject()}>
           <div className={divRecifisProject()}>
-            <Heading className={h1()} variant="h1">★ Palestras ★</Heading>
+            <Heading className={h1()} variant="h1">★ Notícias ★</Heading>
           </div>
         </section>
         <Suspense>
-          <ShowLectures />
-        </ Suspense>
+          <AllNews />
+        </Suspense>
       </main>
 
   );
