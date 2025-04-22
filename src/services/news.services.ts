@@ -19,7 +19,7 @@ class NewsServices{
 
     async getAllNews(page: string, limit: number){
         try{
-            const response = await http.get<INewsResponse>(`${"http://localhost:3003"}/news/getAll?page=${Number(page)}&limit=${limit}`);
+            const response = await http.get<INewsResponse>(`${process.env.NEXT_PUBLIC_API_URL}/news/getAll?page=${Number(page)}&limit=${limit}`);
             console.log(response.data.data.metaData)
             return {
                 data: {
@@ -34,14 +34,14 @@ class NewsServices{
         }
     }
     async getNewsById(id: string){
-        const response = await http.get(`${"http://localhost:3003"}/news/get/${id}`);
+        const response = await http.get(`${process.env.NEXT_PUBLIC_API_URL}/news/get/${id}`);
         return response;
     }
     async createNews(request: INewsRequest){
         try{
             const formData = this.createFormData(request);   
             
-            const response = await httpMultFormData.post(`${"http://localhost:3003"}/news/create`, formData);
+            const response = await httpMultFormData.post(`${process.env.NEXT_PUBLIC_API_URL}/news/create`, formData);
             console.log(response)
             return {
                 data: response,
@@ -56,7 +56,7 @@ class NewsServices{
         try{
             const formData = this.createFormData(request);
 
-            const response = await httpMultFormData.put(`${"http://localhost:3003"}/news/update/${request._id}`, formData);
+            const response = await httpMultFormData.put(`${process.env.NEXT_PUBLIC_API_URL}/news/update/${request._id}`, formData);
             console.log(response)
             return {
                 data: request,
@@ -70,7 +70,7 @@ class NewsServices{
 
     async deleteNew(id: string, imageId: string){
         try{
-            await http.delete(`${"http://localhost:3003"}/news/delete/${id}?image=${imageId}`);
+            await http.delete(`${process.env.NEXT_PUBLIC_API_URL}/news/delete/${id}?image=${imageId}`);
             return {
                 status: 200,
                 message: "Notícia deletada com sucesso",

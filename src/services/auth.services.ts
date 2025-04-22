@@ -17,7 +17,7 @@ class AuthServices{
             const token = await getCookies("token");
             console.log(token)
           
-            const { data } = await http.get<IGetAllUsersResponse>(`${"http://localhost:3003"}/users/getAll`, {
+            const { data } = await http.get<IGetAllUsersResponse>(`${process.env.NEXT_PUBLIC_API_URL}/users/getAll`, {
                 headers:{
                     Authorization: `Bearer ${token}`
                 }
@@ -47,7 +47,7 @@ class AuthServices{
 
     async signInUser(user: ILoginUserRequest): Promise<ILoginUserResponse>{
         try{
-            const { data } = await http.post<ILoginUserResponse>(`${"http://localhost:3003"}/users/signin`, user);
+            const { data } = await http.post<ILoginUserResponse>(`${process.env.NEXT_PUBLIC_API_URL}/users/signin`, user);
             const response = data?.data as IUserDataResponse;
             console.log("response signInUser::", response);
             if(data?.status === 200){
@@ -74,7 +74,7 @@ class AuthServices{
         }catch(e){
             console.log("error auth::", e);
             const error = e as AxiosError;
-            
+
             if(error?.status === 401){
                 return httpErrorReturn(401, errorEmailOrPasswordInvalid, undefined);
             }
@@ -86,7 +86,7 @@ class AuthServices{
         try{
             const token = await getCookies("token");
             
-            const { data } = await http.delete<ILoginUserResponse>(`${"http://localhost:3003"}/users/delete/${id}`, {
+            const { data } = await http.delete<ILoginUserResponse>(`${process.env.NEXT_PUBLIC_API_URL}/users/delete/${id}`, {
                 headers:{
                     Authorization: `Bearer ${token}`
                 }
