@@ -49,7 +49,7 @@ class AuthServices{
         try{
             const { data } = await http.post<ILoginUserResponse>(`${"http://localhost:3003"}/users/signin`, user);
             const response = data?.data as IUserDataResponse;
-
+            console.log("response signInUser::", response);
             if(data?.status === 200){
                 console.log(data)
                 return {
@@ -72,6 +72,7 @@ class AuthServices{
                 undefined
             );
         }catch(e){
+            console.log("error auth::", e);
             const error = e as AxiosError;
             if(error?.status === 401){
                 return httpErrorReturn(401, errorEmailOrPasswordInvalid, undefined);
