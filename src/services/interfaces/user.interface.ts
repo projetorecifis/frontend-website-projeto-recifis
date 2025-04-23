@@ -11,7 +11,7 @@ export interface IUserDataResponse{
     token: string
 }
 
-export interface ILoginUserResponse{
+export interface IUserResponse{
     status: number,
     message: string,
     data?: IUserDataResponse
@@ -21,4 +21,16 @@ export interface IGetAllUsersResponse{
     status: number,
     message: string,
     data?: IUserDataResponse[]
+}
+
+export interface ISignUpUserRequest{
+    email: string,
+    password: string
+    name: string
+}
+
+export interface IEditUserRequest{
+    email: string,
+    name: string,
+    isAdmin: boolean
 }

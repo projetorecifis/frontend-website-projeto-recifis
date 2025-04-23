@@ -49,12 +49,12 @@ export default function TopNews({ news } :{ news: INewsDataResponse[] | undefine
                     <CarouselContent>
                         {news?.map((item, index) => (
                             <CarouselItem key={index}>
-                                    <Card className="bg-transparent border-none">
-                                        <CardHeader className="bg-transparent flex flex-col items-center justify-center p-0">
-                                            <CardTitle className="text-recifis-blue text-center font-mono py-2 uppercase">{item?.title}</CardTitle>
-                                            <Separator className="w-full" />
+                                    <Card className="bg-transparent border-none dark:bg-transparent">
+                                        <CardHeader className="bg-transparent flex flex-col items-center justify-center p-0 dark:bg-transparent">
+                                            <CardTitle className="text-recifis-blue text-2xl text-center font-mono py-2 uppercase">{item?.title}</CardTitle>
+                                            <Separator className="w-full dark:bg-zinc-200" />
                                         </CardHeader>
-                                        <CardDescription className="text-recifis-blue text-sm text-center pt-2">{item?.subtitle}</CardDescription>
+                                        <CardDescription className="text-recifis-blue text-md text-center pt-2 dark:text-recifis-blue">{item?.subtitle}</CardDescription>
                                         <CardContent className="bg-transparent flex aspect-square items-center justify-center w-full p-0 tabl:h-144">
                                             <Image
                                                 src={item?.image?.path}
@@ -77,9 +77,9 @@ export default function TopNews({ news } :{ news: INewsDataResponse[] | undefine
                     
                 </Carousel>
             <div className="flex flex-col justify-between max-w-128">
-                <Card className="items-center justify-center bg-orange-50 flex-col">
+                <Card className="items-center justify-center bg-orange-50 flex-col dark:bg-orange-50 dark:border-zinc-200">
                     <CardTitle className="text-recifis-blue text-center font-mono py-2 uppercase phonlg:w-128">Notícias em alta</CardTitle>
-                    <Separator />
+                    <Separator className="dark:bg-zinc-200" />
                     <CardContent className="p-2 ">
                         {news !== undefined && news?.length > 0 && news?.map((item, index) => (
                             <a 
@@ -98,7 +98,7 @@ export default function TopNews({ news } :{ news: INewsDataResponse[] | undefine
                                 />
                             </a>
                         ))}
-                        <Separator className="" />
+                        <Separator className="dark:bg-zinc-200" />
                     </CardContent>
                     {news === undefined && (
                         <CardContent>

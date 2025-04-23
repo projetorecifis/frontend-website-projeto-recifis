@@ -2,20 +2,24 @@
 
 import { httpErrorReturn } from '@/utils/htpp';
 import { http } from './http/index';
-import { IUserDataResponse, ILoginUserRequest, ILoginUserResponse, IGetAllUsersResponse } from './interfaces/user.interface';
+import { IUserDataResponse, ILoginUserRequest, IGetAllUsersResponse, ISignUpUserRequest, IUserResponse, IEditUserRequest } from './interfaces/user.interface';
 import { AxiosError } from 'axios';
 import { getCookies } from '@/utils/cookies';
 import { errorGetUsers, succesUserLoggedInSuccessfully, 
     errorEmailOrPasswordInvalid, errorLoginWasNotPossible, 
     errorDeleteUser, successUserWasDeleted,
-    successUsersWereFound 
+    successUsersWereFound , errorEmailAlreadyExists,
+    succesUserSignedUpSuccessfully,
+    errorSignUpUser,
+    successUserWasEdited,
+    errorEditUser,
+    errorNotPermitted
 } from './messages/auth.messages';
 class AuthServices{
 
     async getAllUsers(){
         try{
             const token = await getCookies("token");
-            console.log(token)
           
             const { data } = await http.get<IGetAllUsersResponse>(`${process.env.NEXT_PUBLIC_API_URL}/users/getAll`, {
                 headers:{
@@ -45,10 +49,11 @@ class AuthServices{
         }
     }
 
-    async signInUser(user: ILoginUserRequest): Promise<ILoginUserResponse>{
+    async signInUser(user: ILoginUserRequest): Promise<IUserResponse>{
         try{
-            const { data } = await http.post<ILoginUserResponse>(`${process.env.NEXT_PUBLIC_API_URL}/users/signin`, user);
+            const { data } = await http.post<IUserResponse>(`${process.env.NEXT_PUBLIC_API_URL}/users/signin`, user);
             const response = data?.data as IUserDataResponse;
+            
             console.log("response signInUser::", response);
             if(data?.status === 200){
                 console.log(data)
@@ -82,11 +87,58 @@ class AuthServices{
         }
     }
 
-    async deleteUserById(id: string): Promise<ILoginUserResponse>{
+    async signUpUser(user: ISignUpUserRequest): Promise<IUserResponse>{
+        try{
+            const token = await getCookies("token");
+
+            const { data } = await http.post<IUserResponse>(`${process.env.NEXT_PUBLIC_API_URL}/users/signup`, user, {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            const response = data?.data as IUserDataResponse;
+
+            if(data?.status === 200){
+                return {
+                    status: 200,
+                    message: succesUserSignedUpSuccessfully,
+                    data: response
+                }           
+            }
+            console.log("data", data);
+
+            throw new Error(errorSignUpUser);
+        }catch(e){
+            console.log("error auth::", e);
+            const error = e as AxiosError;
+
+            if(error?.status === 400){
+                return httpErrorReturn(
+                    400, 
+                    errorEmailAlreadyExists, 
+                    undefined
+                );
+            }
+            if(error?.status === 403){
+                return httpErrorReturn(
+                    403, 
+                    errorNotPermitted, 
+                    undefined
+                );
+            }
+            return httpErrorReturn(
+                500, 
+                errorSignUpUser, 
+                undefined
+            );
+        }
+    }
+
+    async deleteUserById(id: string): Promise<IUserResponse>{
         try{
             const token = await getCookies("token");
             
-            const { data } = await http.delete<ILoginUserResponse>(`${process.env.NEXT_PUBLIC_API_URL}/users/delete/${id}`, {
+            const { data } = await http.delete<IUserResponse>(`${process.env.NEXT_PUBLIC_API_URL}/users/delete/${id}`, {
                 headers:{
                     Authorization: `Bearer ${token}`
                 }
@@ -105,10 +157,62 @@ class AuthServices{
                 errorDeleteUser, 
                 undefined
             );
-        }catch{
+        }catch(e){
+            console.log("error edit auth::", e);
+            const error = e as AxiosError;
+
+            if(error?.status === 403){
+                return httpErrorReturn(
+                    403, 
+                    errorNotPermitted, 
+                    undefined
+                );
+            }
             return httpErrorReturn(
                 500, 
                 errorDeleteUser, 
+                undefined
+            );
+        }
+    }
+
+    async editUser(id: string, user: IEditUserRequest): Promise<IUserResponse>{
+        try{
+            const token = await getCookies("token");
+            
+            const { data } = await http.put<IUserResponse>(`${process.env.NEXT_PUBLIC_API_URL}/users/update/${id}`, user, {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            const response = data?.data as IUserDataResponse;
+
+            if(data?.status === 200){
+                return {
+                    status: 200,
+                    message: successUserWasEdited,
+                    data: response
+                }           
+            }
+            return httpErrorReturn(
+                500, 
+                errorEditUser, 
+                undefined
+            );
+        }catch(e){
+            console.log("error edit auth::", e);
+            const error = e as AxiosError;
+
+            if(error?.status === 403){
+                return httpErrorReturn(
+                    403, 
+                    errorNotPermitted, 
+                    undefined
+                );
+            }
+            return httpErrorReturn(
+                500, 
+                errorEditUser, 
                 undefined
             );
         }

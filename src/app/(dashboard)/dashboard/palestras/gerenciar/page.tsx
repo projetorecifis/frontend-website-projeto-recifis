@@ -39,7 +39,7 @@ export default function ManagerLecturesPage() {
   const [allLectures, setAllLectures] = useState<ILecturesDataResponse[] | undefined>([]);
   const [metaData, setMetaData] = useState<ILecturesMetaDataResponse | undefined>(undefined);
   const [open, setOpen] = useState<boolean>(false);
-  const [LecturesToBeDeleted, setLecturesToBeDeleted] = useState<{ id: string, imageId: string } | undefined>(undefined);
+  const [lecturesToBeDeleted, setLecturesToBeDeleted] = useState<{ id: string, imageId: string } | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
   const getAllLectures = async() => {
@@ -69,9 +69,9 @@ export default function ManagerLecturesPage() {
   }
 
   const deleteLecture = async () => {
-    if(LecturesToBeDeleted !== undefined){
+    if(lecturesToBeDeleted !== undefined){
       setLoading(true);
-      const response = await LecturesServices.deleteLecture(LecturesToBeDeleted.id, LecturesToBeDeleted.imageId);
+      const response = await LecturesServices.deleteLecture(lecturesToBeDeleted.id, lecturesToBeDeleted.imageId);
 
       if(response?.status !== 200){
         toast.error("Não foi possível deletar a palestra, por favor, tente novamente mais tarde.");

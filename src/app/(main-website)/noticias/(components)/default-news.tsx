@@ -38,8 +38,8 @@ export default function DefaultContentNews({ defaultNews } :{ defaultNews: INews
   return (
         <div className="py-4">
           {defaultNews !== undefined && defaultNews?.length > 0 && defaultNews.map((news, index) => (
-              <Card key={index} className="w-full bg-orange-50 flex flex-col justify-center pt-4 items-center tabl:items-start tabl:flex-row-reverse">
-                  <CardHeader className="w-full flex flex-col gap-8 items-center justify-between tabl:items-start desk:w-1/2">
+              <Card key={index} className="w-full bg-orange-50 flex flex-col justify-center pt-4 items-center dark:border-zinc-200 dark:bg-orange-50 tabl:items-start tabl:flex-row-reverse">
+                  <CardHeader className="w-full flex flex-col gap-8 items-center justify-between dark:text-black tabl:items-start desk:w-1/2">
                       <div className="space-y-2">
                           <CardTitle>{news.title}</CardTitle>
                           {/* <p>Palestrantes: Nome dos palestrantes</p> */}
