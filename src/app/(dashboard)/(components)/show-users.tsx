@@ -104,8 +104,8 @@ export default function ShowUsersOnDashboard() {
         <p className="text-lg ">Pessoas cadastradas:</p>
         <div className="grid gap-6">
           {!loading && allUsers?.length > 0 && allUsers.map((user, index) => (
-            <section>
-              <div key={index} className="flex items-center justify-between space-x-4">
+            <section  key={index}>
+              <div className="flex items-center justify-between space-x-4">
                 <div className="flex items-center space-x-4">
                   <Avatar className="bg-slate-200 rounded-full w-12 h-12 flex items-center justify-center dark:bg-zinc-900">
                     {/* <AvatarImage src={user.avatar} /> */}
@@ -198,7 +198,7 @@ export default function ShowUsersOnDashboard() {
       <AlertDialog open={open} onOpenChange={setOpen} >
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Deseja excluir o usuário '{userToBeDeleted?.name}' ?</AlertDialogTitle>
+              <AlertDialogTitle>Deseja excluir o usuário {`${userToBeDeleted?.name}`} ?</AlertDialogTitle>
               <AlertDialogDescription>
                 Essa ação <span className="font-bold">não</span> poderá ser desfeita.
               </AlertDialogDescription>
