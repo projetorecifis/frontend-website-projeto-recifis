@@ -54,16 +54,14 @@ class AuthServices{
             const { data } = await http.post<IUserResponse>(`${process.env.NEXT_PUBLIC_API_URL}/users/signin`, user);
             const response = data?.data as IUserDataResponse;
             
-            console.log("response signInUser::", response);
             if(data?.status === 200){
-                console.log(data)
                 return {
                     status: 200,
                     message: succesUserLoggedInSuccessfully,
                     data: response
                 }           
             }
-            console.log("data", data);
+           
             if(data?.status === 401){
                 return httpErrorReturn(
                     401, 
@@ -77,7 +75,7 @@ class AuthServices{
                 undefined
             );
         }catch(e){
-            console.log("error auth::", e);
+            console.debug("error auth::", e);
             const error = e as AxiosError;
 
             if(error?.status === 401){
@@ -105,11 +103,10 @@ class AuthServices{
                     data: response
                 }           
             }
-            console.log("data", data);
 
             throw new Error(errorSignUpUser);
         }catch(e){
-            console.log("error auth::", e);
+            console.debug("error auth::", e);
             const error = e as AxiosError;
 
             if(error?.status === 400){
@@ -158,7 +155,7 @@ class AuthServices{
                 undefined
             );
         }catch(e){
-            console.log("error edit auth::", e);
+            console.debug("error edit auth::", e);
             const error = e as AxiosError;
 
             if(error?.status === 403){
@@ -200,7 +197,7 @@ class AuthServices{
                 undefined
             );
         }catch(e){
-            console.log("error edit auth::", e);
+            console.debug("error edit auth::", e);
             const error = e as AxiosError;
 
             if(error?.status === 403){

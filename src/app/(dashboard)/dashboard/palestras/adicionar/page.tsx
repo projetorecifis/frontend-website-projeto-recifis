@@ -123,11 +123,10 @@ export default function AddLecturesPage() {
       return
     }
     toast.error('Erro ao criar palestra, por favor, tente novamente');
-    console.log(response)
+    console.debug(response)
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("values =>", values);
     createLectures(values);
   }
   const speakersWatch = form.watch("listSpeakers") || undefined;

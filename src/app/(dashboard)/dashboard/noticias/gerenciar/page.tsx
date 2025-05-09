@@ -58,8 +58,6 @@ export default function ManagerNewsPage() {
       setAllNews([]);
     }
 
-    console.log(response);
-
     return response;
   }
 
@@ -91,10 +89,6 @@ export default function ManagerNewsPage() {
   useEffect(() => {
     getAllNews();
   },[]);
-
-  useEffect(() => {
-    console.log(metaData);
-  }, [metaData])
 
   return (
     <SidebarInset>

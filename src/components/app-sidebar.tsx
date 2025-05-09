@@ -103,7 +103,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       }
       setUser(bodyUser);
     }
-    console.log("payload:::: ", payload);
   }
   useEffect(() => {
     getUserInformation();

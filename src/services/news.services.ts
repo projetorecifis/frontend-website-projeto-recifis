@@ -20,7 +20,7 @@ class NewsServices{
     async getAllNews(page: string, limit: number){
         try{
             const response = await http.get<INewsResponse>(`${process.env.NEXT_PUBLIC_API_URL}/news/getAll?page=${Number(page)}&limit=${limit}`);
-            console.log(response.data.data.metaData)
+            
             return {
                 data: {
                     news: response.data.data.news,
@@ -42,7 +42,7 @@ class NewsServices{
             const formData = this.createFormData(request);   
             
             const response = await httpMultFormData.post(`${process.env.NEXT_PUBLIC_API_URL}/news/create`, formData);
-            console.log(response)
+            
             return {
                 data: response,
                 status: 200,
@@ -57,7 +57,7 @@ class NewsServices{
             const formData = this.createFormData(request);
 
             const response = await httpMultFormData.put(`${process.env.NEXT_PUBLIC_API_URL}/news/update/${request._id}`, formData);
-            console.log(response)
+            
             return {
                 data: request,
                 status: 200,

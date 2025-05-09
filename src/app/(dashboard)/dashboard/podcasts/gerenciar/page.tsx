@@ -58,8 +58,6 @@ export default function ManagerPodcastsPage() {
       setAllPodcasts([]);
     }
 
-    console.log(response);
-
     return response;
   }
 
@@ -91,11 +89,6 @@ export default function ManagerPodcastsPage() {
   useEffect(() => {
     getAllPodcasts();
   })
-
-  useEffect(() => {
-    console.log(allPodcasts);
-    console.log(allPodcasts?.length)
-  }, [allPodcasts])
 
   return (
     <SidebarInset>

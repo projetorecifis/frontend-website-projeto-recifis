@@ -57,8 +57,6 @@ export default function ManagerLecturesPage() {
       setAllLectures([]);
     }
 
-    console.log(response);
-
     return response;
   }
 
@@ -90,10 +88,6 @@ export default function ManagerLecturesPage() {
   useEffect(() => {
     getAllLectures();
   },[])
-
-  useEffect(() => {
-    console.log(allLectures);
-  }, [allLectures])
 
   return (
     <SidebarInset>

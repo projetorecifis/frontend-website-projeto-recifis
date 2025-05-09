@@ -119,11 +119,9 @@ export default function AddPodcastsPage() {
       toast.success('Podcast criado com sucesso');
       form.reset();
     }
-    console.log(response)
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("values =>", values);
     createPodcasts(values);
   }
 

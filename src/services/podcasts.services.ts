@@ -20,7 +20,7 @@ class PodcastsServices{
     async getAllPodcasts(page: string, limit: number): Promise<IGetAllPodcastsResponse>{
         try{
             const response = await http.get<IPodcastsApiDataResponse>(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/getAll?page=${Number(page)}&limit=${limit}`);
-            console.log(response.data.data.metaData)
+           
             return {
                 data: {
                     podcasts: response.data.data.podcasts,
@@ -39,11 +39,10 @@ class PodcastsServices{
     }
     async createPodcasts(request: IPodcastsRequest){
         try{
-            console.log('rteste =>', request);
             const formData = this.createFormData(request);   
             
             const response = await httpMultFormData.post<IPodcastsDataResponse | undefined>(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/create`, formData);
-            console.log(response)
+            
             return {
                 data: response,
                 status: 200,
@@ -58,7 +57,7 @@ class PodcastsServices{
             const formData = this.createFormData(request);
 
             const response = await httpMultFormData.put(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/update/${request._id}`, formData);
-            console.log(response)
+            
             return {
                 data: request,
                 status: 200,

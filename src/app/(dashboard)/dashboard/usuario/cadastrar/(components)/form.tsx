@@ -40,7 +40,6 @@ export function SignUpForm() {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setLoading(true);
         const response = await AuthServices.signUpUser(values);
-        console.log("response =>", response);
 
         if(response?.status !== 200 || response === undefined){
           setLoading(false);

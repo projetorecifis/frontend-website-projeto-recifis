@@ -126,7 +126,7 @@ export default function EditLecturesPage() {
       publicId: getPublicId,
       isInCarousel: values?.isInCarousel,
     });
-    console.log("response", response);
+
     setTimeout(() => {
       setLoading(false);
     }, 1000);

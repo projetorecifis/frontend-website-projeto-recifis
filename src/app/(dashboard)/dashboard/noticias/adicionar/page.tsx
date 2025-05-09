@@ -99,8 +99,6 @@ export default function AddNewsPage() {
   const createNews = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
 
-    console.log(values)
-
     const response = await NewsServices.createNews({
       title: values.title,
       subtitle: values.subtitle,
@@ -120,11 +118,10 @@ export default function AddNewsPage() {
       return
     }
     toast.error('Erro ao criar notícia, por favor, tente novamente');
-    console.log(response)
+    console.debug(response)
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("values =>", values);
     createNews(values);
   }
   const imageWatch = form.watch("image") || undefined;

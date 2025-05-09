@@ -24,7 +24,7 @@ class LecturesServices{
     async getAllLectures(page: string, limit: number){
         try{
             const response = await http.get<ILecturesResponse>(`${process.env.NEXT_PUBLIC_API_URL}/lectures/getAll?page=${Number(page)}&limit=${limit}`);
-            console.log(response.data.data.metaData)
+            
             return {
                 data: {
                     lectures: response.data.data.lectures,
@@ -46,7 +46,7 @@ class LecturesServices{
             const formData = this.createFormData(request);   
             
             const response = await httpMultFormData.post(`${process.env.NEXT_PUBLIC_API_URL}/lectures/create`, formData);
-            console.log(response)
+           
             return {
                 data: response,
                 status: 200,
@@ -61,7 +61,7 @@ class LecturesServices{
             const formData = this.createFormData(request);
 
             const response = await httpMultFormData.put(`${process.env.NEXT_PUBLIC_API_URL}/lectures/update/${request._id}`, formData);
-            console.log(response)
+            
             return {
                 data: request,
                 status: 200,

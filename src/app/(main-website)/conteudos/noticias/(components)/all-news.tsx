@@ -29,14 +29,11 @@ export default function AllNews() {
           setMetaData(metaDataResponse[0]);
         }
     
-        console.log(response.message)
         if(response?.message === "No news were found"){
             setTopNews([]);
             setDefaultNews([]);
         }
     
-        console.log(response);
-        // setCarouselNews(allNews.filter((news) => news.type === "carousel"));
         
     }
 

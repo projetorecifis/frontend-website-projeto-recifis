@@ -17,14 +17,12 @@ export async function signIn(formData: z.infer<typeof SignInFormSchema>) {
         password: formData.password as string,
     });
 
-    console.log("validatedFields =>", validatedFields);
-
     if (!validatedFields.success) {
         return { errors: validatedFields.error.flatten().fieldErrors };
     }
 
     const response = await AuthServices.signInUser(formData);
-    console.log("response =>", response);
+    console.debug("signIn response =>", response);
 
     if(response?.data !== undefined && response?.status === 200){
         await setCookies("token", response.data?.token);

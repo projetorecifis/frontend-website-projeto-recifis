@@ -38,7 +38,6 @@ export default function ShowLectures() {
             setLectures([]);
         }
     
-        console.log(response);
     }
 
     useEffect(() => {

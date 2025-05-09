@@ -46,7 +46,7 @@ export function EditUserForm() {
         setLoading(true);
 
         const response = await AuthServices.editUser(id, values);
-        console.log("response =>", response);
+
 
         if(response?.status !== 200 || response === undefined){
           setLoading(false);
