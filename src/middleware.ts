@@ -11,6 +11,7 @@ export default async function middleware(request: NextRequest) {
 
     if(isProtectedRoute){
         const token = await getCookies("token");
+        console.log("token:::: ", token);
         const payload = await decrypt(token);
         console.log("payload:::: ", payload);
 
