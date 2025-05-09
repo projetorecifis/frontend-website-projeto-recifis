@@ -56,7 +56,7 @@ class NewsServices{
         try{
             const formData = this.createFormData(request);
 
-            const response = await httpMultFormData.put(`${process.env.NEXT_PUBLIC_API_URL}/news/update/${request._id}`, formData);
+            await httpMultFormData.put(`${process.env.NEXT_PUBLIC_API_URL}/news/update/${request._id}`, formData);
             
             return {
                 data: request,
