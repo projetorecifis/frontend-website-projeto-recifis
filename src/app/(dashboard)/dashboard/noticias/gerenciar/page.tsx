@@ -102,7 +102,7 @@ export default function ManagerNewsPage() {
     <div className="px-8">
       <h1 className="text-2xl font-bold">Gerenciar Notícias</h1>
       <p className="text-gray-400">Aqui você pode gerenciar as notícias do projeto recifis. Editar, remover e visualizá-las.</p>
-      <a className="pt-4 flex gap-2 items-center hover:underline" href="/noticias">
+      <a className="pt-4 flex gap-2 items-center hover:underline" href="/conteudos/noticias">
         <Link size={12} /> 
         <p>Ir para a página de notícias</p>
       </a>
@@ -149,10 +149,15 @@ export default function ManagerNewsPage() {
                             + "&link=" + (news?.link === undefined ? "" : news?.link)
                               // news?.link === undefined ? "" : "&link=" + news?.link
                           }
-                          className="text-blue-500">
+                          className="text-blue-500 dark:text-blue-400 hover:underline hover:underline-offset-4">
                             Editar
                         </a>
-                        <Button variant={"link"} onClick={() => triggerAlertDialog(news._id, news.image.publicId)} className="text-red-500">Deletar</Button>
+                        <Button 
+                          variant={"link"} 
+                          onClick={() => triggerAlertDialog(news._id, news.image.publicId)} 
+                          className="text-red-500 dark:text-red-500">
+                          Deletar
+                        </Button>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -176,7 +181,7 @@ export default function ManagerNewsPage() {
       )}
     </div>
     <AlertDialog open={open} onOpenChange={setOpen} >
-      <AlertDialogContent>
+      <AlertDialogContent className="dark:bg-zinc-800">
         <AlertDialogHeader>
           <AlertDialogTitle>Deseja excluir esta notícia?</AlertDialogTitle>
           <AlertDialogDescription>
@@ -185,7 +190,7 @@ export default function ManagerNewsPage() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={() => {setNewsToBeDeleted(undefined)}}>Voltar</AlertDialogCancel>
-          <AlertDialogAction onClick={deleteNew} className="bg-red-500">Excluir</AlertDialogAction>
+          <AlertDialogAction onClick={deleteNew} className="bg-red-500 dark:bg-red-800 dark:text-white dark:hover:bg-red-700">Excluir</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

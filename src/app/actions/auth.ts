@@ -7,7 +7,7 @@ import { jwtVerify } from 'jose'
 import { cookies } from "next/headers";
 import { redirect } from 'next/navigation';
 
-const encodedKey = new TextEncoder().encode(process.env.JWT_KEY as string);
+const encodedKey = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_KEY as string);
 
 
 export async function signIn(formData: z.infer<typeof SignInFormSchema>) {
@@ -61,8 +61,10 @@ export async function decrypt(session: string | undefined = '') {
       const { payload } = await jwtVerify(session, encodedKey, {
         algorithms: ['HS256'],
       })
-      return payload
+      return payload;
     } catch{
-      console.log('Failed to verify session');
+        console.log('Failed to verify session');
+        return null;
+      
     }
   }

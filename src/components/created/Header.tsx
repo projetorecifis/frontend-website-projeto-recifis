@@ -14,10 +14,16 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
+
 import { ArrowBigDownDash } from "lucide-react"
 import { useState } from "react"
  
 const components: { title: string; href: string; description?: string }[] = [
+  {
+    title: "Notícias",
+    href: "/conteudos/noticias",
+    description: "Veja nossas postagens"
+  },
   {
     title: "Podcasts",
     href: "/conteudos/podcasts",
@@ -27,6 +33,24 @@ const components: { title: string; href: string; description?: string }[] = [
     title: "Palestras",
     href: "/conteudos/palestras",
     description: "Conheça nossas palestras",
+  },
+  {
+    title: "Raça e tributação",
+    href: "/conteudos/raca-e-tributacao",
+    description: "Saiba mais sobre raça e tributação"
+  }
+]
+ 
+const aboutUsComponents: { title: string; href: string; description?: string }[] = [
+  {
+    title: "Projeto",
+    href: "/quem-somos",
+    description: "Saiba mais sobre o projeto RECIFIS"
+  },
+  {
+    title: "Nossa Equipe",
+    href: "/quem-somos/equipe",
+    description: "Conheça nossa equipe",
   },
 ]
  
@@ -60,23 +84,22 @@ export function Header() {
       </div>
       <div className={`${isOpened === true ? "flex" : "hidden"} flex-col items-center gap-4 font-bold  tabl:flex tabl:flex-row tabl:items-center tabl:gap-8 `}>
         <div className="flex items-center gap-8">
-          <Link className={link()} href="/quem-somos">Quem somos</Link>
           <Link className={link()} href="/nossa-jornada">História do projeto</Link>
         </div>
        <div className="flex items-center justify-center gap-8">
-        <Link className={link()} href="/noticias">Notícias</Link>
-          <NavigationMenu>
+       <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className={cn(link(), "p-0")}>Conteúdos</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid gap-3 w-40 tabl:grid-cols-2 tabl:w-96 bg-recifis-blue align-center justify-items-center p-0 tabl:p-4">
-                    {components.map((component, index) => (
+                <NavigationMenuTrigger className={cn(link(), "p-0")}>Sobre nós</NavigationMenuTrigger>
+                <NavigationMenuContent className="w-full">
+                  <ul className="w-full grid gap-3 tabl:grid-cols-2 tabl:w-96 bg-recifis-blue align-center justify-items-center p-0 tabl:p-4">
+                    {aboutUsComponents.map((component, index) => (
                       <ListItem
                         key={index}
                         title={component.title}
                         href={component.href}
-                        className="text-sm"
+                        className="grid-rows-2"
+                        // className={index === 0 ? "text-red-500" : "text-sm"}
                       >
                         {component.description}
                       </ListItem>
@@ -86,6 +109,60 @@ export function Header() {
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
+        <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className={cn(link(), "p-0")}>Conteúdos</NavigationMenuTrigger>
+                <NavigationMenuContent className="w-full">
+                  <ul className="w-full grid gap-3 desk:grid-cols-2 desk:w-96 bg-recifis-blue align-center justify-items-center p-0 desk:p-4">
+                    {components.map((component, index) => (
+                      <ListItem
+                        key={index}
+                        title={component.title}
+                        href={component.href}
+                        className="grid-rows-2"
+                        // className={index === 0 ? "text-red-500" : "text-sm"}
+                      >
+                        {component.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+       </div>
+       <div>
+       {/* <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button 
+        className="bg-recifis-blue border-none uppercase font-bold hover:bg-recifis-blue hover:text-recifis-orange"
+        >
+          Conteúdos
+          <ChevronDown />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56 bg-recifis-blue text-white border-none">
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            Palestras
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Notícias
+            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Raça e tributação
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Podcasts
+            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu> */}
        </div>
       </div>
       <div onClick={() => openHeader()} className="block cursor-pointer tabl:hidden">
@@ -106,13 +183,18 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "flex flex-col select-none space-y-4 p-3 leading-none no-underline outline-none transition-colors focus:text-accent-foreground rounded-md hover:text-recifis-orange hover:bg-blue-800 ",
+            "flex flex-col w-full select-none space-y-4 p-3 leading-none no-underline outline-none transition-colors focus:text-accent-foreground rounded-md hover:text-recifis-orange hover:bg-blue-800 ",
             className
           )}
           {...props}
         >
-          <h1 className={`text-md leading-none font-bold text-white uppercase tabl:text-lg hover:text-recifis-orange`}>{title}</h1>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground text-slate-300">
+          <h1 
+            className={
+              `text-md text-center leading-none font-bold text-white uppercase tabl:text-lg hover:text-recifis-orange tabl:text-start`
+            }>
+              {title}
+          </h1>
+          <p className="hidden line-clamp-2 text-sm leading-snug text-muted-foreground text-slate-300 tabl:block">
             {children}
           </p>
         </a>

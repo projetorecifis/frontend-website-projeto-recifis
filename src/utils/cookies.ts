@@ -15,3 +15,7 @@ export const setCookies = async(name: string, value: string) => {
         secure: true
     });
 }
+
+export const deleteCookies = async(name: string) => {
+    return await cookies().delete(name);
+}

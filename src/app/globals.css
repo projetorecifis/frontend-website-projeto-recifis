@@ -2,6 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Chill";
+  src: url("/fonts/ChillChripFree.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlackMarker";
+  src: url("/fonts/BlackMarker.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Devious";
+  src: url("/fonts/DeviousRoad.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kiss";
+  src: url("/fonts/KissUpDEMO-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Rumble";
+  src: url("/fonts/RumbleStrike.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Speak";
+  src: url("/fonts/SpeakDays.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Cheese";
+  src: url("/fonts/CheesePotato.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
 * {
   margin: 0;
 }

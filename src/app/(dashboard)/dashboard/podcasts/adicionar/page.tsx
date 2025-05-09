@@ -21,7 +21,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import PodcastsServices from "@/services/podcasts.services";
 import { toast } from "sonner";
 import Image from "next/image";
-import { Mic, Play, Plus, Trash } from "lucide-react";
+import { Play, Plus, Trash } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const MAX_SIZE = 1000000 //1mb
@@ -291,7 +291,13 @@ export default function AddPodcastsPage() {
                                             />
                                           }
                                           {!imageWatch && (
-                                            <Mic className="text-center text-slate-500 rotate-0" size={80} />
+                                              // <Mic className="text-center text-slate-500 object-contain" size={80} />
+                                              <Image 
+                                                width={50}
+                                                height={50}
+                                                src={"/img/mic.png"}
+                                                alt="Imagem de um ícone de um microfone"
+                                              />
                                           )}
 
                                         <div className="text-start space-y-1">

@@ -153,10 +153,15 @@ export default function ManagerPodcastsPage() {
                             + "&publicId=" + podcasts.image.publicId
                             + "&speakers=" + podcasts.speakers
                           } 
-                          className="text-blue-500">
+                          className="text-blue-500 dark:text-blue-400 hover:underline hover:underline-offset-4">
                             Editar
                         </a>
-                        <Button variant={"link"} onClick={() => triggerAlertDialog(podcasts._id, podcasts.image.publicId)} className="text-red-500">Deletar</Button>
+                        <Button 
+                          variant={"link"} 
+                          onClick={() => triggerAlertDialog(podcasts._id, podcasts.image.publicId)} 
+                          className="text-red-500 dark:text-red-500">
+                            Deletar
+                        </Button>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -181,7 +186,7 @@ export default function ManagerPodcastsPage() {
     </div>
 
     <AlertDialog open={open} onOpenChange={setOpen} >
-      <AlertDialogContent>
+      <AlertDialogContent className="dark:bg-zinc-800">
         <AlertDialogHeader>
           <AlertDialogTitle>Deseja excluir este Podcast?</AlertDialogTitle>
           <AlertDialogDescription>
@@ -190,7 +195,7 @@ export default function ManagerPodcastsPage() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={() => {setPodcastsToBeDeleted(undefined)}}>Voltar</AlertDialogCancel>
-          <AlertDialogAction onClick={deletePodcast} className="bg-red-500">Excluir</AlertDialogAction>
+          <AlertDialogAction onClick={deletePodcast} className="bg-red-500 dark:bg-red-800 dark:text-white dark:hover:bg-red-700">Excluir</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

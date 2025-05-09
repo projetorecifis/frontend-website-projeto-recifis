@@ -3,7 +3,7 @@
 import TopNews from "./top-news";
 import DefaultContentNews from "./default-news";
 import { useEffect, useState } from "react";
-import { INewsDataResponse, INewsMetaDataResponse } from "../../../../services/interfaces/news.interface";
+import { INewsDataResponse, INewsMetaDataResponse } from "../../../../../services/interfaces/news.interface";
 import { PaginationWithLinks } from "@/components/created/PaginationWithLinks";
 import { useSearchParams } from "next/navigation";
 import NewsServices from "@/services/news.services";
