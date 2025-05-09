@@ -78,31 +78,54 @@ export default function KnowMorePage() {
             </Card>
             <Card className="my-2">
                 <CardContent>
-                <h1 className="font-bold text-3xl my-6">Alunos</h1>
-                <Separator className="mb-8" />
-                <div className="flex justify-evenly gap-8 flex-col phonlg:flex-row">
-                    <Image 
-                        src={"/img/quem-somos/equipe/aluna-tassia.png"} 
-                        alt={""}  
-                        width={70}  
-                        height={70}   
-                        className="w-36 h-36 rounded-full object-cover mt-0 m-auto phonlg:m-2"            
-                    />
-                    <div className="w-full space-y-2">
-                        <h2 className="text-xl font-bold">Tássia Martins Almeida Gomes</h2>
-                        <p className="text-lg font-bold opacity-75">Graduanda - Ciência da Computação pela UFV</p>
-                        <p className="">
-                             Responsável pelo desenvolvimento do site do projeto RECIFIS.
-                             Atualmente, trabalha como Consultora e Desenvolvedora Júnior na Via Consulting, além disso, 
-                             fez parte da liderança do FullStackMinas centrado no estudo de tecnologias de mercado e, 
-                             também, em 2023, foi ganhadora do 
-                             programa Campus Mobile na categoria “Games” com o jogo “Emily Is Afterlife”
-                        </p>
-                        <div>
+                    <h1 className="font-bold text-3xl my-6">Alunos</h1>
+                    <Separator className="mb-8" />
+                    <div className="flex justify-evenly gap-8 flex-col phonlg:flex-row">
+                        <Image 
+                            src={"/img/quem-somos/equipe/aluna-tassia.png"} 
+                            alt={""}  
+                            width={70}  
+                            height={70}   
+                            className="w-36 h-36 rounded-full object-cover mt-0 m-auto phonlg:m-2"            
+                        />
+                        <div className="w-full space-y-2">
+                            <h2 className="text-xl font-bold">Tássia Martins Almeida Gomes</h2>
+                            <p className="text-lg font-bold opacity-75">Graduanda - Ciência da Computação pela UFV</p>
+                            <p className="">
+                                Responsável pelo desenvolvimento do site do projeto RECIFIS.
+                                Atualmente, trabalha como Consultora e Desenvolvedora Júnior na Via Consulting, além disso, 
+                                fez parte da liderança do FullStackMinas centrado no estudo de tecnologias de mercado e, 
+                                também, em 2023, foi ganhadora do 
+                                programa Campus Mobile na categoria “Games” com o jogo “Emily Is Afterlife”
+                            </p>
+                            <div>
 
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <Separator className="my-8" />
+                    <div className="flex justify-evenly gap-8 flex-col phonlg:flex-row">
+                        <Image 
+                            src={"/img/quem-somos/equipe/isabela-aluna-bolsista.jpg"} 
+                            alt={""}  
+                            width={70}  
+                            height={70}   
+                            className="w-36 h-36 rounded-full object-cover mt-0 m-auto phonlg:m-2"            
+                        />
+                        <div className="w-full space-y-2">
+                            <h2 className="text-xl font-bold">Isabela Alves Franco</h2>
+                            <p className="text-lg font-bold opacity-75">Ensino médio - Universidade Federal de Viçosa (UFV) Campus Florestal</p>
+                            <p className="">
+                            Isabela Alves Franco é bolsista de iniciação científica da Fundação de Amparo à Pesquisa do Estado de Minas Gerais
+                            (FAPEMIG), vinculada à Secretaria de Estado de Ciência, Tecnologia e Ensino Superior. 
+                            É estudante do ensino médio e técnico na Universidade Federal de Viçosa (UFV) campus Florestal 
+                            e possui grande interesse ao campo de estudos fiscais e sociais e econômicos.
+                            </p>
+                            <div>
+
+                            </div>
+                        </div>
+                    </div>
                 </CardContent>
             </Card>
           </section>
