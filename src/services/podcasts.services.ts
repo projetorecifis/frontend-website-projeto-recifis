@@ -19,7 +19,7 @@ class PodcastsServices{
 
     async getAllPodcasts(page: string, limit: number): Promise<IGetAllPodcastsResponse>{
         try{
-            const response = await http.get<IPodcastsApiDataResponse>(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/getAll?page=${Number(page)}&limit=${limit}`);
+            const response = await http.get<IPodcastsApiDataResponse>(`/podcasts/getAll?page=${Number(page)}&limit=${limit}`);
            
             return {
                 data: {
@@ -34,14 +34,14 @@ class PodcastsServices{
         }
     }
     async getPodcastsById(id: string){
-        const response = await http.get(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/get/${id}`);
+        const response = await http.get(`/podcasts/get/${id}`);
         return response;
     }
     async createPodcasts(request: IPodcastsRequest){
         try{
             const formData = this.createFormData(request);   
             
-            const response = await httpMultFormData.post<IPodcastsDataResponse | undefined>(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/create`, formData);
+            const response = await httpMultFormData.post<IPodcastsDataResponse | undefined>(`/podcasts/create`, formData);
             
             return {
                 data: response,
@@ -56,7 +56,7 @@ class PodcastsServices{
         try{
             const formData = this.createFormData(request);
 
-            await httpMultFormData.put(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/update/${request._id}`, formData);
+            await httpMultFormData.put(`/podcasts/update/${request._id}`, formData);
             
             return {
                 data: request,
@@ -70,7 +70,7 @@ class PodcastsServices{
 
     async deletePodcast(id: string, imageId: string){
         try{
-            await http.delete(`${process.env.NEXT_PUBLIC_API_URL}/podcasts/delete/${id}?image=${imageId}`);
+            await http.delete(`/podcasts/delete/${id}?image=${imageId}`);
             return {
                 status: 200,
                 message: "Podcast deletado com sucesso",
