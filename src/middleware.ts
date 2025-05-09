@@ -14,6 +14,7 @@ export default async function middleware(request: NextRequest) {
         console.log("token:::: ", token);
         const payload = await decrypt(token);
         console.log("payload:::: ", payload);
+        console.log(process.env.NEXT_PUBLIC_JWT_KEY)
 
         if(payload === null || !payload?.id){
             return NextResponse.redirect(new URL('/login', request.nextUrl));
