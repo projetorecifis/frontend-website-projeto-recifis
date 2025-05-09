@@ -18,7 +18,7 @@ export default function TopNews({ news } :{ news: INewsDataResponse[] | undefine
 
     const setNews = async (news :INewsDataResponse) => {
         localStorage.setItem("news", JSON.stringify(news));
-        router.push(`/noticias/${news._id}`);
+        router.push(`/conteudos//noticias/${news._id}`);
       }
 
     return (
