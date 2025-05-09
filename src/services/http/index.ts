@@ -4,8 +4,9 @@ export const http = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
     headers:{
         'Accept': 'application/json',
-        'Content' : 'application/json'
-    }
+        'Content-Type' : 'application/json'
+    },
+    withCredentials: true
 })
 
 export const httpMultFormData = axios.create({
@@ -13,6 +14,6 @@ export const httpMultFormData = axios.create({
     headers:{
         'Content-Type': 'multipart/form-data',
         'Accept': 'multipart/form-data',
-        'Content' : 'application/json'
-    }
+    },
+    withCredentials: true
 })
