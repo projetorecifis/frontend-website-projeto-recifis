@@ -69,7 +69,7 @@ export default function OurStoryPage() {
                                             </p>
                                         </div>
                                     )} 
-                                    <Card className={`max-w-2xl rounded-b-lg dark:bg-zinc-50 ${index % 2 === 0 && index !== 1 ? "" : "mt-4"}`} key={indexCard} >
+                                    <Card className={`max-w-2xl rounded-b-lg dark:bg-zinc-100 dark:border-zinc-200 dark:text-black ${index % 2 === 0 && index !== 1 ? "" : "mt-4"}`} key={indexCard} >
                                         <CardHeader className="rounded-t-lg m-0 bg-recifis-blue text-white flex flex-row items-center gap-4 p-4">
                                             <CardTitle className="bg-blue-950 font-mono uppercase text-recifis-orange h-14 rounded-xl opacity-90 p-4">{item.title}</CardTitle>
                                             <CardDescription className="text-white font-black-marker text-2xl">{item.description}</CardDescription>
