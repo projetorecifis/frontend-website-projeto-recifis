@@ -11,28 +11,15 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { INewsDataResponse } from "@/services/interfaces/news.interface";
 import { Skeleton } from "@/components/ui/skeleton";
-
-// const allNews = [
-//     {
-//         title: text,
-//         description: "Oi",
-//         image: "/img/conteudo/palestras/palestra_img.png",
-//         href: "/quem-somos",
-//         date: "2023-10-01",
-//         type: "carousel" as NewsType,
-//     },
-//     {
-//         title: text,
-//         description: "Oi",
-//         image: "/img/conteudo/palestras/palestra_img.png",
-//         href: "/quem-somos",
-//         date: "2023-10-01",
-//         type: "top" as NewsType,
-//     },
-
-// ]
+import { useRouter } from "next/navigation";
 
 export default function TopNews({ news } :{ news: INewsDataResponse[] | undefined }) {
+     const router = useRouter();
+
+    const setNews = async (news :INewsDataResponse) => {
+        localStorage.setItem("news", JSON.stringify(news));
+        router.push(`/noticias/${news._id}`);
+      }
 
     return (
         <div className="flex flex-col justify-center w-full items-center desk:items-start desk:flex-row desk:gap-16">
@@ -83,7 +70,8 @@ export default function TopNews({ news } :{ news: INewsDataResponse[] | undefine
                     <CardContent className="p-2 ">
                         {news !== undefined && news?.length > 0 && news?.map((item, index) => (
                             <a 
-                                href={item?.link} 
+                                href={item?.link !== undefined ? item?.link : "#"}
+                                onClick={item?.link === undefined ? () => setNews(item) : undefined} 
                                 className="flex items-center justify-center transition-all hover:bg-orange-100 gap-2 hover:cursor-pointer tabl:gap-4 desk:p-5"
                                 key={index}
                             >
