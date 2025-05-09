@@ -21,7 +21,7 @@ class AuthServices{
         try{
             const token = await getCookies("token");
           
-            const { data } = await http.get<IGetAllUsersResponse>(`${process.env.NEXT_PUBLIC_API_URL}/users/getAll`, {
+            const { data } = await http.get<IGetAllUsersResponse>(`/users/getAll`, {
                 headers:{
                     Authorization: `Bearer ${token}`
                 }
@@ -51,7 +51,7 @@ class AuthServices{
 
     async signInUser(user: ILoginUserRequest): Promise<IUserResponse>{
         try{
-            const { data } = await http.post<IUserResponse>(`${process.env.NEXT_PUBLIC_API_URL}/users/signin`, user);
+            const { data } = await http.post<IUserResponse>(`/users/signin`, user);
             const response = data?.data as IUserDataResponse;
             
             if(data?.status === 200){
@@ -89,7 +89,7 @@ class AuthServices{
         try{
             const token = await getCookies("token");
 
-            const { data } = await http.post<IUserResponse>(`${process.env.NEXT_PUBLIC_API_URL}/users/signup`, user, {
+            const { data } = await http.post<IUserResponse>(`/users/signup`, user, {
                 headers:{
                     Authorization: `Bearer ${token}`
                 }
@@ -135,7 +135,7 @@ class AuthServices{
         try{
             const token = await getCookies("token");
             
-            const { data } = await http.delete<IUserResponse>(`${process.env.NEXT_PUBLIC_API_URL}/users/delete/${id}`, {
+            const { data } = await http.delete<IUserResponse>(`/users/delete/${id}`, {
                 headers:{
                     Authorization: `Bearer ${token}`
                 }
@@ -177,7 +177,7 @@ class AuthServices{
         try{
             const token = await getCookies("token");
             
-            const { data } = await http.put<IUserResponse>(`${process.env.NEXT_PUBLIC_API_URL}/users/update/${id}`, user, {
+            const { data } = await http.put<IUserResponse>(`/users/update/${id}`, user, {
                 headers:{
                     Authorization: `Bearer ${token}`
                 }

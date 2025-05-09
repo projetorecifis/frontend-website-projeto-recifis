@@ -23,7 +23,7 @@ class LecturesServices{
 
     async getAllLectures(page: string, limit: number){
         try{
-            const response = await http.get<ILecturesResponse>(`${process.env.NEXT_PUBLIC_API_URL}/lectures/getAll?page=${Number(page)}&limit=${limit}`);
+            const response = await http.get<ILecturesResponse>(`/lectures/getAll?page=${Number(page)}&limit=${limit}`);
             
             return {
                 data: {
@@ -38,14 +38,14 @@ class LecturesServices{
         }
     }
     async getLecturesById(id: string){
-        const response = await http.get(`${process.env.NEXT_PUBLIC_API_URL}/lectures/get/${id}`);
+        const response = await http.get(`/lectures/get/${id}`);
         return response;
     }
     async createLectures(request: ILecturesRequest){
         try{
             const formData = this.createFormData(request);   
             
-            const response = await httpMultFormData.post(`${process.env.NEXT_PUBLIC_API_URL}/lectures/create`, formData);
+            const response = await httpMultFormData.post(`/lectures/create`, formData);
            
             return {
                 data: response,
@@ -60,7 +60,7 @@ class LecturesServices{
         try{
             const formData = this.createFormData(request);
 
-            await httpMultFormData.put(`${process.env.NEXT_PUBLIC_API_URL}/lectures/update/${request._id}`, formData);
+            await httpMultFormData.put(`/lectures/update/${request._id}`, formData);
             
             return {
                 data: request,
@@ -74,7 +74,7 @@ class LecturesServices{
 
     async deleteLecture(id: string, imageId: string){
         try{
-            await http.delete(`${process.env.NEXT_PUBLIC_API_URL}/lectures/delete/${id}?image=${imageId}`);
+            await http.delete(`/lectures/delete/${id}?image=${imageId}`);
             return {
                 status: 200,
                 message: "Palestra deletada com sucesso",

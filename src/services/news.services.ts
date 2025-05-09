@@ -19,7 +19,7 @@ class NewsServices{
 
     async getAllNews(page: string, limit: number){
         try{
-            const response = await http.get<INewsResponse>(`${process.env.NEXT_PUBLIC_API_URL}/news/getAll?page=${Number(page)}&limit=${limit}`);
+            const response = await http.get<INewsResponse>(`/news/getAll?page=${Number(page)}&limit=${limit}`);
             
             return {
                 data: {
@@ -34,14 +34,14 @@ class NewsServices{
         }
     }
     async getNewsById(id: string){
-        const response = await http.get(`${process.env.NEXT_PUBLIC_API_URL}/news/get/${id}`);
+        const response = await http.get(`/news/get/${id}`);
         return response;
     }
     async createNews(request: INewsRequest){
         try{
             const formData = this.createFormData(request);   
             
-            const response = await httpMultFormData.post(`${process.env.NEXT_PUBLIC_API_URL}/news/create`, formData);
+            const response = await httpMultFormData.post(`/news/create`, formData);
             
             return {
                 data: response,
@@ -56,7 +56,7 @@ class NewsServices{
         try{
             const formData = this.createFormData(request);
 
-            await httpMultFormData.put(`${process.env.NEXT_PUBLIC_API_URL}/news/update/${request._id}`, formData);
+            await httpMultFormData.put(`/news/update/${request._id}`, formData);
             
             return {
                 data: request,
@@ -70,7 +70,7 @@ class NewsServices{
 
     async deleteNew(id: string, imageId: string){
         try{
-            await http.delete(`${process.env.NEXT_PUBLIC_API_URL}/news/delete/${id}?image=${imageId}`);
+            await http.delete(`/news/delete/${id}?image=${imageId}`);
             return {
                 status: 200,
                 message: "Notícia deletada com sucesso",
