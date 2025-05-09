@@ -34,7 +34,7 @@ export default function ManagerLecturesPage() {
 
   const searchParams = useSearchParams();
   const page = searchParams.get('page') || "1";
-  const limit = 3;
+  const limit = 10;
 
   const [allLectures, setAllLectures] = useState<ILecturesDataResponse[] | undefined>([]);
   const [metaData, setMetaData] = useState<ILecturesMetaDataResponse | undefined>(undefined);

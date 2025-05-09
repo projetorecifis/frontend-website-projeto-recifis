@@ -137,7 +137,7 @@ export default function AddLecturesPage() {
   return (
     <SidebarInset>
 
-      <DashboardHeader breadcrumbPage="Adicionar palestra" breadcrumbNameLink="Palestras" breadcrumbLink="/dashboard/palestras/adicionar" />
+      <DashboardHeader breadcrumbPage="Adicionar palestra" breadcrumbNameLink="Palestras" breadcrumbLink="/dashboard/palestras/gerenciar" />
       <div className="px-8">
         <h1 className="text-2xl font-bold">Adicionar Palestra</h1>
         <p className="text-gray-400">Nessa página você pode adicionar uma nova palestra</p>

@@ -35,7 +35,7 @@ export default function ManagerNewsPage() {
 
   const searchParams = useSearchParams();
   const page = searchParams.get('page') || "1";
-  const limit = 3;
+  const limit = 10;
 
   const [allNews, setAllNews] = useState<INewsDataResponse[] | undefined>();
   const [metaData, setMetaData] = useState<INewsMetaDataResponse | undefined>(undefined);

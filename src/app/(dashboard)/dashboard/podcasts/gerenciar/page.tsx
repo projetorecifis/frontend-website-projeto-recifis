@@ -35,7 +35,7 @@ export default function ManagerPodcastsPage() {
 
   const searchParams = useSearchParams();
   const page = searchParams.get('page') || "1";
-  const limit = 3;
+  const limit = 10;
 
   const [allPodcasts, setAllPodcasts] = useState<IPodcastsDataResponse[] | undefined>();
   const [metaData, setMetaData] = useState<IPodcastsMetaDataResponse | undefined>(undefined);
@@ -89,6 +89,7 @@ export default function ManagerPodcastsPage() {
   useEffect(() => {
     getAllPodcasts();
   })
+
 
   return (
     <SidebarInset>
