@@ -11,7 +11,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
             enableSystem
             disableTransitionOnChange
             >
-            <main className="w-full dark:bg-zinc-950">
+            <main className="w-full dark:bg-zinc-900">
                 {children}
             </main>
         </ThemeProvider>

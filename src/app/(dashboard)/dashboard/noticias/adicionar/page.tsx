@@ -206,21 +206,21 @@ export default function AddNewsPage() {
                 control={form.control}
                 name="isInTop"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>
-                      Adicionar notícia no campo Notícias em alta
-                    </FormLabel>
-                    <FormDescription>
-                      Se ativado, a notícia será exibida na seção Notícias em alta na página inicial.
-                    </FormDescription>
-                  </div>
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow dark:border-zinc-700">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>
+                        Adicionar notícia no campo Notícias em alta
+                      </FormLabel>
+                      <FormDescription>
+                        Se ativado, a notícia será exibida na seção Notícias em alta na página inicial.
+                      </FormDescription>
+                    </div>
                 </FormItem>
                 )}
               />

@@ -10,9 +10,9 @@ import ShowUsersOnDashboard from "../(components)/show-users";
 
 export default function Dashboard() {
     return (
-      <SidebarInset>
+      <SidebarInset className="dark:bg-zinc-900">
         <DashboardHeader breadcrumbPage="Home" />
-        <Card className="rounded-none">
+        <Card className="rounded-none dark:bg-zinc-900">
           <CardHeader>
             <CardTitle>Página inicial do dashboard</CardTitle>
             <CardDescription>

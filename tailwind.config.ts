@@ -10,6 +10,15 @@ const config: Config = {
 	],
 	theme: {
     	extend: {
+			fontFamily:{
+				'chill': ['Chill'],
+				'rumble': ['Rumble'],
+				'speak': ['Speak'],
+				'cheese': ['Cheese'],
+				'kiss': ['Kiss'],
+				'black-marker': ['BlackMarker'],
+				'devious': ['Devious'],
+			},
     		colors: {
     			background: 'var(--background)',
     			foreground: 'var(--foreground)',

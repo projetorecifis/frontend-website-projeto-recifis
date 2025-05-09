@@ -47,7 +47,7 @@ export default function ShowUsersOnDashboard() {
       const token = await getCookies("token");
       const payload = await decrypt(token);
   
-      if(payload !== undefined){
+      if(payload !== undefined && payload !== null){
         const body = {
           email: payload.email as string,
           name: payload.name as string,
@@ -196,7 +196,7 @@ export default function ShowUsersOnDashboard() {
         )}
       </div>
       <AlertDialog open={open} onOpenChange={setOpen} >
-          <AlertDialogContent>
+          <AlertDialogContent className="dark:bg-zinc-800">
             <AlertDialogHeader>
               <AlertDialogTitle>Deseja excluir o usuário {`${userToBeDeleted?.name}`} ?</AlertDialogTitle>
               <AlertDialogDescription>
@@ -205,7 +205,7 @@ export default function ShowUsersOnDashboard() {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel onClick={() => {setUserToBeDeleted(undefined)}}>Voltar</AlertDialogCancel>
-              <AlertDialogAction onClick={deleteUser} className="bg-red-500">Excluir</AlertDialogAction>
+              <AlertDialogAction onClick={deleteUser} className="bg-red-500 dark:bg-red-800 dark:text-white dark:hover:bg-red-700">Excluir</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>

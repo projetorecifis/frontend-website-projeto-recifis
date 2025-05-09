@@ -6,7 +6,7 @@ import Image from "next/image";
 const leftCards =  [
     {
         number: "2023",
-        title: "Janeiro",
+        title: "Maio",
         description: "Surgimento do projeto RECIFIS ",
         image1: "/img/initial-projeto-recifis.png",
         image2: undefined,
@@ -19,15 +19,14 @@ const leftCards =  [
 
 const rightCards = [
     {
-        number: "2024",
-        title: "Setembro",
-        description: "Texto aqui",
-        image1: "/img/imgHug.png",
-        image2: "/img/imgHug.png",
-        content: `texto aqui para teste testando o texto para ver como fica 
-        na pagina texto aqui para teste testando o texto para ver como fica na pagina 
-        texto aqui para teste testando o texto para ver como fica na pagina texto aqui 
-        para teste testando o texto para ver como fica na pagina`
+        number: "2025",
+        title: "Maio",
+        description: "Publicação da primeira plataforma digital",
+        image1: "/img/computador.jpg",
+        image2: undefined,
+        content: `Nosso website é a primeira plataforma digital do projeto RECIFIS. 
+        Aqui, serão publicados todos os materiais públicos e acessíveis do projeto, criados
+        pelos alunos e pela professora Maria Angélica dos Santos`
     }
 ]
 
@@ -72,8 +71,8 @@ export default function OurStoryPage() {
                                     )} 
                                     <Card className={`max-w-2xl rounded-b-lg  ${index % 2 === 0 && index !== 1 ? "" : "mt-4"}`} key={indexCard} >
                                         <CardHeader className="rounded-t-lg m-0 bg-recifis-blue text-white flex flex-row items-center gap-4 p-4">
-                                            <CardTitle className="bg-blue-950 text-recifis-orange h-14 rounded-xl opacity-90 p-4">{item.title}</CardTitle>
-                                            <CardDescription className="text-white font-mono text-xl">{item.description}</CardDescription>
+                                            <CardTitle className="bg-blue-950 font-mono uppercase text-recifis-orange h-14 rounded-xl opacity-90 p-4">{item.title}</CardTitle>
+                                            <CardDescription className="text-white font-black-marker text-2xl">{item.description}</CardDescription>
                                         </CardHeader>
                                         <CardContent className="pt-4">
                                             <p>{item.content}</p>
@@ -81,8 +80,8 @@ export default function OurStoryPage() {
                                                 {item?.image1 && (
                                                     <Image
                                                     src={item?.image1}
-                                                    width={200}
-                                                    height={200}
+                                                    width={220}
+                                                    height={220}
                                                     alt="Imagem do projeto RECIFIS"
                                                     className="rounded-lg mt-4 m-auto"
                                                 />

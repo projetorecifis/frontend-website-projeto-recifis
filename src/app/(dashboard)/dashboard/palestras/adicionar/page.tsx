@@ -197,21 +197,21 @@ export default function AddLecturesPage() {
                 control={form.control}
                 name="isInCarousel"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>
-                      Adicionar palestra no carrossel
-                    </FormLabel>
-                    <FormDescription>
-                      Se ativado, a palestra será exibida no Carrossel na página de palestras.
-                    </FormDescription>
-                  </div>
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow dark:border-zinc-700">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>
+                        Adicionar palestra no carrossel
+                      </FormLabel>
+                      <FormDescription>
+                        Se ativado, a palestra será exibida no Carrossel na página de palestras.
+                      </FormDescription>
+                    </div>
                 </FormItem>
                 )}
               />

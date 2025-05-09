@@ -153,10 +153,16 @@ export default function ManagerLecturesPage() {
                           + "&publicId=" + lectures?.image?.publicId
                           + "&isInCarousel=" + lectures?.isInCarousel
                         }  
-                        className="text-blue-500">
+                        className="text-blue-500 dark:text-blue-400 hover:underline hover:underline-offset-4">
                           Editar
                       </a>
-                      <Button variant={"link"} onClick={() => triggerAlertDialog(lectures._id, lectures.image.publicId)} className="text-red-500">Deletar</Button>
+                      <Button 
+                        variant={"link"} 
+                        onClick={() => triggerAlertDialog(lectures._id, lectures.image.publicId)} 
+                        className="text-red-500 dark:text-red-500"
+                      >
+                        Deletar
+                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -180,7 +186,7 @@ export default function ManagerLecturesPage() {
     </div>
 
     <AlertDialog open={open} onOpenChange={setOpen} >
-      <AlertDialogContent>
+      <AlertDialogContent className="dark:bg-zinc-800">
         <AlertDialogHeader>
           <AlertDialogTitle>Deseja excluir esta palestra?</AlertDialogTitle>
           <AlertDialogDescription>
@@ -189,7 +195,7 @@ export default function ManagerLecturesPage() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={() => {setLecturesToBeDeleted(undefined)}}>Voltar</AlertDialogCancel>
-          <AlertDialogAction onClick={deleteLecture} className="bg-red-500">Excluir</AlertDialogAction>
+          <AlertDialogAction onClick={deleteLecture} className="bg-red-500 dark:bg-red-800 dark:text-white dark:hover:bg-red-700">Excluir</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

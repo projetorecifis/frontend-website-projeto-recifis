@@ -20,7 +20,7 @@ import {
             <SidebarGroupContent>
               <SidebarMenu>
                 {items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
+                  <SidebarMenuItem className="hover:bg-zinc-100 dark:hover:bg-zinc-800" key={item.title}>
                     <SidebarMenuButton asChild>
                       <a href={item.url}>
                         <item.icon />

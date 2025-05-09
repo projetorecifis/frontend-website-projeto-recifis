@@ -134,21 +134,21 @@ export function SignUpForm() {
                         control={form.control}
                         name="isAdmin"
                         render={({ field }) => (
-                            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
-                            <FormControl>
-                            <Checkbox
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                            />
-                            </FormControl>
-                            <div className="space-y-1 leading-none">
-                            <FormLabel>
-                                Usuário administrador
-                            </FormLabel>
-                            <FormDescription>
-                                Se ativado, o usuário será do tipo administrador e terá permissão para criar, deletar e editar outros usuários.
-                            </FormDescription>
-                            </div>
+                            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow dark:border-zinc-700">
+                                <FormControl>
+                                <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                                </FormControl>
+                                <div className="space-y-1 leading-none">
+                                    <FormLabel>
+                                        Usuário administrador
+                                    </FormLabel>
+                                    <FormDescription>
+                                        Se ativado, o usuário será do tipo administrador e terá permissão para criar, deletar e editar outros usuários.
+                                    </FormDescription>
+                                </div>
                         </FormItem>
                         )}
                     />

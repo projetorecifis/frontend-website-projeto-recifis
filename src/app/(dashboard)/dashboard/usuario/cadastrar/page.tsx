@@ -10,9 +10,9 @@ import { SignUpForm } from "./(components)/form";
 
 export default function SignUpUser() {
     return (
-      <SidebarInset>
+      <SidebarInset className="dark:bg-zinc-900">
         <DashboardHeader breadcrumbNameLink="Home" breadcrumbLink="/dashboard" breadcrumbPage="Cadastrar novo usuário" />
-        <Card className="rounded-none">
+        <Card className="rounded-none dark:bg-zinc-900">
           <CardHeader>
             <CardTitle>Cadastrar novo usuário</CardTitle>
             <CardDescription>
